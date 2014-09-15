@@ -1,0 +1,11 @@
+* Why can we reuse labels in a record declaration, i.e. tree
+  Is it a type or kind of variable?
+
+* What is an unclosed list?
+
+* What is H|_?
+
+* declare ... in ...? Scope?
+
+* Why declare symbolA symbolB symbolC then fun {symbolA}? forward declaration?
+  Forward declaration is needed when we use an undefined symbol (i.e. function).
