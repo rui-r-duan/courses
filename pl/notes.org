@@ -2,10 +2,14 @@
   Is it a type or kind of variable?
 
 * What is an unclosed list?
+  like this: a|b|c|nil
 
 * What is H|_?
 
 * declare ... in ...? Scope?
 
-* Why declare symbolA symbolB symbolC then fun {symbolA}? forward declaration?
+* Why declare symbolA symbolB then fun {symbolA}? forward declaration?
   Forward declaration is needed when we use an undefined symbol (i.e. function).
+
+* Is {Times L N} tail recursion?
+  I don't think so.

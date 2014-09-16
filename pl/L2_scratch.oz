@@ -389,3 +389,14 @@ fun {Fact2 N A}
    else {Fact2 N-1 N*A}
    end
 end
+
+{Browse {Fact2 100 1}}
+
+%%% Times as Tail Recursive
+declare
+fun {Times L N}
+   case L
+   of nil then nil
+   [] X|L2 then X*N | {Times L2 N}
+   end
+end
