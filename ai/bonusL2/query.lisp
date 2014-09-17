@@ -40,10 +40,8 @@
 (defun prop-value (prop)
   (cadr prop))
 
-;;; Value Inheritance Procedure
+;;; Build an inheritance precedence list.
 ;;; !!! cannot handle multiple inheritance and diamond inheritance !!!
-;;;
-;;; Build a list of nodes whose types form an inheritance tree.
 (defun track-recursive (node kb)
   (let ((class (get-prop 'instance-of node)))
     (if class
@@ -76,9 +74,10 @@
 			  nil)))))))))
 (defun track (item kb)
   (let ((node (find-node item kb)))
-    (cond ((eq nil node) (list item))
-	  (t (cons node (track-recursive node kb))))))
+    (when node
+      (cons node (track-recursive node kb)))))
 
+;;; Value Inheritance Procedure
 (defun prop-query-r (prop tracked-kb)
   (let ((node (first-node tracked-kb))
 	(restkb (rest-kb tracked-kb)))
