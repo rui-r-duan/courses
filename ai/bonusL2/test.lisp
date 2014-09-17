@@ -1,4 +1,4 @@
-;;; Test for snow.lisp
+;;; Test for query.lisp
 ;;;
 ;;; Author: Rui Duan <rduan@lakeheadu.ca>
 ;;; Date: Sep 16, 2014
