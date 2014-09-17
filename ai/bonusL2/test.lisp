@@ -1,8 +1,9 @@
-;;; Test for Solution one
+;;; Test for snow.lisp
 ;;;
 ;;; Author: Rui Duan <rduan@lakeheadu.ca>
 ;;; Date: Sep 16, 2014
 
+;;; TEST 1
 (defparameter *knowledge-base*
   '((snow
      (form-of water) (hardness soft) (texture slippery) (color white)
@@ -16,26 +17,50 @@
      (color clear))))
 
 ;;; Frosty is what?
-(ai.bonus:prop-query 'instance-of 'frosty *knowledge-base*)
+(prop-query 'instance-of 'frosty *knowledge-base*)
+;=> SNOWMAN
 
 ;;; What is frosty made of?
-(ai.bonus:prop-query 'made-of
-		     (ai.bonus:prop-query 'instance-of 'frosty *knowledge-base*)
-		     *knowledge-base*)
+(prop-query 'made-of 'frosty *knowledge-base*)
 ;=> SNOW
 
 ;;; Snowman is made of what?
-(ai.bonus:prop-query 'made-of 'snowman *knowledge-base*)
+(prop-query 'made-of 'snowman *knowledge-base*)
 ;=> SNOW
 
 ;;; What is the temperature of snow?
-(ai.bonus:prop-query 'temperature 'snow *knowledge-base*)
+(prop-query 'temperature 'snow *knowledge-base*)
 ;=> COLD
 
 ;;; Water forms what?
-(ai.bonus:reverse-prop-query 'form-of 'water *knowledge-base*)
+(reverse-prop-query 'form-of 'water *knowledge-base*)
 ;=> (SNOW ICE)
 
 ;;; What are the colors in the knowledge base?
-(ai.bonus:property-values 'color *knowledge-base*)
+(property-values 'color *knowledge-base*)
 ;=> (WHITE CLEAR)
+
+;;; TEST 2
+(defparameter *animal-kb*
+  '((reptile (is-a animal))
+    (mammel (is-a animal) (has-part head))
+    (elephant (is-a mammel) (color grey))
+    (clyde (instance-of elephant) (color pink))
+    (nellie (instance-of elephant))))
+
+;;; What color is clyde?
+(prop-query 'color 'clyde *animal-kb*)
+;=> PINK
+
+;;; What color is nellie?
+(prop-query 'color 'nellie *animal-kb*)
+;=> GREY
+
+;;; What part does clyde have?
+(prop-query 'has-part 'clyde *animal-kb*)
+;=> HEAD
+
+;;; Who has head?
+(reverse-prop-query 'has-part 'head *animal-kb*)
+;=> (MAMMEL)
+;;; Currently, reverse-prop-query cannot handle inheritance
