@@ -330,7 +330,7 @@ local S1 S2 V in
    S2 = {Pop S1 V}
    {Browse V}
    {Browse S2}
-   case S2 of H|_ then
+   case S2 of H|_ then		% TODO
       {Browse H}
    end
 end
@@ -400,3 +400,52 @@ fun {Times L N}
    [] X|L2 then X*N | {Times L2 N}
    end
 end
+
+%%% Generic Function of Times
+declare
+fun {Map L F}
+   case L
+   of nil then nil
+   [] X|L2 then {F X} | {Map L2 F}
+   end
+end
+
+declare
+fun {Mul7 X}
+   X*7
+end
+
+{Browse {Map [1 2 3] Mul7}}
+{Browse {Map [1 2 3 4] fun {$ X} X*X end}}
+
+%%% Filter (Higher Ordered Functions)
+declare
+fun {Filter Xs P}
+   case Xs
+   of nil then nil
+   [] X|Xr andthen {P X} then
+      X|{Filter Xr P}
+   [] _|Xr then {Filter Xr P}
+   end
+end
+{Browse {Filter [1 2 3 8 7 ~3 ~2 ~6 4] fun {$ A} A mod 2 == 0 end}}
+
+%%% Tree Size
+declare
+fun {Size T}
+   case T
+   of nil then 0
+   [] tree(_ LT RT) then 1 + {Size LT} + {Size RT}
+   end
+end
+{Browse {Size tree(a tree(b nil tree(c nil nil)) tree(d nil nil))}}
+
+%%% Tree Depth
+declare
+fun {Depth T}
+   case T
+   of nil then 0
+   [] tree(_ LT RT) then 1 + {Max {Depth LT} {Depth RT}}
+   end
+end
+{Browse {Depth tree(a tree(b nil tree(c nil nil)) tree(d nil nil))}}
