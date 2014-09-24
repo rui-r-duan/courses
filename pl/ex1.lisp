@@ -5,7 +5,7 @@
 	   :ryan-list-length :ryan-list-length-2
 	   :p
 	   :flat
-	   :bubble-sort
+	   :bubble-sort-vector :bubble-sort-list
 	   :ryan-sqrt))
 
 (in-package :ex1.pl.ryan)
@@ -81,7 +81,7 @@
 (defun swap (array i j)
   (rotatef (aref array i) (aref array j)))
 ;; Only worked for array
-(defun bubble-sort (a)
+(defun bubble-sort-vector (a)
   (let ((n (length a)))
     (do ((swapped t)) ; initial to be true only to pass the end-test-form for the first time
 	((not swapped) a)	    ; loop until swapped is false, and return a
@@ -90,6 +90,31 @@
 	 when (> (aref a (- i 1)) (aref a i)) do
 	   (swap a (- i 1) i)
 	   (setf swapped t)))))
+
+(defun bubble-sort-recursive (lst swapped)
+  (labels ((one-pass-sink (lst)
+	     (if (null lst)
+		 nil
+		 (let ((a (first lst))
+		       (b (second lst)))
+		   (cond ((eq b nil) lst)
+			 ((> a b)
+			  (setf swapped t)
+			  (cons b (one-pass-sink (cons a (cddr lst)))))
+			 (t (cons a (one-pass-sink (cdr lst)))))))))
+      (let ((result (one-pass-sink lst)))
+	(if swapped
+	    (bubble-sort-recursive result nil)
+	    lst))))
+(defun bubble-sort-list (lst)
+  (bubble-sort-recursive lst nil))
+
+(defun sink (a lst)
+  (if (null lst)
+      (cons a nil)
+      (if (> a (car lst))
+	  (cons (car lst) (sink a (cdr lst)))
+	  (cons a lst))))
 
 ;;; Newton's Square Root Approximation
 (defun sqrt-iter (guess x)

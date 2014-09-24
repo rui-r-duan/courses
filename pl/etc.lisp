@@ -18,13 +18,15 @@
   (first-n-elem (n-cdr lst i) (+ 1 (- j i))))
 
 (defun swap-first-two (lst)
-  (cons (cadr lst) (cons (car lst) (cddr lst))))
+  (cond ((null lst) nil)
+	((null (cdr lst)) lst)
+	(t (cons (cadr lst) (cons (car lst) (cddr lst))))))
 
 (defun one-pass-sink (lst)
-  (let ((a (first lst))
-	(b (second lst)))
-    (if (eq b nil)
-	lst
-	(if (> a b)
-	    (one-pass-sink (cdr (cons b (cons a (cddr lst)))))
-	    (one-pass-sink (cdr lst))))))
+  (if (null lst)
+      nil
+      (let ((a (first lst))
+	    (b (second lst)))
+	(cond ((eq b nil) lst)
+	      ((> a b) (cons b (one-pass-sink (cons a (cddr lst)))))
+	      (t (cons a (one-pass-sink (cdr lst))))))))

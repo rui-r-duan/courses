@@ -63,10 +63,10 @@
     (equal (ex1.pl.ryan:flat '(1 (2 (3 4 5) (6 5 (11 12))) 7 (88 99)))
 	   '(1 2 3 4 5 6 5 11 12 7 88 99))))
 
-(deftest test-bubble-sort ()
+(deftest test-bubble-sort-list ()
   (check
-    (equalp (ex1.pl.ryan:bubble-sort #(3 1 4 1 5 9 2 6 5))
-	    (vector 1 1 2 3 4 5 5 6 9))))
+    (equal (ex1.pl.ryan:bubble-sort-list '(3 1 4 1 5 9 2 6 5))
+	   '(1 1 2 3 4 5 5 6 9))))
 
 (deftest test-ryan-sqrt ()
   (check
@@ -82,4 +82,6 @@
     (test-ryan-list-length)
     (test-ryan-list-length-2)
     (test-p)
-    (test-flat)))
+    (test-flat)
+    (test-bubble-sort-list)
+    (test-ryan-sqrt)))
