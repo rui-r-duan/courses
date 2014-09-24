@@ -1,17 +1,17 @@
 %%% Problem 1a
 declare
-fun {ProdRecursive Low High Acc}
-   if Low == High then Low * Acc
+fun {CalcRecursive Op Low High Acc}
+   if Low == High then {Op Low Acc}
    elseif Low > High then Acc
    else
-      {ProdRecursive (Low+1) (High-1) (Low*High*Acc)}
+      {CalcRecursive Op (Low+1) (High-1) {Op {Op Low High} Acc}}
    end
 end
 fun {ProdFromTo I J}
    if I =< J then
-      {ProdRecursive I J 1}
+      {CalcRecursive Number.'*' I J 1}
    else
-      {ProdRecursive J I 1}
+      {CalcRecursive Number.'*' J I 1}
    end
 end
 
@@ -20,18 +20,11 @@ end
 
 %%% Problem 1b
 declare
-fun {SumRecursive Low High Acc}
-   if Low == High then Low + Acc
-   elseif Low > High then Acc
-   else
-      {SumRecursive (Low+1) (High-1) (Low+High+Acc)}
-   end
-end
 fun {SumFromTo I J}
    if I =< J then
-      {SumRecursive I J 0}
+      {CalcRecursive Number.'+' I J 0}
    else
-      {SumRecursive J I 0}
+      {CalcRecursive Number.'+' J I 0}
    end
 end
 
