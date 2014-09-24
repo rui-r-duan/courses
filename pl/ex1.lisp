@@ -4,7 +4,9 @@
 	   :ryan-count :ryan-count-2
 	   :ryan-list-length :ryan-list-length-2
 	   :p
-	   :flat))
+	   :flat
+	   :bubble-sort
+	   :ryan-sqrt))
 
 (in-package :ex1.pl.ryan)
 
@@ -75,21 +77,38 @@
 	((atom (car lst)) (cons (car lst) (flat (cdr lst)))) ; first elem is an atom
 	(t (append (flat (car lst)) (flat (cdr lst)))))) ; first elem is a cons
 
-;; n >= 0
-(defun n-cdr (lst n)
-  (if (= n 0)
-      lst
-      (n-cdr (cdr lst) (- n 1))))
+;;; Bubble sort
+(defun swap (array i j)
+  (rotatef (aref array i) (aref array j)))
+;; Only worked for array
+(defun bubble-sort (a)
+  (let ((n (length a)))
+    (do ((swapped t)) ; initial to be true only to pass the end-test-form for the first time
+	((not swapped) a)	    ; loop until swapped is false, and return a
+      (setf swapped nil)	    ; before every loop set 
+      (loop for i from 1 to (- n 1)
+	 when (> (aref a (- i 1)) (aref a i)) do
+	   (swap a (- i 1) i)
+	   (setf swapped t)))))
 
-;; first n elements
-;; n >= 0
-(defun first-n-elem (lst n)
-  (cond ((null lst) nil)
-	((= n 0) nil)
-	(t (cons (car lst)
-		 (first-n-elem (cdr lst) (- n 1))))))
+;;; Newton's Square Root Approximation
+(defun sqrt-iter (guess x)
+  (if (good-enough-p guess x)
+      guess
+      (sqrt-iter (improve guess x)
+		 x)))
 
-;; zero-based index
-;; i <= j
-(defun ryan-subseq (lst i j)
-  (first-n-elem (n-cdr lst i) (+ 1 (- j i))))
+(defun improve (guess x)
+  (average guess (/ x guess)))
+
+(defun average (x y)
+  (/ (+ x y) 2))
+
+(defun good-enough-p (guess x)
+  (< (abs (- (square guess) x)) 0.0001))
+
+(defun square (x)
+  (* x x))
+
+(defun ryan-sqrt (x)
+  (sqrt-iter 1.0 x))

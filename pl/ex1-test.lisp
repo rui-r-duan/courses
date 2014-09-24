@@ -63,6 +63,16 @@
     (equal (ex1.pl.ryan:flat '(1 (2 (3 4 5) (6 5 (11 12))) 7 (88 99)))
 	   '(1 2 3 4 5 6 5 11 12 7 88 99))))
 
+(deftest test-bubble-sort ()
+  (check
+    (equalp (ex1.pl.ryan:bubble-sort #(3 1 4 1 5 9 2 6 5))
+	    (vector 1 1 2 3 4 5 5 6 9))))
+
+(deftest test-ryan-sqrt ()
+  (check
+    (= (ex1.pl.ryan:ryan-sqrt 121.0) 11)
+    (= (ex1.pl.ryan:ryan-sqrt 256.0) 16)))
+
 (deftest test-ex1 ()
   (combine-results
     (test-prod-from-to)
