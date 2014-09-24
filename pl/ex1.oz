@@ -102,7 +102,7 @@ end
 %       H | {Append T Ys}
 %    end
 % end
-%% Use List.append instead of my Append.
+%% Use List.append instead of my Append although my version gives the right result.
 declare
 fun {Flat Xs}
    if Xs== nil then nil
@@ -142,8 +142,6 @@ in
 end
 
 {Browse {BubbleSort [3 1 4 1 5 9 2 6 5]}} % => [1 1 2 3 4 5 5 6 9]
-
-{Browse div
 
 %%% Problem 5
 declare SqrtIter Improve Average IsGoodEnough Square Sqrt
