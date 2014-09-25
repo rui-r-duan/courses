@@ -7,9 +7,10 @@ the unit test framework.
 Bubble Sort in Oz is from
 http://rosettacode.org/wiki/Sorting_algorithms/Bubble_sort .
 
-* I learned the usage of the output argument.
+* I learned the usage of the output argument from that program.
 
 * Main difficulty in Pure functional Bubble Sort:
 How to do multiple outputs in a function or procedure?
+Now I know how to do this.
 
-Bubble Sort in Common Lisp is done by myself.
+Bubble Sort in Common Lisp was done by myself.

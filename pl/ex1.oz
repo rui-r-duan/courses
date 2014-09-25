@@ -112,6 +112,7 @@ end
 %%% Problem 4
 declare
 local
+   % ? indicates that IsSort plays a role of an output argument
    fun {Loop Xs Changed ?IsSorted}
       case Xs
       of X1|X2|Xr andthen X1 > X2 then

@@ -109,13 +109,6 @@
 (defun bubble-sort-list (lst)
   (bubble-sort-recursive lst nil))
 
-(defun sink (a lst)
-  (if (null lst)
-      (cons a nil)
-      (if (> a (car lst))
-	  (cons (car lst) (sink a (cdr lst)))
-	  (cons a lst))))
-
 ;;; Newton's Square Root Approximation
 (defun sqrt-iter (guess x)
   (if (good-enough-p guess x)
