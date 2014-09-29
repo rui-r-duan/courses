@@ -1,3 +1,5 @@
+#+STARTUP: showall
+
 * Why can we reuse labels in a record declaration, i.e. tree
   Is it a type or kind of variable?
 
@@ -5,6 +7,7 @@
   like this: a|b|c|nil
 
 * What is H|_?
+no use of _, so no need to use a var to capture it
 
 * declare ... in ...? Scope?
 
@@ -13,3 +16,14 @@
 
 * Is {Times L N} tail recursion?
   I don't think so.
+
+* Why can the parameters of Oz function be used as output?
+Single Value storage enables single binding, late binding, immutable storage, and the effect of passing by reference.
+
+* in Tail Recursive Quicksort, will S2 = X | S3 block the next statement?
+Is there a tool to let us step into the invocations?
+  In other words, is this statement "uses" S3 when it is not bound?
+Answer: No, it does not block the thread.  Because '|' operation does not force each operator to be evaluated at once!
+for example, {Browse 3|X} results in "3|_", but {Browse 3+X} displays nothing because 3+X blocks the thread so Browse cannot be executed at all.
+
+* Unbundled ADT is stateless, bundled ADT (function-based (closure), class-based) is stateful.
