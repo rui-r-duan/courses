@@ -1,0 +1,106 @@
+%% no not(member(First,Rest))
+trace,remove_dups([4,a,a,5],X).
+   Call: (7) remove_dups([4, a, a, 5], _G376) ? 
+   Call: (8) lists:member(4, [a, a, 5]) ? 
+   Fail: (8) lists:member(4, [a, a, 5]) ? 
+   Redo: (7) remove_dups([4, a, a, 5], _G376) ? 
+   Call: (8) remove_dups([a, a, 5], _G492) ? 
+   Call: (9) lists:member(a, [a, 5]) ? 
+   Exit: (9) lists:member(a, [a, 5]) ? 
+   Call: (9) remove_dups([a, 5], _G492) ? 
+   Call: (10) lists:member(a, [5]) ? 
+   Fail: (10) lists:member(a, [5]) ? 
+   Redo: (9) remove_dups([a, 5], _G492) ? 
+   Call: (10) remove_dups([5], _G495) ? 
+   Call: (11) lists:member(5, []) ? 
+   Fail: (11) lists:member(5, []) ? 
+   Redo: (10) remove_dups([5], _G495) ? 
+   Call: (11) remove_dups([], _G498) ? 
+   Exit: (11) remove_dups([], []) ? 
+   Exit: (10) remove_dups([5], [5]) ? 
+   Exit: (9) remove_dups([a, 5], [a, 5]) ? 
+   Exit: (8) remove_dups([a, a, 5], [a, 5]) ? 
+   Exit: (7) remove_dups([4, a, a, 5], [4, a, 5]) ? 
+X = [4, a, 5] ;
+   Redo: (9) lists:member(a, [a, 5]) ? 
+   Fail: (9) lists:member(a, [a, 5]) ? 
+   Redo: (8) remove_dups([a, a, 5], _G492) ? 
+   Call: (9) remove_dups([a, 5], _G495) ? 
+   Call: (10) lists:member(a, [5]) ? 
+   Fail: (10) lists:member(a, [5]) ? 
+   Redo: (9) remove_dups([a, 5], _G495) ? 
+   Call: (10) remove_dups([5], _G498) ? 
+   Call: (11) lists:member(5, []) ? 
+   Fail: (11) lists:member(5, []) ? 
+   Redo: (10) remove_dups([5], _G498) ? 
+   Call: (11) remove_dups([], _G501) ? 
+   Exit: (11) remove_dups([], []) ? 
+   Exit: (10) remove_dups([5], [5]) ? 
+   Exit: (9) remove_dups([a, 5], [a, 5]) ? 
+   Exit: (8) remove_dups([a, a, 5], [a, a, 5]) ? 
+   Exit: (7) remove_dups([4, a, a, 5], [4, a, a, 5]) ? 
+X = [4, a, a, 5].
+
+%% not(member(First,Rest))
+trace,remove_dups([4,a,a,5],X).
+   Call: (7) remove_dups([4, a, a, 5], _G154) ? 
+   Call: (8) lists:member(4, [a, a, 5]) ? 
+   Fail: (8) lists:member(4, [a, a, 5]) ? 
+   Redo: (7) remove_dups([4, a, a, 5], _G154) ? 
+^  Call: (8) not(member(4, [a, a, 5])) ? 
+^  Exit: (8) not(user:member(4, [a, a, 5])) ? 
+   Call: (8) remove_dups([a, a, 5], _G270) ? 
+   Call: (9) lists:member(a, [a, 5]) ? 
+   Exit: (9) lists:member(a, [a, 5]) ? 
+   Call: (9) remove_dups([a, 5], _G270) ? 
+   Call: (10) lists:member(a, [5]) ? 
+   Fail: (10) lists:member(a, [5]) ? 
+   Redo: (9) remove_dups([a, 5], _G270) ? 
+^  Call: (10) not(member(a, [5])) ? 
+^  Exit: (10) not(user:member(a, [5])) ? 
+   Call: (10) remove_dups([5], _G279) ? 
+   Call: (11) lists:member(5, []) ? 
+   Fail: (11) lists:member(5, []) ? 
+   Redo: (10) remove_dups([5], _G279) ? 
+^  Call: (11) not(member(5, [])) ? 
+^  Exit: (11) not(user:member(5, [])) ? 
+   Call: (11) remove_dups([], _G288) ? 
+   Exit: (11) remove_dups([], []) ? 
+   Exit: (10) remove_dups([5], [5]) ? 
+   Exit: (9) remove_dups([a, 5], [a, 5]) ? 
+   Exit: (8) remove_dups([a, a, 5], [a, 5]) ? 
+   Exit: (7) remove_dups([4, a, a, 5], [4, a, 5]) ? 
+X = [4, a, 5] ;
+   Redo: (9) lists:member(a, [a, 5]) ? 
+   Fail: (9) lists:member(a, [a, 5]) ? 
+   Redo: (8) remove_dups([a, a, 5], _G270) ? 
+^  Call: (9) not(member(a, [a, 5])) ? 
+^  Fail: (9) not(user:member(a, [a, 5])) ? 
+   Fail: (8) remove_dups([a, a, 5], _G270) ? 
+   Fail: (7) remove_dups([4, a, a, 5], _G154) ? 
+false.
+
+%% With Cut after member(First,Rest)
+remove_dups([4,a,a,5],X).
+   Call: (6) remove_dups([4, a, a, 5], _G154) ? 
+   Call: (7) lists:member(4, [a, a, 5]) ? 
+   Fail: (7) lists:member(4, [a, a, 5]) ? 
+   Redo: (6) remove_dups([4, a, a, 5], _G154) ? 
+   Call: (7) remove_dups([a, a, 5], _G232) ? 
+   Call: (8) lists:member(a, [a, 5]) ? 
+   Exit: (8) lists:member(a, [a, 5]) ? 
+   Call: (8) remove_dups([a, 5], _G232) ? 
+   Call: (9) lists:member(a, [5]) ? 
+   Fail: (9) lists:member(a, [5]) ? 
+   Redo: (8) remove_dups([a, 5], _G232) ? 
+   Call: (9) remove_dups([5], _G235) ? 
+   Call: (10) lists:member(5, []) ? 
+   Fail: (10) lists:member(5, []) ? 
+   Redo: (9) remove_dups([5], _G235) ? 
+   Call: (10) remove_dups([], _G238) ? 
+   Exit: (10) remove_dups([], []) ? 
+   Exit: (9) remove_dups([5], [5]) ? 
+   Exit: (8) remove_dups([a, 5], [a, 5]) ? 
+   Exit: (7) remove_dups([a, a, 5], [a, 5]) ? 
+   Exit: (6) remove_dups([4, a, a, 5], [4, a, 5]) ? 
+X = [4, a, 5].
