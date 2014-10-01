@@ -52,3 +52,33 @@ ordered_right(N, t(L, K, R)) :-
 	N < K,
 	ordered_left(L, K),
 	ordered_right(K, R).
+
+%%% 2(b)
+in(X, t(_, K, _)) :- X == K.
+in(X, t(L, K, _)) :-
+	X < K,
+	in(X, L).
+in(X, t(_, K, R)) :-
+	X > K,
+	in(X, R).
+tree_ins(X, t(L, K, R), t(L, K, R)) :-
+	in(X, t(L, K, R)),!.
+tree_ins(X, t(nil, K, R), t(t(nil,X,nil), K, R)) :-
+	X < K,
+	!.
+tree_ins(X, t(L, K, nil), t(L, K, t(nil,X,nil))) :-
+	X > K,
+	!.
+tree_ins(X, t(L, K, R), t(NewL, K, R)) :-
+	X < K,
+	!,
+	\+(in(X, L)),
+	tree_ins(X, L, NewL).
+tree_ins(X, t(L, K, R), t(L, K, NewR)) :-
+	X > K,
+	!,
+	\+(in(X, R)),
+	tree_ins(X, R, NewR).
+%% tested for X = 0 to 11, insert X to the tree
+%%   t(t(t(nil,1,nil), 3, t(nil,5,nil)), 7, t(t(nil,9,nil), 11, t(nil,13,nil)))
+%% correct!
