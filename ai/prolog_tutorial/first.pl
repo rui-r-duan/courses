@@ -19,4 +19,4 @@ path(Node1,Node2) :-
 
 chain(X,Y,[X,Y]) :- edge(X,Y).
 chain(X,Y,[X|Z]) :- edge(X,I), path(I,Y), chain(I,Y,Z).
-chain(X,Y,[]).
+chain(X,Y,[]).			% if no path can be found to Y
