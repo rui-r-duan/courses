@@ -78,9 +78,9 @@ tree_ins(X, t(L, K, R), t(L, K, NewR)) :-
 %% Query:
 %%   test([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], X).
 %% Pass
-test([],[]).
-test([H|T],[X|R]) :-
+test([]).
+test([H|T]) :-
 	Tree = t(t(t(nil,1,nil), 3, t(nil,5,nil)), 7, t(t(nil,9,nil), 11, t(nil,13,nil))),
 	tree_ins(H, Tree, X),
 	write(X),nl,
-	test(T, R).
+	test(T).
