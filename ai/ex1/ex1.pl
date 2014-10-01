@@ -63,22 +63,24 @@ in(X, t(_, K, R)) :-
 	in(X, R).
 tree_ins(X, t(L, K, R), t(L, K, R)) :-
 	in(X, t(L, K, R)),!.
-tree_ins(X, t(nil, K, R), t(t(nil,X,nil), K, R)) :-
-	X < K,
-	!.
-tree_ins(X, t(L, K, nil), t(L, K, t(nil,X,nil))) :-
-	X > K,
-	!.
+tree_ins(X, nil, t(nil, X, nil)).
 tree_ins(X, t(L, K, R), t(NewL, K, R)) :-
 	X < K,
 	!,
-	\+(in(X, L)),
 	tree_ins(X, L, NewL).
 tree_ins(X, t(L, K, R), t(L, K, NewR)) :-
 	X > K,
 	!,
-	\+(in(X, R)),
 	tree_ins(X, R, NewR).
-%% tested for X = 0 to 11, insert X to the tree
+
+%% Tested for X = 0 to 14, insert X to the tree
 %%   t(t(t(nil,1,nil), 3, t(nil,5,nil)), 7, t(t(nil,9,nil), 11, t(nil,13,nil)))
-%% correct!
+%% Query:
+%%   test([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], X).
+%% Pass
+test([],[]).
+test([H|T],[X|R]) :-
+	Tree = t(t(t(nil,1,nil), 3, t(nil,5,nil)), 7, t(t(nil,9,nil), 11, t(nil,13,nil))),
+	tree_ins(H, Tree, X),
+	write(X),nl,
+	test(T, R).
