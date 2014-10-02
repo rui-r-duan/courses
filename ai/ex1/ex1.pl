@@ -84,3 +84,65 @@ test([H|T]) :-
 	tree_ins(H, Tree, X),
 	write(X),nl,
 	test(T).
+
+%%% 3
+%%% --------------------------------
+%%% USAGE: colour_countries(X).
+%%% --------------------------------
+% Allowed Colors
+color(red).
+color(blue).
+color(green).
+color(yellow).
+
+% Geographical data for South America
+country(antilles). country(argentina).
+country(bolivia). country(brazil).
+country(columbia). country(chile).
+country(ecuador). country(french_guiana).
+country(guyana). country(paraguay).
+country(peru). country(surinam).
+country(uruguay). country(venezuela).
+beside(antilles,venezuela). beside(argentina,bolivia).
+beside(argentina,brazil). beside(argentina,chile).
+beside(argentina,paraguay). beside(argentina,uruguay).
+beside(bolivia,brazil). beside(bolivia,chile).
+beside(bolivia,paraguay). beside(bolivia,peru).
+beside(brazil,columbia). beside(brazil,french_guiana).
+beside(brazil,guyana). beside(brazil,paraguay).
+beside(brazil,peru). beside(brazil,surinam).
+beside(brazil,uruguay). beside(brazil,venezuela).
+beside(chile,peru). beside(columbia,ecuador).
+beside(columbia,peru). beside(columbia,venezuela).
+beside(ecuador,peru). beside(french_guiana,surinam).
+beside(guyana,surinam). beside(guyana,venezuela).
+
+colour_countries(Colours):-
+        setof(Country/_, X^ngb(Country,X), Colours),
+        colours(Colours),
+	write(Colours),nl.	% print
+
+colours([]).
+colours([Country/Colour|Rest]):-
+        colours(Rest),
+        member(Colour, [yellow,blue,red,green]),
+        \+ (member(Country1/Colour, Rest), neighbour(Country, Country1)).
+
+neighbour(Country, Country1):-
+        ngb(Country, Neighbours),
+        member(Country1, Neighbours).
+
+ngb(antilles, [venezuela]).
+ngb(argentina, [bolivia,brazil,chile,paraguay,uruguay]).
+ngb(bolivia, [brazil,chile,paraguay,peru,argentina]).
+ngb(brazil, [columbia,french_guiana,guyana,paraguay,peru,surinam,uruguay,venezuela,argentina,bolivia]).
+ngb(columbia, [ecuador,peru,venezuela,brazil]).
+ngb(chile, [peru,argentina,bolivia]).
+ngb(ecuador, [peru,columbia]).
+ngb(french_guiana, [surinam,brazil]).
+ngb(guyana, [surinam,venezuela,brazil]).
+ngb(paraguay, [argentina,bolivia,brazil]).
+ngb(peru, [bolivia,brazil,chile,columbia,ecuador]).
+ngb(surinam, [brazil,french_guiana,guyana]).
+ngb(uruguay, [argentina,brazil]).
+ngb(venezuela, [antilles,brazil,columbia,guyana]).
