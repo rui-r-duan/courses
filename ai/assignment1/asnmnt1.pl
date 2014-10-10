@@ -44,6 +44,53 @@ salary(7,4000).
 salary(8,4500).
 salary(9,5000).
 
+% Reference solution here, followed by my initial solution
+%  reference:
+%     Knowledge Representation and Reasoning,
+%     Prolog and AILog Practical 2012 - 2013, Exercises,
+%     by Peter Lucas (iCIS, Radboud University Nijmegen)
+% (1)
+selection(X,Y) :-
+	call(X),
+	call(Y),
+	write(X), nl,
+	fail.
+selection(_,_).			% Without this, the last output value is false
+				% instead of true.
+% the goals can be
+%
+% selection(employee(Name,Depart_N,Scale),
+%           (salary(Scale,Salary), Salary >= 3000, Salary =< 4500)).
+%
+% selection(employee(Name,Depart_N,Scale),
+%           (Scale == 1, DepartmentNum == 1)).
+
+% (2)
+projection(X,Y) :-
+	call(X),
+	write(Y), nl,
+	fail.
+projection(_,_).
+% goal can be queried as
+% projection(employee(Name,Department_N,Scale),
+%            (Name,Scale)).
+
+% (3)
+join(X,Y,Z) :-
+	call(X),
+	call(Y),
+	call(Z),
+	write(X),
+	write(Y), nl,
+	fail.
+join(_,_,_).
+% goal can be queried as
+% join(employee(Name,DepNum1,Scale),
+%      department(DepNum2, DepName),
+%     (DepNum1 = DepNum2)).
+
+%% My initial solution
+%
 % (1) Design a Prolog query to select those employees who earn between $3,000
 % and $4,500 per month;
 % also select all employees who are in salary scale 1, and working in
