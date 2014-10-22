@@ -1,5 +1,5 @@
 %%% Finite State Machine Simulator
-accept(S) :- start(S), accept(Q,S).
+accept(S) :- start(s), accept(Q,S).
 accept(Q, [X|XS]) :-
 	delta(Q,X,Q1),
 	accept(Q1,XS).
