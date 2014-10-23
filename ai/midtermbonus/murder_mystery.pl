@@ -2,7 +2,7 @@
 %
 % author: Rui Duan (0561866)
 %
-% Key idea to rule out who has an acceptable excuse:
+% Key idea to rule out who has an unacceptable excuse:
 %
 %    \+ has_excuse(...) means cannot be proved to be true, so it is false, which
 %        means "does not have excuse" in Prolog's Database semantics.
@@ -10,7 +10,7 @@
 %    has_excuse(...) is true only if the provider of the excuse is trustworthy.
 %        In this KB, only sam is said to be untrustworthy, the other persons are
 %        not mentioned, which means the other persons cannot be proved to be
-%        untrustworthy, which means "is trustworthy" in Prolog's Database
+%        untrustworthy, which means they "are trustworthy" in Prolog's Database
 %        semantics.
 %
 %-------------------------------------------------------------------------------
@@ -19,7 +19,7 @@
 excuse(john, friday, zaki).	% john has an excuse for friday given by zaki
 excuse(stuart, friday, zaki).	% stuart has an excuse for friday given by zaki
 excuse(adam, friday, john).	% adam has an excuse for friday given by john
-excuse(sam, friday, john).	% sam has an excuse for friday given by john
+excuse(sam, monday, john).	% sam has an excuse for monday given by john
 untrustworthy(sam).		% sam is not a trustworthy person
 want_revenge(stuart).		% stuart wats to take revenge on susan
 want_revenge(john).		% john wants to take revenge on susan
@@ -38,14 +38,10 @@ murderer(X) :-
 	own(X, gun),
 	\+ has_excuse(X, friday, _). % no excuse on friday
 
-% IF
-%     X cannot be proved to be an untrustworthy person, <=> X is trustworthy
-%     and Y cannot be proved to be an untrustworthy person, <=> Y is trustworthy
-% THEN
-%     the excuse is accepted.
+% IF Y cannot be proved to be an untrustworthy person, <=> Y is trustworthy
+% THEN the excuse is accepted.
 has_excuse(X, D, Y) :-
 	excuse(X, D, Y),
-	\+ untrustworthy(X),
 	\+ untrustworthy(Y).
 
 has_motive(X) :- has_interest(X).
