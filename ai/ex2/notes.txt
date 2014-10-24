@@ -1,0 +1,7 @@
+-*- org -*-
+
+* In Python, = does reference assignment
+* list methods cannot be invoked on literal list, e.g.
+  [1,2].append(3) does not return [1,2,3] but returns nothing,
+  while x = [1,2] and then x.append(3) returns [1,2,3], and x becomes [1,2,3]
+* as a good practice, always use a variable to capture the return value from a function call
