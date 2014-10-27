@@ -336,12 +336,20 @@ local S1 S2 V in
 end
 
 %%% Pascal Triangle
-declare ShiftLeft ShiftRight AddList
+declare Pascal FastPascal ShiftLeft ShiftRight AddList
 fun {Pascal N}
    if N == 1 then [1]
    else
       {AddList {ShiftLeft {Pascal N-1}}
                {ShiftRight {Pascal N-1}}}
+   end
+end
+
+fun {FastPascal N}
+   if N==1 then [1]
+   else L in
+      L={FastPascal N-1}
+      {AddList {ShiftLeft L} {ShiftRight L}}
    end
 end
 
@@ -361,6 +369,8 @@ fun {AddList L1 L2}
    case L1 of H1|T1 then
       case L2 of H2|T2 then
 	 H1 + H2 | {AddList T1 T2}
+      else
+	 nil			% added by me
       end
    else
       nil

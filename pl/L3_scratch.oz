@@ -141,7 +141,7 @@ fun {Drop Xs N}
    end
 end
 A = [1 2 3 4 5]
-{Browse {Drop A 6}}
+{Browse {Drop A 3}}
 
 %%% Appending two lists
 declare
