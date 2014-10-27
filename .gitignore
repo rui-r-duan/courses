@@ -2,3 +2,4 @@
 *.fasl
 *.class
 *.pyc
+*.bak

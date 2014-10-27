@@ -27,3 +27,10 @@ Answer: No, it does not block the thread.  Because '|' operation does not force 
 for example, {Browse 3|X} results in "3|_", but {Browse 3+X} displays nothing because 3+X blocks the thread so Browse cannot be executed at all.
 
 * Unbundled ADT is stateless, bundled ADT (function-based (closure), class-based) is stateful.
+
+* Advanced Student Language in DrRacket
+'local' is like flet in CL
+empty?
+(eq? empty null) => true
+case sensitive
+** orage-on-black highlight indicates expressions that have not been tested
