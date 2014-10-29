@@ -1,3 +1,10 @@
+%%%----------------------------------------------------------------------------
+%%% This file provides a function {Pascal N} which returns the Nth row of the
+%%% variation of Pascal Triangle (N begins from 1).
+%%%
+%%% author: Rui Duan (0561866)
+%%%----------------------------------------------------------------------------
+
 declare
 % R: row index begins from 1
 % C: collumn index begins from 0
@@ -20,7 +27,7 @@ in
    {SumHelper 0 Xs}
 end
 fun {LeftDiagonal R C}
-   if C<0 then nil
+   if C=<0 then nil
    else {Term R-1 C-1} | {LeftDiagonal R-1 C-1}
    end
 end
