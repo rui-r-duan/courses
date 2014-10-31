@@ -17,9 +17,19 @@ font_color_blue = (80, 80, 200)
 font_color_red = (190, 90, 100)
 
 class Disk(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, sizelevel):
         pygame.sprite.Sprite.__init__(self)
-        self.size_level = 4
+        self.size_level = sizelevel
+        self.image = pygame.Surface([100, 50])
+        self.image.fill(font_color_red)
+        self.rect = self.image.get_rect()
+        self.picked = False
+
+    def update(self):
+        "move the disk based on the mouse position"
+        if self.picked:
+            pos = pygame.mouse.get_pos()
+            self.rect.center = pos
 
 def main():
     pygame.init()
@@ -33,7 +43,6 @@ def main():
         background.fill(bg_color)
         if pygame.font:
             background.blit(text, textpos)
-        background.fill(font_color_red, pygame.Rect(20, 20, 100, 50))
 
     def onMouseButtonDown(event):
         redraw()
@@ -56,6 +65,10 @@ def main():
 
     clock = pygame.time.Clock()
 
+    # prepare game objects
+    disk = Disk(4)
+    allsprites = pygame.sprite.RenderPlain((disk,))
+
     while 1:
         clock.tick(60)
 
@@ -67,14 +80,20 @@ def main():
                 return
             elif event.type == MOUSEBUTTONDOWN:
                 bg_color = color2
+                disk.picked = True
                 redraw()
             elif event.type == MOUSEBUTTONUP:
                 bg_color = color1
+                disk.picked = False
                 redraw()
+
+        allsprites.update()
 
         # display everything
         screen.blit(background, (0, 0))
+        allsprites.draw(screen)
         pygame.display.flip()
 
 if __name__ == '__main__':
     main()
+ 
