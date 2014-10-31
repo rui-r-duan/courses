@@ -12,20 +12,26 @@ res_dir = os.path.join(main_dir, 'res')
 
 color1 = (100, 50, 200)
 color2 = (250, 250, 250)
+color_white = (255, 255, 255)
 font_color_white = (230, 230, 230)
 font_color_grey = (68, 68, 68)
-font_color_blue = (80, 80, 200)
+font_color_blue = (80, 80, 180)
 font_color_red = (190, 90, 100)
 
+def rand_color():
+	return [random.randrange(0,230) for i in range(0,3)]
+
 class Disk(pygame.sprite.Sprite):
-    def __init__(self, sizelevel):
+    def __init__(self, sizelevel, peg, gamearea):
         pygame.sprite.Sprite.__init__(self)
         self.size_level = sizelevel
         self.image = pygame.Surface([20*sizelevel, 20])
-        self.image.fill(font_color_red)
+        self.image.fill(rand_color())
         self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(0, pygame.display.get_surface().get_rect().width - self.rect.width)
-        self.rect.y = random.randrange(0, pygame.display.get_surface().get_rect().height - self.rect.height)
+        self.rect.x = random.randrange(gamearea.x + 10,
+                                       gamearea.width - self.rect.width)
+        self.rect.y = random.randrange(gamearea.y + 10,
+                                       gamearea.height - self.rect.height)
         self.picked = False
 
     def update(self):
@@ -39,11 +45,12 @@ def main():
     screen = pygame.display.set_mode((640, 480))
     pygame.display.set_caption('Tower of Hanoi')
     pygame.mouse.set_visible(True)
-
     bg_color = color1
+    game_area = Rect(50, 80, 540, 330)
 
     def redraw():
         background.fill(bg_color)
+        background.fill(color_white, game_area)
         if pygame.font:
             background.blit(text, textpos)
 
@@ -58,9 +65,9 @@ def main():
 
     if pygame.font:
         font = pygame.font.Font(None, 36)
-        text = font.render("*  TOWERS OF HANOI  *", 1, (240, 240, 240))
+        text = font.render("*  TOWERS OF HANOI  *", 1, font_color_white)
         textpos = text.get_rect(center = (background.get_width()/2,
-                                          100))
+                                          40))
 
     redraw()
     screen.blit(background, (0, 0))
@@ -72,7 +79,7 @@ def main():
     i = 0
     disk = []
     while i < 3:
-        disk.append(Disk(4-i))
+        disk.append(Disk(4-i, 0, game_area))
         i = i + 1
     alldisks = pygame.sprite.RenderPlain((disk[0], disk[1], disk[2]))
 
@@ -99,7 +106,8 @@ def main():
                 redraw()
             elif event.type == MOUSEBUTTONUP:
                 bg_color = color1
-                picked_disk.picked = False
+                if picked_disk != None:
+                    picked_disk.picked = False
                 redraw()
 
         alldisks.update()
