@@ -1,5 +1,6 @@
 import os
 import pygame
+import random
 from pygame.locals import *
 from pygame.compat import geterror
 
@@ -20,9 +21,11 @@ class Disk(pygame.sprite.Sprite):
     def __init__(self, sizelevel):
         pygame.sprite.Sprite.__init__(self)
         self.size_level = sizelevel
-        self.image = pygame.Surface([100, 50])
+        self.image = pygame.Surface([20*sizelevel, 20])
         self.image.fill(font_color_red)
         self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(0, pygame.display.get_surface().get_rect().width - self.rect.width)
+        self.rect.y = random.randrange(0, pygame.display.get_surface().get_rect().height - self.rect.height)
         self.picked = False
 
     def update(self):
@@ -66,8 +69,19 @@ def main():
     clock = pygame.time.Clock()
 
     # prepare game objects
-    disk = Disk(4)
-    allsprites = pygame.sprite.RenderPlain((disk,))
+    i = 0
+    disk = []
+    while i < 3:
+        disk.append(Disk(4-i))
+        i = i + 1
+    alldisks = pygame.sprite.RenderPlain((disk[0], disk[1], disk[2]))
+
+    def which_disk_is_mouse_in():
+        pos = pygame.mouse.get_pos()
+        for d in alldisks:
+            if d.rect.collidepoint(pos[0], pos[1]):
+                return d
+        return None
 
     while 1:
         clock.tick(60)
@@ -79,19 +93,20 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
             elif event.type == MOUSEBUTTONDOWN:
-                bg_color = color2
-                disk.picked = True
+                picked_disk = which_disk_is_mouse_in()
+                if picked_disk != None:
+                    picked_disk.picked = True
                 redraw()
             elif event.type == MOUSEBUTTONUP:
                 bg_color = color1
-                disk.picked = False
+                picked_disk.picked = False
                 redraw()
 
-        allsprites.update()
+        alldisks.update()
 
         # display everything
         screen.blit(background, (0, 0))
-        allsprites.draw(screen)
+        alldisks.draw(screen)
         pygame.display.flip()
 
 if __name__ == '__main__':
