@@ -50,14 +50,15 @@ class Disk(pygame.sprite.Sprite):
             self.rect.center = pos
 
 class Peg(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, gamedata):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([PEG_W, (10*DISK_H)+30])
         self.image.fill(color_peg)
         self.rect = self.image.get_rect()
         self.disks = []
         self.in_place_disks = []
-        self.is_picked = False
+        self.is_focused = False
+        self._gamedata = gamedata
 
     def put_disk(self, d):
         length = len(self.in_place_disks)
@@ -76,12 +77,15 @@ class Peg(pygame.sprite.Sprite):
         self.disks.append(d)
         self.put_disk(d)
 
-    def become_picked(self, picked):
-        self.is_picked = picked
-        self.in_place_disks[-1].picked = picked
+    def become_focused(self, focused):
+        self.is_focused = focused
+        if focused:
+            if not self._gamedata.is_moving:
+                self.in_place_disks[-1].picked = True
+                self._gamedata.is_moving = True
 
     def update(self):
-        if (self.is_picked):
+        if (self.is_focused):
             self.image.fill(color_active_peg)
         else:
             self.image.fill(color_peg)
@@ -93,7 +97,7 @@ class GameData:
         self.from_peg = None       # reference to the origin Peg object
         self.to_peg = None         # reference to the target Peg object
         self.is_valid = True
-        self.is_picked = False  # is there any disk picked and dragging
+        self.is_moving = False
         self.step_count = 0
         self.current_picked_disk = None # reference to the picked Disk object
         self.active_peg = None          # reference to the active Peg object
@@ -113,8 +117,11 @@ class GameData:
             peg[len(peg):] = x
 
     def move_done(self):
-        if not is_picekd:
-            normal_stack_list = copy.deepcopy(tmp_stack_list)
+        if self.is_moving:
+            self.is_moving = False
+            self.normal_stack_list = copy.deepcopy(self.tmp_stack_list)
+        else:
+            self.normal_stack_list = copy.deepcopy(self.tmp_stack_list)
 
     def check_valid(self, stack_list):
         for stack in stack_list:
@@ -177,7 +184,7 @@ def main():
     dx = L + D
     i = 0
     while i < 3:
-        pegs.append(Peg())
+        pegs.append(Peg(gamedata))
         pegs[i].rect.x = game_area.x + M + L / 2-PEG_W / 2 + i * dx
         pegs[i].rect.y = game_area.y + 30
         i = i + 1
@@ -229,21 +236,24 @@ def main():
             elif event.type == MOUSEBUTTONDOWN:
                 gamedata.active_peg = which_peg_is_mouse_in()
                 if gamedata.active_peg != None:
-                    gamedata.active_peg.become_picked(True)
-
+                    gamedata.active_peg.become_focused(True)
+                gamedata.is_moving = True
+                gamedata.from_peg = gamedata.active_peg
                 redraw()
             elif event.type == MOUSEBUTTONUP:
                 if gamedata.active_peg != None:
-                    gamedata.active_peg.become_picked(False)
+                    gamedata.active_peg.become_focused(False)
                     gamedata.active_peg = None
+                gamedata.from_peg = None
+                gamedata.to_peg = None
+                gamedata.move_done()
                 redraw()
 
-        # still in moving process
-        if gamedata.active_peg != None:
+        if gamedata.is_moving:
             tmp_peg = which_peg_is_mouse_in()
             if tmp_peg != gamedata.active_peg:
-                gamedata.active_peg.become_picked(False)
-                tmp_peg.become_picked(True)
+                gamedata.active_peg.become_focused(False)
+                tmp_peg.become_focused(True)
                 gamedata.active_peg = tmp_peg
 
         disksgroup.update()
