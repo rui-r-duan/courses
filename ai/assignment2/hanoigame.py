@@ -13,7 +13,8 @@ main_dir = os.path.split(os.path.abspath(__file__))[0]
 color1 = (100, 50, 200)
 color2 = (250, 250, 250)
 color_gamearea = (255, 255, 255)
-color_peg = (255, 201, 14)
+color_peg = (10, 10, 10)
+color_active_peg = (255, 201, 14)
 color_floor = (63, 72, 204)
 font_color_white = (230, 230, 230)
 font_color_grey = (68, 68, 68)
@@ -56,6 +57,7 @@ class Peg(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.disks = []
         self.in_place_disks = []
+        self.is_picked = False
 
     def put_disk(self, d):
         length = len(self.in_place_disks)
@@ -74,9 +76,18 @@ class Peg(pygame.sprite.Sprite):
         self.disks.append(d)
         self.put_disk(d)
 
+    def become_picked(self, picked):
+        self.is_picked = picked
+
+    def update(self):
+        if (self.is_picked):
+            self.image.fill(color_active_peg)
+        else:
+            self.image.fill(color_peg)
+
 class GameData:
     def __init__(self):
-        self.normal_stack_list = [[4,3], [2], [1,0]]
+        self.normal_stack_list = [[5,4,3], [6,2], [7,1,0]]
         self.tmp_stack_list = copy.deepcopy(self.normal_stack_list)
         self.from_peg = None       # reference to the origin Peg object
         self.to_peg = None         # reference to the target Peg object
@@ -127,8 +138,8 @@ def main():
     pygame.mouse.set_visible(True)
     bg_color = color1
     game_area = Rect(50, 60, 540, 360)
-    floor_area = Rect(game_area.x + M - 5, game_area.y + 30 + 10*DISK_H+30,
-                      3*L+D+10, 10)
+    floor_area = Rect(game_area.x + M - 10, game_area.y + 30 + 10*DISK_H+30,
+                      3*L+D+39, 10)
 
     def redraw():
         background.fill(bg_color)
@@ -189,12 +200,21 @@ def main():
     for p in pegs:
         p.place_disks()
 
-    def which_disk_is_mouse_in():
+    def which_peg_is_mouse_in():
+        d = game_area.width/3
+        p0 = game_area.x
+        p1 = p0 + d
+        p2 = p1 + d
+        p3 = p2 + d
         pos = pygame.mouse.get_pos()
-        for d in disksgroup:
-            if d.rect.collidepoint(pos[0], pos[1]):
-                return d
-        return None
+        if p0 <= pos and pos[0] < p1:
+            return pegs[0]
+        elif p1 <= pos[0] and pos[0] < p2:
+            return pegs[1]
+        elif p2 <= pos[0] and pos[0] < p3:
+            return pegs[2]
+        else:
+            return None
 
     while 1:
         clock.tick(60)
@@ -206,17 +226,27 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
             elif event.type == MOUSEBUTTONDOWN:
-                picked_disk = which_disk_is_mouse_in()
-                if picked_disk != None:
-                    picked_disk.picked = True
+                gamedata.active_peg = which_peg_is_mouse_in()
+                if gamedata.active_peg != None:
+                    gamedata.active_peg.become_picked(True)
+
                 redraw()
             elif event.type == MOUSEBUTTONUP:
-                bg_color = color1
-                if picked_disk != None:
-                    picked_disk.picked = False
+                if gamedata.active_peg != None:
+                    gamedata.active_peg.become_picked(False)
+                    gamedata.active_peg = None
                 redraw()
 
+        # still in moving process
+        if gamedata.active_peg != None:
+            tmp_peg = which_peg_is_mouse_in()
+            if tmp_peg != gamedata.active_peg:
+                gamedata.active_peg.become_picked(False)
+                tmp_peg.become_picked(True)
+                gamedata.active_peg = tmp_peg
+
         disksgroup.update()
+        pegsgroup.update()
 
         # display everything
         screen.blit(background, (0, 0))
