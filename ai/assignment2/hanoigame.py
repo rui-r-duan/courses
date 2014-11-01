@@ -29,14 +29,19 @@ PEG_W = 10
 def rand_color():
     return [random.randrange(0,230) for i in range(0,3)]
 
-def read_data_from_file(filepath):
+def read_config_from_file(filepath):
     result = []
+    cnt = 0
     with open(filepath, 'r') as f:
         for line in f.readlines():
             t = line.strip() # remove the leading and trailing whitespaces
             word_list = t.split()
-            int_list = map(int, word_list) # TODO: exception handling
+            int_list = map(int, word_list)
             result.append(int_list)
+            cnt = cnt + 1
+        while cnt < 3:
+            result.append([])
+            cnt = cnt + 1
         return result
 
 DISK_H = 20
@@ -200,7 +205,7 @@ def main():
     clock = pygame.time.Clock()
 
     # prepare core game data
-    game_config = read_data_from_file(main_dir + '/input')
+    game_config = read_config_from_file(main_dir + '/input')
     gamedata = GameData(game_config)
 
     # prepare game objects
