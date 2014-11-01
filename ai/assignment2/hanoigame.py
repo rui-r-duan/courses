@@ -78,6 +78,7 @@ class Peg(pygame.sprite.Sprite):
 
     def become_picked(self, picked):
         self.is_picked = picked
+        self.in_place_disks[-1].picked = picked
 
     def update(self):
         if (self.is_picked):
