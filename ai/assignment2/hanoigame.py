@@ -60,6 +60,10 @@ class Peg(pygame.sprite.Sprite):
         self.is_focused = False
         self._gamedata = gamedata
 
+    def re_put_disks(self):
+        self.in_place_disks = []
+        self.place_disks()
+
     def put_disk(self, d):
         length = len(self.in_place_disks)
         d.rect.centerx = self.rect.centerx
@@ -94,6 +98,8 @@ class GameData:
     def __init__(self):
         self.normal_stack_list = [[5,4,3], [6,2], [7,1,0]]
         self.tmp_stack_list = copy.deepcopy(self.normal_stack_list)
+        self.from_n = 0
+        self.to_n = 0
         self.from_peg = None       # reference to the origin Peg object
         self.to_peg = None         # reference to the target Peg object
         self.is_valid = True
@@ -149,12 +155,15 @@ def main():
     floor_area = Rect(game_area.x + M - 10, game_area.y + 30 + 10*DISK_H+30,
                       3*L+D+39, 10)
 
+    def draw_text():
+        if pygame.font:
+            background.blit(title, titlepos)
+
     def redraw():
         background.fill(bg_color)
         background.fill(color_gamearea, game_area)
         background.fill(color_floor, floor_area)
-        if pygame.font:
-            background.blit(text, textpos)
+        draw_text()
 
     def onMouseButtonDown(event):
         redraw()
@@ -167,8 +176,8 @@ def main():
 
     if pygame.font:
         font = pygame.font.Font(None, 26)
-        text = font.render("*  TOWERS OF HANOI  *", 1, font_color_white)
-        textpos = text.get_rect(center = (background.get_width()/2, 30))
+        title = font.render("*  TOWERS OF HANOI  *", 1, font_color_white)
+        titlepos = title.get_rect(center = (background.get_width()/2, 30))
 
     redraw()
     screen.blit(background, (0, 0))
@@ -216,11 +225,11 @@ def main():
         p3 = p2 + d
         pos = pygame.mouse.get_pos()
         if p0 <= pos and pos[0] < p1:
-            return pegs[0]
+            return 0
         elif p1 <= pos[0] and pos[0] < p2:
-            return pegs[1]
+            return 1
         elif p2 <= pos[0] and pos[0] < p3:
-            return pegs[2]
+            return 2
         else:
             return None
 
@@ -234,15 +243,20 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
             elif event.type == MOUSEBUTTONDOWN:
-                gamedata.active_peg = which_peg_is_mouse_in()
-                if gamedata.active_peg != None:
+                active_peg_index = which_peg_is_mouse_in()
+                if active_peg_index != None:
+                    gamedata.active_peg = pegs[active_peg_index]
                     gamedata.active_peg.become_focused(True)
                 gamedata.is_moving = True
                 gamedata.from_peg = gamedata.active_peg
+                gamedata.from_n = active_peg_index
                 redraw()
             elif event.type == MOUSEBUTTONUP:
                 if gamedata.active_peg != None:
                     gamedata.active_peg.become_focused(False)
+                    # temporaryly put the picked disk back to original peg
+                    gamedata.from_peg.in_place_disks[-1].picked = False
+                    gamedata.from_peg.re_put_disks()
                     gamedata.active_peg = None
                 gamedata.from_peg = None
                 gamedata.to_peg = None
@@ -250,11 +264,15 @@ def main():
                 redraw()
 
         if gamedata.is_moving:
-            tmp_peg = which_peg_is_mouse_in()
-            if tmp_peg != gamedata.active_peg:
+            tmp_peg_index = which_peg_is_mouse_in()
+            if tmp_peg_index != active_peg_index:
                 gamedata.active_peg.become_focused(False)
+                tmp_peg = pegs[tmp_peg_index]
                 tmp_peg.become_focused(True)
+                active_peg_index = tmp_peg_index
                 gamedata.active_peg = tmp_peg
+                gamedata.to_peg = gamedata.active_peg
+                gamedata.to_n = tmp_peg_index
 
         disksgroup.update()
         pegsgroup.update()
