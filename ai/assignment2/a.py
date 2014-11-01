@@ -50,12 +50,13 @@ class CoreData:
 
     # from_n, to_n is one of 0, 1, 2
     # sync internal self.from_n and self.to_n with the input
+    # raise an IndexError: pop from empty list
     def move(self, from_n, to_n):
         print '\nmove from', from_n, 'to', to_n
         if self.is_moving:
             self.from_n = from_n - 1
             self.to_n = to_n - 1
-            # pop from self.from_n
+            # pop from self.from_n, may raise IndexError
             x = self.tmp_stack_list[self.from_n].pop()
             # push onto self.to_n
             s = self.tmp_stack_list[self.to_n]
@@ -80,7 +81,10 @@ class CoreData:
         print ' is_moving:', self.is_moving
 
 def main():
-    game_config = read_config_from_file(main_dir + '/input')
+    try:
+        game_config = read_config_from_file(main_dir + '/input')
+    except IOError:
+        game_config = [[3, 2, 1], [], []]
     cd = CoreData(game_config)
 
     cd.pd()
@@ -95,7 +99,6 @@ def main():
 
     cd.begin_move()
     cd.move(1, 2)
-    cd.move(2, 1)
     cd.end_move()
     cd.pd()
     cd.is_win()
