@@ -44,9 +44,10 @@ class CoreData:
         print '\nend_move'
         if self.is_moving:
             self.is_moving = False
-            self.normal_stack_list = copy.deepcopy(self.tmp_stack_list)
-        else:
-            self.normal_stack_list = copy.deepcopy(self.tmp_stack_list)
+            if self.check_stacks_valid(self.tmp_stack_list):
+                self.normal_stack_list = copy.deepcopy(self.tmp_stack_list)
+            else:
+                self.tmp_stack_list = copy.deepcopy(self.normal_stack_list)
 
     # from_n, to_n is one of 0, 1, 2
     # sync internal self.from_n and self.to_n with the input
@@ -62,15 +63,21 @@ class CoreData:
             s = self.tmp_stack_list[self.to_n]
             s.append(x)
 
-    def check_valid(self, stack_list):
+    def check_stacks_valid(self, stack_list):
+        x = True
         for stack in stack_list:
-            r = all(stack[i] < stack[i+1] for i in xrange(len(stack)-1))
+            r = all(stack[i] > stack[i+1] for i in xrange(len(stack)-1))
             if r == False:
-                return r
-        return True
+                x = r
+                break
+        print 'check_stacks_valid:', x
+        return x
 
-    def check_move_valid(self, disk_to_be_put, disk_down):
-        return disk_to_be_put < disk_down
+    def check_move_valid(self, from_n, to_n):
+        top_of_from = self.normal_stack_list[from_n]
+        top_of_to = self.normal_stack_list[to_n]
+        result = top_of_from < top_of_to
+        print 'check_move_valid(', from_n, '->', to_n, '): ', result
 
     def pd(self):
         print '\n== Core Data =='
@@ -89,49 +96,68 @@ def main():
 
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
 
     cd.begin_move()
     cd.move(1, 3)
-    cd.pd()
     cd.end_move()
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
 
     cd.begin_move()
     cd.move(1, 2)
     cd.end_move()
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
 
     cd.begin_move()
     cd.move(3, 2)
     cd.end_move()
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
 
     cd.begin_move()
     cd.move(1, 3)
+    cd.pd()
+    if (cd.check_move_valid(1, 2)):
+        cd.move(3, 2)               # invalid move
+    cd.pd()
+    cd.check_stacks_valid(cd.tmp_stack_list)
     cd.end_move()
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
+
+    # cd.begin_move()
+    # cd.move(1, 3)
+    # cd.end_move()
+    # cd.pd()
+    # cd.is_win()
+    # cd.check_stacks_valid(cd.normal_stack_list)
 
     cd.begin_move()
     cd.move(2, 1)
     cd.end_move()
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
 
     cd.begin_move()
     cd.move(2, 3)
     cd.end_move()
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
 
     cd.begin_move()
     cd.move(1, 3)
     cd.end_move()
     cd.pd()
     cd.is_win()
+    cd.check_stacks_valid(cd.normal_stack_list)
 
 
 if __name__ == '__main__':
