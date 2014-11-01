@@ -29,14 +29,15 @@ PEG_W = 10
 def rand_color():
     return [random.randrange(0,230) for i in range(0,3)]
 
-def read_data_from_file(path):
-    with open(main_dir + 'input', 'r') as f:
+def read_data_from_file(filepath):
+    result = []
+    with open(filepath, 'r') as f:
         for line in f.readlines():
-            my_text = line.strip()
-            print(line.strip())
-            s = my_text.split()
-            print t
-            return t = map (int,s)
+            t = line.strip() # remove the leading and trailing whitespaces
+            word_list = t.split()
+            int_list = map(int, word_list) # TODO: exception handling
+            result.append(int_list)
+        return result
 
 DISK_H = 20
 class Disk(pygame.sprite.Sprite):
@@ -104,8 +105,8 @@ class Peg(pygame.sprite.Sprite):
             self.image.fill(color_peg)
 
 class GameData:
-    def __init__(self):
-        self.normal_stack_list = [[4,3], [2], [1,0]]
+    def __init__(self, gameconfig):
+        self.normal_stack_list = gameconfig
         self.tmp_stack_list = copy.deepcopy(self.normal_stack_list)
         self.from_n = 0
         self.to_n = 0
@@ -199,7 +200,8 @@ def main():
     clock = pygame.time.Clock()
 
     # prepare core game data
-    gamedata = GameData()
+    game_config = read_data_from_file(main_dir + '/input')
+    gamedata = GameData(game_config)
 
     # prepare game objects
     pegs = []
