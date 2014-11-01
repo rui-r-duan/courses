@@ -29,6 +29,15 @@ PEG_W = 10
 def rand_color():
     return [random.randrange(0,230) for i in range(0,3)]
 
+def read_data_from_file(path):
+    with open(main_dir + 'input', 'r') as f:
+        for line in f.readlines():
+            my_text = line.strip()
+            print(line.strip())
+            s = my_text.split()
+            print t
+            return t = map (int,s)
+
 DISK_H = 20
 class Disk(pygame.sprite.Sprite):
     def __init__(self, sizelevel, gamearea):
@@ -96,7 +105,7 @@ class Peg(pygame.sprite.Sprite):
 
 class GameData:
     def __init__(self):
-        self.normal_stack_list = [[5,4,3], [6,2], [7,1,0]]
+        self.normal_stack_list = [[4,3], [2], [1,0]]
         self.tmp_stack_list = copy.deepcopy(self.normal_stack_list)
         self.from_n = 0
         self.to_n = 0
@@ -115,12 +124,14 @@ class GameData:
 
         # frompeg, topeg is one of 0, 1, 2
     def move(self, frompeg, topeg):
-        if is_picked:
+        self.tmp_stack_list = copy.deepcopy(self.normal_stack_list)
+        if self.is_moving:
             # pop from frompeg
             x = self.tmp_stack_list[frompeg].pop()
             # push onto topeg
             peg = self.tmp_stack_list[topeg]
-            peg[len(peg):] = x
+            peg[len(peg):] = [x]
+            print self.tmp_stack_list, "valid?", self.check_valid(self.tmp_stack_list)
 
     def move_done(self):
         if self.is_moving:
@@ -128,6 +139,8 @@ class GameData:
             self.normal_stack_list = copy.deepcopy(self.tmp_stack_list)
         else:
             self.normal_stack_list = copy.deepcopy(self.tmp_stack_list)
+        self.step_count = self.step_count + 1
+        print "move_done: ", self.normal_stack_list
 
     def check_valid(self, stack_list):
         for stack in stack_list:
@@ -190,32 +203,36 @@ def main():
 
     # prepare game objects
     pegs = []
-    dx = L + D
-    i = 0
-    while i < 3:
-        pegs.append(Peg(gamedata))
-        pegs[i].rect.x = game_area.x + M + L / 2-PEG_W / 2 + i * dx
-        pegs[i].rect.y = game_area.y + 30
-        i = i + 1
-    pegsgroup = pygame.sprite.RenderPlain(tuple(pegs))
-
+    pegsgroup = None
     disks = []
-    i = 0
-    while i < len(gamedata.normal_stack_list):
-        stack = gamedata.normal_stack_list[i]
-        j = 0
-        while j < len(stack):
-            size = stack[j]
-            d = Disk(size, game_area)
-            disks.append(d)
-            pegs[i].disks.append(d)
-            j = j + 1
-        i = i + 1
-    disksgroup = pygame.sprite.RenderPlain(tuple(disks))
+    disksgroup = None
+    def rebuild_objs(gamedata):
+        dx = L + D
+        i = 0
+        while i < 3:
+            pegs.append(Peg(gamedata))
+            pegs[i].rect.x = game_area.x + M + L / 2-PEG_W / 2 + i * dx
+            pegs[i].rect.y = game_area.y + 30
+            i = i + 1
 
-    # place disks in each peg
-    for p in pegs:
-        p.place_disks()
+        i = 0
+        while i < len(gamedata.normal_stack_list):
+            stack = gamedata.normal_stack_list[i]
+            j = 0
+            while j < len(stack):
+                size = stack[j]
+                d = Disk(size, game_area)
+                disks.append(d)
+                pegs[i].disks.append(d)
+                j = j + 1
+            i = i + 1
+        # place disks in each peg
+        for p in pegs:
+            p.re_put_disks()
+
+    rebuild_objs(gamedata)
+    pegsgroup = pygame.sprite.RenderPlain(tuple(pegs))
+    disksgroup = pygame.sprite.RenderPlain(tuple(disks))
 
     def which_peg_is_mouse_in():
         d = game_area.width/3
@@ -260,7 +277,14 @@ def main():
                     gamedata.active_peg = None
                 gamedata.from_peg = None
                 gamedata.to_peg = None
+                pegs = []
+                pegsgroup = None
+                disks = []
+                disksgroup = None
                 gamedata.move_done()
+                rebuild_objs(gamedata)
+                pegsgroup = pygame.sprite.RenderPlain(tuple(pegs))
+                disksgroup = pygame.sprite.RenderPlain(tuple(disks))
                 redraw()
 
         if gamedata.is_moving:
@@ -273,6 +297,8 @@ def main():
                 gamedata.active_peg = tmp_peg
                 gamedata.to_peg = gamedata.active_peg
                 gamedata.to_n = tmp_peg_index
+                print (gamedata.from_n, gamedata.to_n)
+                gamedata.move(gamedata.from_n, gamedata.to_n)
 
         disksgroup.update()
         pegsgroup.update()
