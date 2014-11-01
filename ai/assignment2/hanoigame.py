@@ -205,7 +205,10 @@ def main():
     clock = pygame.time.Clock()
 
     # prepare core game data
-    game_config = read_config_from_file(main_dir + '/input')
+    try:
+        game_config = read_config_from_file(main_dir + '/input')
+    except IOError as inst:
+        game_config = [[3, 2, 1], [], []]
     gamedata = GameData(game_config)
 
     # prepare game objects
