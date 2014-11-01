@@ -1,0 +1,122 @@
+-*- org -*-
+
+* closure
+Inner function (inside a function) can call another inner function, and can
+reference outer variables, but cannot change the value of the outer variables.
+
+While in lisp, in inner function, it can reference and modify the outer
+variable!
+
+* Read a line of number and form a list of number.
+
+* pop from the list and push into the list (used as a stack)
+
+* overall control
+
+  game data [[4,3],[2],[1,0]] => render to screen
+
+  handling user input (e.g., mouse event and keyboard event)
+  update game data
+
+  draw background
+  draw fonts onto background
+  screen.blit(background,(0,0))
+  draw pegs onto screen
+  draw disks onto screen
+  display and flip
+
+  The game knows which peg contains which disks and keeps track of which disk
+  is picked, draw the picked disk specially and update its rectangle in the
+  game loop.
+
+** better game data: stack_list, from_peg, to_peg
+   [[4,3], [2], [1,(0,picked)]], from=peg3, to=peg2
+
+   while moving to other peg and is a valid move
+   [[4,3], [2,(0,picked)], [1]], from=peg3, to=peg2
+
+   while moving to other peg and is NOT a valid move
+   [[4], [2,(3,picked)], [1,0]], from=peg1, to=peg2
+
+*** need two slots to store the game data: normal_stack_list, tmp_stack_list
+
+*** need a boolean to control normal or tmp (moving) state: is_picked
+
+*** a boolean to indicate the current state is valid or not
+    in any time, the game is either in a valid state or an invalid state, no
+    other states
+
+**** TODO what if the initial state is invalid
+    cross mark the invalid disks
+
+*** a counter to count the valid completed steps
+    add one after a valid move is completed
+
+*** a reference to the current picked disk for easy access
+
+*** a reference to the active peg
+
+* when to stop the game? [[],[],[not_empty]]
+
+# return True if win, False if not win
+def is_win(stack_list)
+
+* move is mapping from a data list to another data list
+  e.g., from peg 3 to peg 2
+  [[4,3], [2], [1,0]] => [[4,3], [2,0], [1]]
+
+# return a new game_data
+def move(from_peg, to_peg, hanoi_data)
+
+Further more, a class may be defined for hanoi data.
+
+* which disk can be picked
+  only the top element can be picked
+  => only the active peg can be picked
+
+* a move is valid
+  if and only if the previous top element in the stack is bigger than the new
+  element pushed on the stack
+
+  while moving (dragging) the disk, the game can show it valid or not.
+
+  if valid, the moving disk will be circled by a green dashed rectangle,
+  else, the moving disk will be marked by a red cross symbol
+
+* how to start moving after picking a disk
+
+  drag it to the destination peg
+
+  the peg whose area the mouse is in will become active, and the other pegs
+  become inactive
+
+  the active peg will change to bright color
+
+* how to put a disk on a stack
+
+  mouse up
+
+  if it is a valid move then
+      the disk will be put to the destination stack,
+  else
+      the disk will remain on the old stack
+
+* how to render the game data such as [[4,3], [2], [1,0]], from_peg, to_peg, active_peg
+
+  The list contains three stacks, put each stack on a peg, from left to right.
+  
+** Use text to display from and to
+   When in normal state, from and to should be void, displaying nothing.
+
+   When a disk is picked in one peg, the peg is activated, from and to display
+   current peg number.
+
+   When a disk is dragged to another peg, the new peg is activated, and the old
+   peg is disactivated, from and to should be updated accordingly.
+
+* how to put a stack on a peg
+
+  from the largest one, put it on the bottom, and put next on top of it,
+  spacing 5 pixels
+
+* what is the region of a peg
