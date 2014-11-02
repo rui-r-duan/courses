@@ -1,3 +1,7 @@
+#------------------------------------------------------------------------------
+# Tower of Hanoi Game
+# author: Rui Duan
+#------------------------------------------------------------------------------
 import os
 import pygame
 import random
@@ -8,6 +12,7 @@ from pygame.compat import geterror
 
 #------------------------------------------------------------------------------
 # GLOBAL DATA
+#------------------------------------------------------------------------------
 main_dir = os.path.split(os.path.abspath(__file__))[0]
 
 color1 = (100, 50, 200)
@@ -140,6 +145,7 @@ class Peg(pygame.sprite.Sprite):
         else:
             self.image.fill(color_peg)
 
+# Core Game Data
 class HanoiGame:
     def __init__(self, gameconfig):
         self.is_moving = False
@@ -182,17 +188,6 @@ class HanoiGame:
             to_stack = self.disc_stack_list[to_index]
             to_stack.append(disc)
 
-    def check_stacks_valid(self):
-        x = True
-        for stack in self.disc_stack_list:
-            r = all(stack[i].size_level > stack[i+1].size_level\
-                    for i in xrange(len(stack)-1))
-            if r == False:
-                x = r
-                break
-        print 'check_stacks_valid:', x
-        return x
-
     def is_move_valid(self, from_n, to_n):
         stack_of_from = self.disc_stack_list[from_n]
         stack_of_to = self.disc_stack_list[to_n]
@@ -207,21 +202,9 @@ class HanoiGame:
         print 'is_move_valid(', from_n, '->', to_n, '): ', result
         return result
 
-    def ps(self):
-        print '[',
-        for stack in self.disc_stack_list:
-            print '[',
-            for a in stack:
-                print a,
-            print ']',
-        print ']'
-
-    def pd(self):
-        print '==============='
-        print ' disc_stack_list:', self.ps()
-        print ' is_moving:', self.is_moving
-        print '==============='
-
+#------------------------------------------------------------------------------
+# MAIN FUNCTION AND GAME LOOP
+#------------------------------------------------------------------------------
 def main():
     try:
         game_config = read_config_from_file(main_dir + '/input')
@@ -258,8 +241,6 @@ def main():
         font = pygame.font.Font(None, 26)
         title = font.render("*  TOWERS OF HANOI  *", 1, font_color_white)
         titlepos = title.get_rect(center = (background.get_width()/2, 30))
-        from_tower = font.render("FROM TOWER #", 1, font_color_grey)
-        to_tower = font.render("TO TOWER #", 1, font_color_grey)
 
     redraw()
     screen.blit(background, (0, 0))
@@ -348,7 +329,6 @@ def main():
                 rebuild_objs()
                 pegsgroup = pygame.sprite.RenderPlain(tuple(pegs))
                 redraw()
-                
 
         if game.is_moving:
             tmp_peg_index = which_peg_is_mouse_in()
@@ -386,7 +366,7 @@ def main():
         if game.is_win():
             MessageBox = ctypes.windll.user32.MessageBoxA
             MessageBox(None, 'Congratulation', 'you win!', 0)
-            exit()
+            return
 
 if __name__ == '__main__':
     main()
