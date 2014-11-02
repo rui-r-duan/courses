@@ -158,12 +158,6 @@ class GameData:
     def check_move_valid(self, disk_to_be_put, disk_down):
         return disk_to_be_put < disk_down
 
-def render(game_data, pegs_list):
-    if game_data.is_picked:
-        current_stack_list = game_data.normal_stack_list
-    else:
-        current_stack_list = game_data.tmp_stack_list
-
 def main():
     pygame.init()
     screen = pygame.display.set_mode((640, 480))
