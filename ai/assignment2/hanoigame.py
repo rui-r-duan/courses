@@ -274,14 +274,12 @@ def main():
         p2 = p1 + d
         p3 = p2 + d
         pos = pygame.mouse.get_pos()
-        if p0 <= pos and pos[0] < p1:
+        if pos[0] < p1:
             return 0
         elif p1 <= pos[0] and pos[0] < p2:
             return 1
-        elif p2 <= pos[0] and pos[0] < p3:
+        elif p2 <= pos[0]:
             return 2
-        else:
-            return None
 
     def get_moving_disc(from_n):
         if game.is_moving:
