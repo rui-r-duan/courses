@@ -1,6 +1,7 @@
 import os
 import pygame
 import random
+import ctypes
 
 from pygame.locals import *
 from pygame.compat import geterror
@@ -307,7 +308,7 @@ def main():
         else:
             return None
 
-    while not game.is_win():
+    while 1:
         clock.tick(60)
 
         # handle input events
@@ -382,7 +383,10 @@ def main():
             screen.blit(text1[i], L_MOVE[i])
         pygame.display.flip()
 
-    print "You Win!"
+        if game.is_win():
+            MessageBox = ctypes.windll.user32.MessageBoxA
+            MessageBox(None, 'Congratulation', 'you win!', 0)
+            exit()
 
 if __name__ == '__main__':
     main()
