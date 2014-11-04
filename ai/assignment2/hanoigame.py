@@ -316,7 +316,6 @@ def main():
                     from_peg.re_put_discs()
                     active_peg = None
                 from_peg = None
-                to_peg = None
                 if not game.is_move_valid(from_n, to_n):
                     to_n = from_n
                 else:
@@ -336,7 +335,6 @@ def main():
                 tmp_peg.become_focused(True)
                 active_peg_index = tmp_peg_index
                 active_peg = tmp_peg
-                to_peg = active_peg
                 to_n = tmp_peg_index
                 is_valid_move = game.is_move_valid(from_n, to_n)
                 moving_disc = get_moving_disc(from_n)
