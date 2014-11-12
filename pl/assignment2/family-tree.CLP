@@ -75,12 +75,16 @@
   =>
   (assert (mother-of (mother ?m) (child ?c))))
 
-(defrule find-parent-1
-  (father-of (father ?a) (child ?c))
+(defrule find-parent
+  (or (father-of (father ?a) (child ?c))
+      (mother-of (mother ?a) (child ?c)))
   =>
   (assert (parent-of (parent ?a) (child ?c))))
 
-(defrule find-parent-2
-  (mother-of (mother ?a) (child ?c))
+(defrule find-sister
+  (parent-of (parent ?p) (child ?a))
+  (parent-of (parent ?p) (child ?b))
+  (person (name ?a) (gender female))
+  (test (not (eq ?a ?b)))
   =>
-  (assert (parent-of (parent ?a) (child ?c))))
+  (assert (sister-of (sister ?a) (sibling ?b))))
