@@ -64,27 +64,50 @@
   (father-of (father "K") (child "U"))
   (father-of (father "K") (child "V")))
 
-(defrule find-wife
+(defrule wife
   (husband-of (husband ?a) (wife ?b))
   =>
   (assert (wife-of (wife ?b) (husband ?a))))
 
-(defrule find-mother
+(defrule mother
   (father-of (father ?f) (child ?c))
   (husband-of (husband ?f) (wife ?m)) ; (wife-of (wife ?m) (husband ?f)) is also OK, becuase CLIPS can do forward chaining automatically
   =>
   (assert (mother-of (mother ?m) (child ?c))))
 
-(defrule find-parent
+(defrule parent
   (or (father-of (father ?a) (child ?c))
       (mother-of (mother ?a) (child ?c)))
   =>
   (assert (parent-of (parent ?a) (child ?c))))
 
-(defrule find-sister
+(defrule sister
   (parent-of (parent ?p) (child ?a))
   (parent-of (parent ?p) (child ?b))
   (person (name ?a) (gender female))
   (test (not (eq ?a ?b)))
   =>
   (assert (sister-of (sister ?a) (sibling ?b))))
+
+(defrule grandfather
+  (father-of (father ?f) (child ?c))
+  (parent-of (parent ?c) (child ?gc))
+  =>
+  (assert (grandfather-of (grandfather ?f) (grandchild ?gc))))
+
+;;;----------------------------------------------------------------------------
+;;; Find one's all grandfathers
+;;;----------------------------------------------------------------------------
+(defrule get-grandchild
+  (declare (salience -100))
+  (initial-fact)
+  =>
+  (printout t "Enter name of grandchild: ")
+  (bind ?gs (read))
+  (assert (grandchild ?gs)))
+
+(defrule prnt-grandfather
+  (grandchild ?gs)
+  (grandfather-of (grandfather ?gf) (grandchild ?gs))
+  =>
+  (printout t ?gf crlf))

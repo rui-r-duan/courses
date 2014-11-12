@@ -20,3 +20,4 @@ by variables and unification
 
 * In deftemplate, we can use 'field' keyword and 'slot' keyword, diff?
 
+* It seems the variables are global, e.g., bind ?gs in rule A, it can be accessed in rule B
