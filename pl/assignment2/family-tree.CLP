@@ -249,7 +249,7 @@
   (mother-of (mother ?m) (child ?c))
   (person (name ?m) (age ?age) (gender ?gender) (height ?height))
   =>
-;  (retract ?adr)
+  (retract ?adr)
   (printout t ?c "'s mother " ?m ": (age: " ?age "), (gender: " ?gender "), (height: "
               ?height ")" crlf))
 
