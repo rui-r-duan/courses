@@ -111,3 +111,9 @@
   (grandfather-of (grandfather ?gf) (grandchild ?gs))
   =>
   (printout t ?gf crlf))
+
+(defrule all-properties
+  (person (name ?a) (age ?age) (gender ?gender) (height ?height))
+  =>
+  (printout t ?a ": (age: " ?age "), (gender: " ?gender "), (height: "
+              ?height ")" crlf))

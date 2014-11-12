@@ -21,3 +21,5 @@ by variables and unification
 * In deftemplate, we can use 'field' keyword and 'slot' keyword, diff?
 
 * It seems the variables are global, e.g., bind ?gs in rule A, it can be accessed in rule B
+No.  ?gs in rule A contributes to new rule that contains ?gs, rule B does not
+use ?gs directly but uses the new rule that was introduced by rule A.
