@@ -1,0 +1,22 @@
+* field
+numeric field: float, integer
+string field
+symbol
+fact-address
+external address
+instance name
+instance address
+
+* multifield value
+a series of zero or more fields contained together is referred to as a
+multifield value
+
+* slots: symbolic fields
+
+* fact: relation name (a symbolic field) + zero or more slots
+
+* how to get the value in a slot?
+by variables and unification
+
+* In deftemplate, we can use 'field' keyword and 'slot' keyword, diff?
+

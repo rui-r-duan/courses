@@ -1,0 +1,9 @@
+(deftemplate neighbor
+	(field left (type SYMBOL))
+	(field right (type SYMBOL)))
+
+(deffacts inputs
+	(neighbor (left Anneke)
+		  (right Bert))
+	(neighbor (left Carol)
+		  (right Danny)))

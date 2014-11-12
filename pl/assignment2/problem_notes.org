@@ -1,0 +1,62 @@
+* at least 20 individuals
+* four or more generations
+* can add more individuals
+* each individual must have at least one relationship
+* on average each individual must have at least two instantiated properties
+
+* gender (male, female)
+* age (in years)
+* height (in inches, feet, or centimeters)
+* mother, father
+* brother, sister
+* husband, wife
+
+* What's the basic operating procedure?
+load -> reset
+defrule -> auto load rules into agenda
+
+* Add members of the family
+** What's the representation of a member?
+** In what interface does it add a new member?
+
+* basic properties, basic relationships
+** using template? facts? or other constructs to represent properties and relationships?
+
+* Answer queries about an individual's properties.  How to give a query? How to answer it?
+What is Karen's age?
+
+* List all the properties of an individual
+like SQL selection
+What do we know about Karen's mother?
+
+* Identify individuals that have certain properties
+like SQL selection
+Who is older than twenty and taller than six feet?
+
+* Answer queries about individuals that are in a particular relationship with an individual.
+Who are Karen's brothers?
+
+* List the relationships of individuals. (hard)
+search all kinds of combinations
+What are Karen's relationships in the family?
+
+* members
+A: Franz Xaver
+B: Franz Anton
+C: Josefine
+D: Erwin
+E: Xaver
+F: Margarethe
+G: Anna
+H: Maria
+I: Franz Josef
+J: Hubert
+K: Bernhard
+L: Irmgard
+M: Josef
+N: Klaus
+O: Markus
+P: Annemarie
+Q: Regina
+R: Roswitha
+S: Heinrich
