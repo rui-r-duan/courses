@@ -1,0 +1,35 @@
+* implement general search, BFS, DFS, Uniform Cost Search in CL, Prolog, Python
+** develop Romania Map programs
+* depth-bounded depth-first search and iterative deepening search
+* symmetry reduction
+* 8-puzzle heuristic function (concept: admissible)
+* tic-tac-toe heuristic function
+* ADMISSIBLE heuristic function
+** underestimate of actual cost from current node to goal
+** "at least" (low boundary)
+* relationship between uniform cost search and hill climing search
+** can accumulated path cost be used as a heuristic value? yes
+** heuristic value indicates the current node's status or current path's status?
+cost: path's status
+hill climing: current node's status
+
+* simulated annealing (SA)
+The algorithm is similar to hill climbing, if there always exists at least one
+better next state than the state, pointed to by the stack-top. If it fails,
+then the last begin-end bracketed part of the algorithm is invoked. This part
+corresponds to simulated annealing. It examines each legal next state one by
+one, whether the probability of occurrence of the state is higher than the
+random value in [0,1]. If the answer is yes, the state is selected, else the
+next possible state is examined. Hopefully, at least one state will be found
+whose probability of occurrence is larger than the randomly generated
+probability.
+
+* how does it do? what is the difference (improvement)? relationships?
+
+* alpha-beta pruning example
+
+* minimax in Prolog
+
+* A* algorithm
+
+* calculation of Bayes Theorem
