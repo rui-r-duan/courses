@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>JavaScript Loops</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+     // for ... in obj
+     var person1 = {
+       name: 'John',
+       age: 25
+     };
+     for ( prop in person1 ) {
+       console.log( prop + ': ' + person1[ prop ] );
+       console.log( typeof( prop ));
+     }
+
+     // continue
+     var something = []; // true
+     // Skipping to the next iteration of a loop
+     for ( var i = 0; i < 10; i++ ) {
+       if ( something ) {
+	 console.log( "before " + i );
+         continue;
+	 console.log( "after " + i );
+       }
+       
+       // The following statement will only be executed
+       // if the conditional "something" has not been met
+       console.log( "I have been reached" );
+       
+     }
+     console.log( "out " + i );
+    </script>
+  </body>
+</html>

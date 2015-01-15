@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Reference Outer instance with the same name as the Inner instance</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+     // Using a closure to access inner and outer object instances simultaneously.
+     var outerObj = {
+       myName: "outer",
+       outerFunction: function() {
+	 
+         // Provide a reference to outerObj through innerFunction's closure
+         var self = this;
+         var innerObj = {
+           myName: "inner",
+           innerFunction: function() {
+             console.log( self.myName, this.myName ); // "outer inner"
+           }
+         };
+	 
+         innerObj.innerFunction();
+	 
+         console.log( this.myName ); // "outer"
+       }
+     };
+     
+     outerObj.outerFunction();
+    </script>
+  </body>
+</html>

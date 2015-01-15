@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+      // The array literal returns a foo.length value of 1:
+      var foo = [ 100 ];
+      alert( foo[ 0 ] ); // 100
+      alert( foo.length ); // 1
+      
+      // The array constructor returns a bar.length value of 100:
+      var bar = new Array( 100 );
+      alert( bar[ 0 ] ); // undefined
+      alert( bar.length ); // 100
+
+     // Using the push(), pop(), unshift() and shift() methods on an array.
+     
+     var foo = [];
+     
+     foo.push( "a" );
+     foo.push( "b" );
+     
+     alert( foo[ 0 ] ); // a
+     alert( foo[ 1 ] ); // b
+     
+     alert( foo.length ); // 2
+     
+     foo.pop();
+     
+     alert( foo[ 0 ] ); // a
+     alert( foo[ 1 ] ); // undefined
+     
+     alert( foo.length ); // 1
+     
+     foo.unshift( "z" );
+     
+     alert( foo[ 0 ] ); // z
+     alert( foo[ 1 ] ); // a
+     
+     alert( foo.length ); // 2
+     
+     foo.shift();
+     
+     alert( foo[ 0 ] ); // a
+     alert( foo[ 1 ] ); // undefined
+     
+     alert( foo.length ); // 1
+
+     foo[ 10 ] = 5;
+     console.log( foo.length );
+     console.log( foo[ 9 ] ); // undefined
+    </script>
+  </body>
+</html>

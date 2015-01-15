@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>JavaScript Types</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+     // Using an empty object literal
+     var person1 = {};
+     
+     // Assign properties using "dot notation"
+     person1.firstName = "John";
+     person1.lastName = "Doe";
+     
+     // Access properties using "dot notation"
+     alert( person1.firstName + " " + person1.lastName );
+     
+     // Creating an object with the object literal syntax:
+     var person2 = {
+       firstName: "Jane",
+       lastName: "Doe"
+     };
+     
+     alert( person2.firstName + " " + person2.lastName );
+     
+     var people = {};
+     
+     // Assign properties using "bracket notation"
+     // As mentioned, objects can also have objects as a property value
+     people[ "person1" ] = person1;
+     people[ "person2" ] = person2;
+     
+     // Access properties using a mix of both bracket and dot notation
+     alert( people[ "person1" ].firstName );
+     alert( people[ "person2" ].firstName );
+
+     // Properties that have not been created are undefined.
+     var person = { name: "John Doe" };
+     alert( person.email ); // undefined
+    </script>
+  </body>
+</html>

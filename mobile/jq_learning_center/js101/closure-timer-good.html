@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Expected Timer Using Closure</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+     // Using a closure to create a new private scope
+     // fix: “close” the value of i inside createFunction, so it won't change
+     var createFunction = function( i ) {
+       return function() {
+         alert( i );
+       };
+     };
+     
+     for ( var i = 0; i < 5; i++ ) {
+       setTimeout( createFunction( i ), i * 100 );
+     }
+    </script>
+  </body>
+</html>

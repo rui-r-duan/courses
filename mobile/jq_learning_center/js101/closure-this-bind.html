@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Bind 'this' to a certain object instead of dynamical binding</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+     // Let's manipulate "this" with a basic example.
+     var user = "johnsmith";
+     var module = {
+       getUser: function() {
+	 console.log( this.user );
+         return this.user;
+       },
+       user: "janedoe"
+     };
+     
+     // module.getUser() is called where "module" is "this"
+     // and "module.user" is returned.
+     
+     // janedoe
+     module.getUser();
+     
+     // let's now store a reference in the global version of "this"
+     var getUser = module.getUser;
+     
+     // getUser() called, "this" is global, "user" is returned
+     
+     // johnsmith
+     getUser();
+     
+     // store a ref with "module" bound as "this"
+     var boundGetUser = getUser.bind( module );
+     
+     // boundGetUser() called, "module" is "this" again, "module.user" returned.
+     
+     // janedoe
+     boundGetUser();
+    </script>
+  </body>
+</html>
