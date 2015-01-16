@@ -35,6 +35,10 @@ $(document).ready( function() {
 		+ activities[activities.length - 1].activity + '</a></li>';
 	var activity_list = $("ol");
 	activity_list.append(txt);
+
+	// clear this page
+	$("#note").val("");
+
 	activity_list.listview("refresh");
 	$(":mobile-pagecontainer").pagecontainer("change", "#act-list-page");
 	console.log(activities[activities.length-1]);
@@ -46,6 +50,11 @@ $(document).ready( function() {
 	bLogIn = false;
 	$("#name").val("");
 	$("#password").val("");
+    });
+
+    $("#myPopup li").click(function() {
+	$("#activity").text($(this).text());
+	$("#myPopup").popup("close");
     });
 
     appendActivity();
