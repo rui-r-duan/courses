@@ -7,13 +7,16 @@ $(document).ready( function() {
 	console.log(passwd);
 	for (var i = 0; i < users.length; i++) {
 	    if (name === users[i].name && passwd === users[i].passwd) {
-		alert(name + " login successfully!");
+		console.log(name + " login successfully!");
 		bLogIn = true;
+		$(this).attr("href", "#act-list-page");
+		$(this).attr("data-transition", "slide");
 		break;
 	    }
 	}
-	if (!bSuc) {
-	    $("#btn-login").attr("href", "#login-fail-dialog");
+	if (!bLogIn) {
+	    $(this).attr("href", "#login-fail-dialog");
+	    $(this).attr("data-transition", "fade");
 	    $("#name").val("");
 	    $("#password").val("");
 	}
@@ -22,7 +25,7 @@ $(document).ready( function() {
     $("#activity").text( "Homework" );
 
     $("#btn-logout").click(function() {
-	bLogin = false;
+	bLogIn = false;
 	$("#name").val("");
 	$("#password").val("");
     });
