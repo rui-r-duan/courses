@@ -1,4 +1,5 @@
 $(document).ready( function() {
+
     $("#btn-login").click( function() {
 	var name = $("#name").val();
 	var passwd = $("#password").val();
@@ -26,3 +27,5 @@ var users = [
     {name: "ryan", passwd: "123"},
     {name: "zhenzhen", passwd: "456"}
 ];
+
+var activities = [];
