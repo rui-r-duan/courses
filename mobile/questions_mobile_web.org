@@ -1,0 +1,74 @@
+* What is <!DOCTYPE>?
+http://www.w3schools.com/tags/tag_doctype.asp
+
+* What is "min.js"?
+compressed version of jQuery
+
+* In what language is jQuery written?
+JavaScript
+
+* What is the use of the map file?
+JavaScript 
+http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
+* the addClass example does not work
+* Where to put <script>? head or body?
+  both, best at the bottom of <body>, in front of </body>.
+  "async" and "defer" attributes for <script> in HTML5
+* Be mindful not to define functions with the same name multiple times within separate if/else blocks, as doing so may not have the expected result.
+* Truthy and Falsy Things
+** Values that evaluate to false:
+false
+"" // An empty string.
+NaN // JavaScript's "not-a-number" variable.
+null
+undefined // Be careful -- undefined can be redefined!
+0 // The number zero.
+
+** Everything else evaluates to true, some examples:
+"0"
+"any string"
+[] // An empty array.
+{} // An empty object.
+1 // Any non-zero number.
+
+* Logical Operators
+"||": return the first truthy operand, or last operand if neither is truthy
+"&&": return the first falsy operand, or last operand if neigher is false
+
+* Object
+** When creating object literals, note that the key portion of each key-value pair can be written as any valid JavaScript identifier, a string (wrapped in quotes), or a number
+var myObject = {
+    validIdentifier: 123,
+    "some string": 456,
+    99999: 789
+};
+
+* JavaScript Prototypes are class template which itself is an object, like the type object in Common Lisp
+
+* Functions have access to variables defined in the same scope.
+* 'this.something' behaves like a dynamic scope on 'something', use Function.bind() to make it bound to certain object
+* Closures can be particularly useful when dealing with callbacks. However, it is often better to use Function.bind, which will avoid any overhead associated with scope traversal.
+* $ namespace and $.fn namespace
+** $.fn: jQuery prototype, or jQuery object methods
+automatically receive and return the selection as 'this'
+** $: utility-type methods, do not work with selections, are not auto passed any arguments, return value will vary
+* name collision and non-conflict mode (alias)
+var $j = jQuery.noConflict();
+// $ variable below now has the original meaning in the previous library
+** load jQuery after other lib, use noConflict() mode to preserve $'s meaning in other lib, use jQuery's $ in jQuery function scope like jQuery(document).ready().
+** load jQuery before other lib, no need to call noConflict()
+* confusing: avoiding conflicts with other libraries
+* Testing whether a selection contains elements.
+if ( $( "div.foo" ).length ) {
+    ...
+}
+* The following function takes care of escaping these characters and places a "#" at the beginning of the ID string
+function jq( myid ) {
+    return "#" + myid.replace( /(:|\.|\[|\])/g, "\\$1" );
+}
+
+* two header buttons
+* data-role="navbar" in header, using <ul>
+* data-role="panel"
+* data-role="collapsible"
+* data-role="controlgroup"
