@@ -78,14 +78,11 @@
 
 	<ol data-role="listview">
 	  <li data-role="list-divider">Activities</li>
-	  <li><a href="#">drawing</a></li>
-	  <li><a href="#">homework</a></li>
 	</ol>
 
       </div><!-- /content -->
       
       <div data-role="footer">
-        <!-- <a href="#login-page" class="ui-btn ui-corner-all ui-shadow ui-icon-grid ui-btn-icon-left">Login</a> -->
 	<a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-gear ui-btn-icon-left">Config</a>
 	<a href="#login-page" id="btn-logout" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Logout</a>
       </div><!-- /footer -->
@@ -122,9 +119,11 @@
 	    <div data-role="controlgroup" data-type="horizontal">
 	      <select id="start-time" name="start-time-picker" data-theme="b">
 		<option value="7:45 am">7:45 am</option>
+		<option value="8:00 am">8:00 am</option>
 	      </select>
 	      <select id="end-time" name="end-time-picker" data-theme="b">
 		<option value="8:30 am">8:30 am</option>
+		<option value="8:35 am">8:35 am</option>
 	      </select>
 	    </div>
 	    <br><br>
@@ -139,7 +138,7 @@
 	  </div><!-- /ui-fieldcontain -->
 	</form>
 
-	<a href="#" class="ui-btn ui-corner-all ui-shadow">Save</a>
+	<a href="#" id="btn-save" class="ui-btn ui-corner-all ui-shadow">Save</a>
 
       </div><!-- /content -->
       
