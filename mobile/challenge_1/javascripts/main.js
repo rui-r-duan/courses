@@ -84,7 +84,7 @@ var activities = [
 function appendActivity() {
     var txt;
     for (var i = 0; i < activities.length; i++) {
-	txt = "<li><a href=#>" + activities[i].activity + "</a></li>";
+	txt = '<li><a href="#">' + activities[i].activity + '</a></li>';
 	$("ol").append(txt);
     }
 }

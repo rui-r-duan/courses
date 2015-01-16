@@ -11,11 +11,11 @@
 
     <!-- LogIn page -->
     <div data-role="page" id="login-page">
-      
+
       <div data-role="header">
         <h1>GTD</h1>
       </div><!-- /header -->
-      
+
       <div data-role="main" class="ui-content">
 	<form>
 	  <div class="ui-fieldcontain">
@@ -32,16 +32,16 @@
 	   data-role="button" class="ui-corner-all"
 	   data-transition="slide">Login</a>
       </div><!-- /content -->
-      
+
       <div data-role="footer">
         <h4>&copy; Ryan Duan</h4>
       </div><!-- /footer -->
-      
+
     </div><!-- /LogIn page -->
 
     <!-- Activities List page -->
     <div data-role="page" id="act-list-page">
-      
+
       <div data-role="header">
         <h1>Activity List</h1>
 	<a href="#add-act-page"
@@ -50,27 +50,28 @@
 	   data-transition="slide"
 	   >Add Activity</a>
       </div><!-- /header -->
-      
-      <div data-role="main" class="ui-content">
 
-	<div data-role="controlgroup" data-type="horizontal">
-	  <select id="month-picker" name="month-picker" class="ui-btn-inline" data-theme="b">
-	    <option value="1">Jan</option>
-	    <option value="2">Feb</option>
-	    <option value="3">Mar</option>
-	  </select>
-	  <select id="date-picker" name="date-picker" data-theme="b">
-	    <option value="1">1</option>
-	    <option value="2">2</option>
-	    <option value="3">3</option>
-	  </select>
-	  <select id="year-picker" name="year-picker" data-theme="b">
-	    <option value="2011">2011</option>
-	    <option value="2012">2012</option>
-	    <option value="2013">2013</option>
-	    <option value="2014">2014</option>
-	  </select>
-	</div>
+      <div data-role="main" class="ui-content">
+	<center>
+	  <div data-role="controlgroup" style="margin-left:auto;margin-right:auto" data-type="horizontal" >
+	    <select id="month-picker" name="month-picker" class="ui-btn-inline" data-theme="b">
+	      <option value="1">Jan</option>
+	      <option value="2">Feb</option>
+	      <option value="3">Mar</option>
+	    </select>
+	    <select id="date-picker" name="date-picker" data-theme="b">
+	      <option value="1">1</option>
+	      <option value="2">2</option>
+	      <option value="3">3</option>
+	    </select>
+	    <select id="year-picker" name="year-picker" data-theme="b">
+	      <option value="2011">2011</option>
+	      <option value="2012">2012</option>
+	      <option value="2013">2013</option>
+	      <option value="2014">2014</option>
+	    </select>
+	  </div>
+	</center>
 	<br>
 
 	<a href="#" id="go" data-role="button" class="ui-corner-all ui-shadow ui-icon-search ui-btn-icon-left">Go</a>
@@ -81,21 +82,21 @@
 	</ol>
 
       </div><!-- /content -->
-      
+
       <div data-role="footer">
 	<a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-gear ui-btn-icon-left">Config</a>
 	<a href="#login-page" id="btn-logout" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Logout</a>
       </div><!-- /footer -->
-      
+
     </div><!-- /Activity List page -->
 
     <!-- Add Activity page -->
     <div data-role="page" id="add-act-page">
-      
+
       <div data-role="header">
         <h1>Add Activity</h1>
       </div><!-- /header -->
-      
+
       <div data-role="main" class="ui-content">
 	<form>
 	  <div class="ui-fieldcontain">
@@ -114,20 +115,22 @@
 		<li><a href="#" data-role="button">Helping Mom</a></li>
 	      </ul>
 	      <br><br>
-	    </div>	    
-	    <label for="time">Time:</label>
-	    <div data-role="controlgroup" data-type="horizontal">
-	      <select id="start-time" name="start-time-picker" data-theme="b">
-		<option value="7:45 am">7:45 am</option>
-		<option value="8:00 am">8:00 am</option>
-	      </select>
-	      <select id="end-time" name="end-time-picker" data-theme="b">
-		<option value="8:30 am">8:30 am</option>
-		<option value="8:35 am">8:35 am</option>
-	      </select>
 	    </div>
+	    <label for="time">Time:</label>
+	    <center>
+	      <div data-role="controlgroup" data-type="horizontal">
+		<select id="start-time" name="start-time-picker" data-theme="b">
+		  <option value="7:45 am">7:45 am</option>
+		  <option value="8:00 am">8:00 am</option>
+		</select>
+		<select id="end-time" name="end-time-picker" data-theme="b">
+		  <option value="8:30 am">8:30 am</option>
+		  <option value="8:35 am">8:35 am</option>
+		</select>
+	      </div>
+	    </center>
 	    <br><br>
-	    
+
 	    <hr>
 	    <label for="note">Note:</label>
 	    <textarea id="note" name="text"></textarea>
@@ -141,23 +144,23 @@
 	<a href="#" id="btn-save" class="ui-btn ui-corner-all ui-shadow">Save</a>
 
       </div><!-- /content -->
-      
+
       <div data-role="footer">
 	<a href="#act-list-page" id="return-to-main"
 	   class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-right"
 	   data-transition="slide"
 	   data-direction="reverse">Return to Main</a>
       </div><!-- /footer -->
-      
+
     </div><!-- /page -->
 
     <!-- LogIn Fail page -->
     <div data-role="page" data-dialog="true" id="login-fail-dialog">
-      
+
       <div data-role="header">
         <h1>Login Failed</h1>
       </div><!-- /header -->
-      
+
       <div data-role="main" class="ui-content">
 	<p>Wrong user name or password.</p>
 	<a href="#login-page" id="btn-login-fail-ok" data-role="button" class="ui-corner-all">OK</a>
