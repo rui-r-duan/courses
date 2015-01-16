@@ -44,7 +44,11 @@
       
       <div data-role="header">
         <h1>Activity List</h1>
-	<a href="#add-act-page" class="ui-btn ui-btn-right ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-right">Add Activity</a>
+	<a href="#add-act-page"
+	   class="ui-btn ui-btn-right ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-right"
+	   id="btn-add-act"
+	   data-transition="slide"
+	   >Add Activity</a>
       </div><!-- /header -->
       
       <div data-role="main" class="ui-content">
@@ -140,7 +144,10 @@
       </div><!-- /content -->
       
       <div data-role="footer">
-	<a href="#act-list-page" id="return-to-main" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-right">Return to Main</a>
+	<a href="#act-list-page" id="return-to-main"
+	   class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-right"
+	   data-transition="slide"
+	   data-direction="reverse">Return to Main</a>
       </div><!-- /footer -->
       
     </div><!-- /page -->
