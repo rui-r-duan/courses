@@ -42,7 +42,7 @@
       
       <div data-role="header">
         <h1>Activity List</h1>
-	<a href="#add-act-page" class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-right">Add Activity</a>
+	<a href="#add-act-page" class="ui-btn ui-btn-right ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-right">Add Activity</a>
       </div><!-- /header -->
       
       <div data-role="main" class="ui-content">
@@ -70,18 +70,18 @@
 	<a href="#" id="go" data-role="button" class="ui-corner-all ui-shadow ui-icon-search ui-btn-icon-left">Go</a>
 	<br>
 
-	<ul data-role="listview">
+	<ol data-role="listview">
 	  <li data-role="list-divider">Activities</li>
-	  <li><a href="#">1. drawing</a></li>
-	  <li><a href="#">2. homework</a></li>
-	</ul>
+	  <li><a href="#">drawing</a></li>
+	  <li><a href="#">homework</a></li>
+	</ol>
 
       </div><!-- /content -->
       
       <div data-role="footer">
-        <a href="#login-page" class="ui-btn ui-corner-all ui-shadow ui-icon-grid ui-btn-icon-left">Login</a>
+        <!-- <a href="#login-page" class="ui-btn ui-corner-all ui-shadow ui-icon-grid ui-btn-icon-left">Login</a> -->
 	<a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-gear ui-btn-icon-left">Config</a>
-	<a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Logout</a>
+	<a href="#login-page" id="btn-logout" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Logout</a>
       </div><!-- /footer -->
       
     </div><!-- /Activity List page -->
