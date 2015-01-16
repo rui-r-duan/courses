@@ -96,8 +96,8 @@
       <div data-role="main" class="ui-content">
 	<form>
 	  <div class="ui-fieldcontain">
-	    <label for="category">Activity:</label>
-	    <a id="category" href="#myPopup" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-icon-carat-d ui-btn-icon-right"></a>
+	    <label for="activity">Activity:</label>
+	    <a id="activity" href="#myPopup" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-icon-carat-d ui-btn-icon-right"></a>
 	    <div data-role="popup" id="myPopup">
 	      <ul data-role="listview">
 		<li data-role="list-divider">Chooose One:</li>
@@ -142,6 +142,20 @@
       </div><!-- /footer -->
       
     </div><!-- /page -->
+
+    <!-- LogIn Fail page -->
+    <div data-role="page" data-dialog="true" id="login-fail-dialog">
+      
+      <div data-role="header">
+        <h1>Login Failed</h1>
+      </div><!-- /header -->
+      
+      <div data-role="main" class="ui-content">
+	<p>Wrong user name or password.</p>
+	<a href="#login-page" id="btn-login-fail-ok" data-role="button" class="ui-corner-all">OK</a>
+      </div><!-- /content -->
+    </div><!-- /LogIn Fail page -->
+
 
     <script src="javascripts/main.js"></script>
   </body>
