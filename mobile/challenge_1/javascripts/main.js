@@ -27,15 +27,16 @@ $(document).ready( function() {
     });
 
     $("#btn-save").click(function() {
-	$(this).attr('href="#act-list-page"');
 	activities.push({activity: $("#activity").text(),
 			 start_time: $("#start-time").val(),
 			 end_time: $("#end-time").val(),
-			 notes: $("#note").text()});
+			 notes: $("#note").val()});
 	var txt = '<li><a href="#">'
 		+ activities[activities.length - 1].activity + '</a></li>';
-	$("ol").append(txt);
-	$("ol").listview("refresh");
+	var activity_list = $("ol");
+	activity_list.append(txt);
+	activity_list.listview("refresh");
+	$(":mobile-pagecontainer").pagecontainer("change", "#act-list-page");
 	console.log(activities[activities.length-1]);
     });
 
