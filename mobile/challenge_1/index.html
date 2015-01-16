@@ -97,13 +97,21 @@
 	<form>
 	  <div class="ui-fieldcontain">
 	    <label for="category">Activity:</label>
-	    <select id="category" name="category-picker" data-theme="b">
-	      <option value="reading">Reading</option>
-	      <option value="gymnastics">Gymnastics</option>
-	      <option value="violin">Violin</option>
-	    </select>
-	    <br><br>
-	    
+	    <a id="category" href="#myPopup" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-icon-carat-d ui-btn-icon-right"></a>
+	    <div data-role="popup" id="myPopup">
+	      <ul data-role="listview">
+		<li data-role="list-divider">Chooose One:</li>
+		<li><a href="#" data-role="button">Reading</a></li>
+		<li><a href="#" data-role="button">Gymnastics</a></li>
+		<li><a href="#" data-role="button">Violin</a></li>
+		<li><a href="#" data-role="button">Drawing</a></li>
+		<li><a href="#" data-role="button">Playing</a></li>
+		<li><a href="#" data-role="button">Homework</a></li>
+		<li><a href="#" data-role="button">Writing</a></li>
+		<li><a href="#" data-role="button">Helping Mom</a></li>
+	      </ul>
+	      <br><br>
+	    </div>	    
 	    <label for="time">Time:</label>
 	    <div data-role="controlgroup" data-type="horizontal">
 	      <select id="start-time" name="start-time-picker" data-theme="b">
@@ -115,13 +123,16 @@
 	    </div>
 	    <br><br>
 	    
+	    <hr>
 	    <label for="note">Note:</label>
 	    <textarea id="note" name="text"></textarea>
-	    <br><br>
+	    <br>
+	    <hr>
+	    <br>
 
 	  </div><!-- /ui-fieldcontain -->
 	</form>
-	
+
 	<a href="#" class="ui-btn ui-corner-all ui-shadow">Save</a>
 
       </div><!-- /content -->
@@ -132,6 +143,6 @@
       
     </div><!-- /page -->
 
-    <script src="javascripts/login.js"></script>
+    <script src="javascripts/main.js"></script>
   </body>
 </html>
