@@ -29,23 +29,14 @@ Key key;
 char plaintext_buf[BUF_LEN];
 char ciphertext_buf[BUF_LEN];
 
-void print_array(char* a, int length)
-{
-    int i;
-    for (i = 0; i < length-1; ++i) {
-        putchar(a[i]);
-    }
-    putchar(a[i]);
-    putchar('\n');
-}
-
 void print_key(Key* pk)
 {
     print_array(pk->p, NUM_CHAR);
     print_array(pk->c, NUM_CHAR);
 }
 
-void read_to_buf(char* buf, int buflen)
+/* return EOF if it encounters EOF, otherwise return the string length */
+size_t read_to_buf(char* buf, int buflen)
 {
     int i;
     char c;
@@ -53,6 +44,11 @@ void read_to_buf(char* buf, int buflen)
         buf[i] = c;
     }
     buf[i] = '\0';
+    if (c == EOF) {
+        return EOF;
+    } else {
+        return i;               /* string length */
+    }
 }
 
 int main(int argc, char* argv[])
@@ -73,22 +69,18 @@ int main(int argc, char* argv[])
     /* seperate the key and the plaintext output */
     putchar('\n');
 
-    /* read plaintext into buffer and output it */
+    /* read plaintext into buffer */
     read_to_buf(plaintext_buf, BUF_LEN);
-    printf("%s\n", plaintext_buf);
-
-    /* seperate the plaintext from the ciphertext */
-    putchar('\n');
 
     /* encrypt the plaintext in the buffer and output it */
     result = subst_enc(&key, plaintext_buf, ciphertext_buf, BUF_LEN);
     if (result == 0) {
         printf("%s\n", ciphertext_buf);
-    } else if (result == -1) {  /* unknown character */
+    } else if (result == -1) {     /* unknown character */
         printf("unknown character encountered\n");
     }
 
-    /* seperate the ciphertext from the decrypted output */
+    /* seperate the ciphertext from the decrypted plaintext */
     putchar('\n');
 
     /* decrypt the ciphertext in the buffer and output it */

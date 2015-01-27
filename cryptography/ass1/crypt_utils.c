@@ -17,3 +17,13 @@ int gen_permutation(const char* input, char* output, int length)
     }
     return 0;
 }
+
+void print_array(char* a, int length)
+{
+    int i;
+    for (i = 0; i < length-1; ++i) {
+        putchar(a[i]);
+    }
+    putchar(a[i]);
+    putchar('\n');
+}
