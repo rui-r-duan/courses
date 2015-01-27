@@ -3,3 +3,7 @@
 *.class
 *.pyc
 *.bak
+*.o
+*.exe
+*.swf
+*.mov
