@@ -22,7 +22,6 @@ else
     echo test 2 FAILED.
 fi
 
-
 # test 3
 ./gentestfile > largeinput
 
@@ -36,3 +35,5 @@ else
     echo large file test FAILED.
 fi
 
+# test 4
+./substcipher --enc --key key input_invalid
