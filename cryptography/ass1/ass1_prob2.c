@@ -26,8 +26,8 @@
 
 /* Global variables */
 char key[NUM_CHARS];           /* program limit: max key length is NUM_CHARS */
-char plaintext_buf[BUF_LEN];
-char ciphertext_buf[BUF_LEN];
+char plaintext_buf[BUF_LEN + NUM_CHARS]; /* + NUM_CHARS in order to contain enough paddings */
+char ciphertext_buf[BUF_LEN + NUM_CHARS];
 
 void print_key(char* pk, int keylen, FILE* out)
 {
