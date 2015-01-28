@@ -17,6 +17,7 @@ char buf[1024];
 
 #define NUM_CHARS 26
 int count[NUM_CHARS] = { 0 };
+int count2[NUM_CHARS] = { 0 };
 char key[NUM_CHARS] = { 0 };    /* at most NUM_CHARS length */
 
 /*
@@ -26,6 +27,13 @@ char key[NUM_CHARS] = { 0 };    /* at most NUM_CHARS length */
 #define MAX_M 9
 double ic[MAX_M][MAX_M] = { 0.0 };
 double avg_ic[MAX_M] = { 0.0 };
+typedef struct _Pair {
+    int i;
+    int j;
+} Pair;
+Pair combinations[45]; /* 9+8+7+...+1=45, 45 combinations for 0<= i<j <=MAX_M */
+double mic[45][NUM_CHARS] = { 0.0 }; /* column are for different shift g */
+double min_g[45];
 
 inline char char_code(char c)
 {
@@ -54,13 +62,14 @@ void char_count_for_seq(int charcnt[], /* output: char count */
                         const char* buf,
                         int r,   /* row (begin from 0) of table in algorithm */
                         int m,   /* step */
+                        int g,   /* shift */
                         int len) /* string length of the whole string in buf */
 {
     int i;
     int index = 0;
     *n = 0;
     for (i = 0; (index = r + i * m) < len; ++i) {
-        ++ charcnt [ char_code(buf[index]) ];
+        ++ charcnt [ (char_code(buf[index]) + g) % 26 ];
         ++(*n);
         /* printf("%c ", buf[index]); */
     }
@@ -76,7 +85,7 @@ double calc_Ic(int m, int r, const char* buf, int strlength)
     int n;
     assert(r < m && r >= 0);
     memset((void*)count, 0, sizeof(count));
-    char_count_for_seq(count, &n, buf, r, m, strlength);
+    char_count_for_seq(count, &n, buf, r, m, 0, strlength);
     /* printf("n = %d\n", n); */
     for (i = 0; i < NUM_CHARS; ++i) {
         /* printf("count[i] = %d\n", count[i]); */
@@ -117,6 +126,40 @@ int find_key_len()
     return result;
 }
 
+void calc_mic(int m, const char* buf, int strlength)
+{
+    int i, j;
+    int g;                      /* shift */
+    int ni, nj;
+    int c = 0;                  /* counter for combinations */
+    for (i = 0; i < m-1; ++i) {
+        for (j = i+1; j < m; ++j) {
+            for (g = 0; g < NUM_CHARS; ++g) {
+                int sum = 0;
+                int k;
+                memset((void*)count, 0, sizeof(count));
+                memset((void*)count2, 0, sizeof(count2));
+                memset((void*)combinations, 0, sizeof(Pair)*45);
+                char_count_for_seq(count, &ni, buf, i, m, 0, strlength);
+                char_count_for_seq(count2, &nj, buf, j, m, g, strlength);
+                combinations[c].i = i;
+                combinations[c].j = j;
+                for (k = 0; k < NUM_CHARS; ++k) {
+                    sum += count[k] * count2[k];
+                }
+                mic[c][g] = (double)sum / (ni * nj);
+                printf("(i:%d,j:%d,g:%d) = %f\n", i, j, g, mic[c][g]);
+            }
+            ++c;
+        }
+    }
+}
+
+/* use global variables */
+void find_min_g()
+{
+}
+
 int main(int argc, char* argv[])
 {
     int i;
@@ -138,12 +181,9 @@ int main(int argc, char* argv[])
     }
     calc_avg_Ic();
     m = find_key_len();
-    if (m == -1) {
-        fprintf(stderr, "wrong key length");
-        fclose(in);
-        return -1;
-    }
     printf("key length = %d\n", m);
+    calc_mic(m, buf, strlength);
+    find_min_g();
     fclose(in);
     return 0;
 }
