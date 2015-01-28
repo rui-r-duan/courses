@@ -1,5 +1,8 @@
-av: ass1_prob3.o vigenere.o
+permcipher: ass1_prob2.o crypt_utils.o perm_cipher.o
 	gcc -g -o $@ $^
+
+av: ass1_prob3.o vigenere.o
+	gcc -g -O2 -o $@ $^
 
 substcipher: ass1_prob1.o crypt_utils.o subst_cipher.o
 	gcc -g -O2 -o $@ $^
