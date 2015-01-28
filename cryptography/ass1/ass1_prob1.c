@@ -71,7 +71,7 @@ void gen_key(FILE* keyfile)
     }
 }
 
-int read_key(FILE* keyfile)
+void read_key(FILE* keyfile)
 {
     int i;
     for (i = 0; i < NUM_CHARS; ++i) {
