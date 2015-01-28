@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include <assert.h>
 
 #define BUF_LEN 1024
@@ -17,6 +18,14 @@ char buf[1024];
 #define NUM_CHARS 26
 int count[NUM_CHARS] = { 0 };
 char key[NUM_CHARS] = { 0 };    /* at most NUM_CHARS length */
+
+/*
+  if we set MAX_M larger, there might be more m that satisfies 0.065 test, they
+  are multiples of the correct m
+ */
+#define MAX_M 9
+double ic[MAX_M][MAX_M] = { 0.0 };
+double avg_ic[MAX_M] = { 0.0 };
 
 inline char char_code(char c)
 {
@@ -76,24 +85,65 @@ double calc_Ic(int m, int r, const char* buf, int strlength)
     return (double)sum / (n * (n - 1));
 }
 
+/* use global variables */
+void calc_avg_Ic()
+{
+    int m, i;
+    double s = 0;
+    for (m = 1; m <= MAX_M; ++m) {
+        s = 0;
+        for (i = 0; i < m; ++i) {
+            s += ic[m-1][i];
+        }
+        avg_ic[m-1] = s / m;
+        printf("m = %d, avg_ic = %f\n", m, avg_ic[m-1]);
+    }
+}
+
+/* use global variables */
+int find_key_len()
+{
+    int m;
+    double min_diff = 100.0;
+    int result = -1;
+    for (m = 1; m <= MAX_M; ++m) {
+        double diff = fabs(avg_ic[m-1] - 0.065);
+        printf("m = %d, diff = %f\n", m, diff);
+        if (diff < min_diff) {
+            min_diff = diff;
+            result = m;
+        }
+    }
+    return result;
+}
+
 int main(int argc, char* argv[])
 {
     int i;
+    int r;                  /* row in table */
+    int m;                  /* step */
+    int strlength;
     FILE* in = fopen(argv[1], "r");
     if (NULL == in) {
         return -1;
     }
-    while (read_to_buf(buf, BUF_LEN, in)) {
-        int r;
-        int m;
-        int strlength = strlen(buf);
-        for (m = 2; m < 6; ++m) {
-            printf("\n -- m = %d\n", m);
-            for (r = 0; r < m; ++r) {
-                printf("Ic_row[%d]: %f\n", r, calc_Ic(m, r, buf, strlength));
-            }
+    (void)read_to_buf(buf, BUF_LEN, in);
+    strlength = strlen(buf);
+    for (m = 1; m <= MAX_M; ++m) {
+        printf("\n -- m = %d\n", m);
+        for (r = 0; r < m; ++r) {
+            ic[m-1][r] = calc_Ic(m, r, buf, strlength);
+            printf("Ic_row[%d]: %f\n", r, ic[m-1][r]);
         }
     }
+    calc_avg_Ic();
+    m = find_key_len();
+    if (m == -1) {
+        fprintf(stderr, "wrong key length");
+        fclose(in);
+        return -1;
+    }
+    printf("key length = %d\n", m);
     fclose(in);
     return 0;
 }
