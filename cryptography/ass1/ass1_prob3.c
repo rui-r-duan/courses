@@ -114,7 +114,7 @@ int find_key_len()
     return result;
 }
 
-void calc_mic(int m, const char* buf, int strlength)
+void calc_MIc(int m, const char* buf, int strlength)
 {
     int i, j;
     int g;                      /* shift */
@@ -178,8 +178,8 @@ void calc_key_equation(int m)
 void try_keys(int m)
 {
     int i, j;
-    FILE* out = NULL;
-    char filename[8] = { 0 };
+    /* FILE* out = NULL; */
+    /* char filename[8] = { 0 }; */
     for (i = 0; i < 26; ++i) {
         key[0] = 'a' + i;
         for (j = 1; j < m; ++j) {
@@ -187,8 +187,8 @@ void try_keys(int m)
         }
         printf("=== key: %s\n", key);
         (void)vigenere_dec(key, m, buf, plaintext, BUF_LEN);
-        sprintf(filename, "vig_out%02d", i);
-        printf("%s\n", filename);
+        /* sprintf(filename, "vig_out%02d", i); */
+        /* printf("%s\n", filename); */
         printf("%s\n\n", plaintext);
     }
 }
@@ -213,7 +213,7 @@ int main(int argc, char* argv[])
     calc_avg_Ic();
     m = find_key_len();
     printf("key length = %d\n", m);
-    calc_mic(m, buf, strlength);
+    calc_MIc(m, buf, strlength);
     find_g(m);
     calc_key_equation(m);
     try_keys(m);
