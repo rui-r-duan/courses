@@ -48,20 +48,22 @@ int subst_dec(Key* k, const char* cb, char* pb, int buflen)
     int i;
     int j;
     memset((void*)pb, 0, buflen);
+
     for (i = 0; cb[i] != '\0' && i < buflen; ++i) {
         /* get the index of cb[i] in the key */
-        for (j = 0; j < NUM_CHAR; ++j) {
+        for (j = 0; j < NUM_CHARS; ++j) {
             if (k->c[j] == cb[i]) { /* j is the index */
                 break;
             }
         }
-        if (j == NUM_CHAR) {
+        if (j == NUM_CHARS) {
             /* the char cb[i] was not found in the key */
             fprintf(stderr,
-                    "UNKNOWN CHARACTER: '%c' cannot be decrypted!\n", cb[i]);
+                    "UNKNOWN CHARACTER: '%c' (pos: %d) cannot be decrypted!\n", cb[i], i);
             return -1;
         }
         pb[i] = k->p[j];
+
     }
     return 0;
 }

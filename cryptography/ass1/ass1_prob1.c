@@ -29,66 +29,171 @@ Key key;
 char plaintext_buf[BUF_LEN];
 char ciphertext_buf[BUF_LEN];
 
-void print_key(Key* pk)
+void print_key(Key* pk, FILE* out)
 {
-    print_array(pk->p, NUM_CHAR);
-    print_array(pk->c, NUM_CHAR);
+    int i;
+    for (i = 0; i < NUM_CHARS; ++i) {
+        fputc(pk->p[i], out);
+    }
+    fputc('\n', out);
+    for (i = 0; i < NUM_CHARS; ++i) {
+        fputc(pk->c[i], out);
+    }
 }
 
-/* return EOF if it encounters EOF, otherwise return the string length */
-size_t read_to_buf(char* buf, int buflen)
+/* return the length of the string that has been read in */
+size_t read_to_buf(char* buf, int buflen, FILE* in)
 {
     int i;
     char c;
-    for (i = 0; (c = getchar()) != EOF && i < buflen - 1; ++i) {
+    for (i = 0; i < buflen - 1 && (c = fgetc(in)) != EOF; ++i) {
         buf[i] = c;
     }
     buf[i] = '\0';
-    if (c == EOF) {
-        return EOF;
-    } else {
-        return i;               /* string length */
+    return i;               /* string length */
+}
+
+void print_usage(void)
+{
+    printf("Usage:\n");
+    printf("substcipher --genkey keyfile\n");
+    printf("substcipher --enc [outfile] --key keyfile inputfile\n");
+    printf("substcipher --dec [outfile] --key keyfile inputfile\n");
+}
+
+void gen_key(FILE* keyfile)
+{
+    memset((void*)key.p, 0, NUM_CHARS);
+    memset((void*)key.c, 0, NUM_CHARS);
+    list_chars(key.p, NUM_CHARS);
+    if (gen_permutation(key.p, key.c, NUM_CHARS) == 0) {
+        print_key(&key, keyfile);
     }
+}
+
+int read_key(FILE* keyfile)
+{
+    int i;
+    for (i = 0; i < NUM_CHARS; ++i) {
+        key.p[i] = fgetc(keyfile);
+    }
+    fgetc(keyfile);             /* '\n' */
+    for (i = 0; i < NUM_CHARS; ++i) {
+        key.c[i] = fgetc(keyfile);
+    }
+}
+
+int encrypt(FILE* keyfile, FILE* in, FILE* enc_out)
+{
+    int result;
+
+    memset((void*)plaintext_buf, 0, BUF_LEN);
+
+    read_key(keyfile);
+
+    while (read_to_buf(plaintext_buf, BUF_LEN, in) != 0) {
+        result = subst_enc(&key, plaintext_buf, ciphertext_buf, BUF_LEN);
+        if (result == 0) {
+            fprintf(enc_out, "%s", ciphertext_buf);
+        } else if (result == -1) {     /* unknown character */
+            printf("unknown character encountered\n");
+            return result;
+        }
+    }
+    return result;
+}
+
+int decrypt(FILE* keyfile, FILE* in, FILE* dec_out)
+{
+    int result;
+
+    memset((void*)ciphertext_buf, 0, BUF_LEN);
+
+    read_key(keyfile);
+
+    while (read_to_buf(ciphertext_buf, BUF_LEN, in) != 0) {
+        result = subst_dec(&key, ciphertext_buf, plaintext_buf, BUF_LEN);
+        if (result == 0) {
+            fprintf(dec_out, "%s", plaintext_buf);
+        } else if (result == -1) {  /* unkown character */
+            printf("unknown character encountered\n");
+        }
+    }
+    return result;
 }
 
 int main(int argc, char* argv[])
 {
     int result = 0;
+    FILE* input = NULL;
+    FILE* key_in = NULL;
+    FILE* key_out = NULL;
+    FILE* enc_out = stdout;
+    FILE* dec_out = stdout;
 
-    memset((void*)key.p, 0, NUM_CHAR);
-    memset((void*)key.c, 0, NUM_CHAR);
-    memset((void*)plaintext_buf, 0, BUF_LEN);
-    memset((void*)ciphertext_buf, 0, BUF_LEN);
-
-    /* generate a key and print it*/
-    list_chars(key.p, NUM_CHAR);
-    if (gen_permutation(key.p, key.c, NUM_CHAR) == 0) {
-        print_key(&key);
-    }
-
-    /* seperate the key and the plaintext output */
-    putchar('\n');
-
-    /* read plaintext into buffer */
-    read_to_buf(plaintext_buf, BUF_LEN);
-
-    /* encrypt the plaintext in the buffer and output it */
-    result = subst_enc(&key, plaintext_buf, ciphertext_buf, BUF_LEN);
-    if (result == 0) {
-        printf("%s\n", ciphertext_buf);
-    } else if (result == -1) {     /* unknown character */
-        printf("unknown character encountered\n");
-    }
-
-    /* seperate the ciphertext from the decrypted plaintext */
-    putchar('\n');
-
-    /* decrypt the ciphertext in the buffer and output it */
-    result = subst_dec(&key, ciphertext_buf, plaintext_buf, BUF_LEN);
-    if (result == 0) {
-        printf("%s\n", plaintext_buf);
-    } else if (result == -1) {  /* unkown character */
-        printf("unknown character encountered\n");
+    if (argc == 3 && strcmp(argv[1], "--genkey") == 0) {
+        key_out = fopen(argv[2], "w");
+        if (NULL == key_out) {
+            return -1;
+        }
+        gen_key(key_out);
+        fclose(key_out);
+        return 0;
+    } else if (argc == 5 &&
+               strcmp(argv[1], "--enc") == 0 &&
+               strcmp(argv[2], "--key") == 0) {
+        key_in = fopen(argv[3], "r");
+        input = fopen(argv[4], "r");
+        if (NULL == key_in || NULL == input) {
+            return -1;
+        }
+        result = encrypt(key_in, input, stdout);
+        fclose(input);
+        fclose(key_in);
+        return result;
+    } else if (argc == 6 &&
+               strcmp(argv[1], "--enc") == 0 &&
+               strcmp(argv[3], "--key") == 0) {
+        key_in = fopen(argv[4], "r");
+        input = fopen(argv[5], "r");
+        enc_out = fopen(argv[2], "w");
+        if (NULL == key_in || NULL == input || NULL == enc_out) {
+            return -1;
+        }
+        result = encrypt(key_in, input, enc_out);
+        fclose(enc_out);
+        fclose(input);
+        fclose(key_in);
+        return result;
+    } else if (argc == 5 &&
+               strcmp(argv[1], "--dec") == 0 &&
+               strcmp(argv[2], "--key") == 0) {
+        key_in = fopen(argv[3], "r");
+        input = fopen(argv[4], "r");
+        if (NULL == key_in || NULL == input) {
+            return -1;
+        }
+        decrypt(key_in, input, stdout);
+        fclose(input);
+        fclose(key_in);
+        return 0;
+    } else if (argc == 6 &&
+               strcmp(argv[1], "--dec") == 0 &&
+               strcmp(argv[3], "--key") == 0) {
+        key_in = fopen(argv[4], "r");
+        input = fopen(argv[5], "r");
+        dec_out = fopen(argv[2], "w");
+        if (NULL == key_in || NULL == input || NULL == dec_out) {
+            return -1;
+        }
+        result = decrypt(key_in, input, dec_out);
+        fclose(dec_out);
+        fclose(input);
+        fclose(key_in);
+        return result;
+    } else {
+        print_usage();
+        return 0;
     }
 
     return 0;

@@ -1,12 +1,12 @@
 #ifndef SUBST_CIPHER_H
 #define SUBST_CIPHER_H
 
-#define NUM_CHAR 29
+#define NUM_CHARS 29
 
 typedef struct _Key
 {
-    char p[NUM_CHAR];           /* plaintext chars */
-    char c[NUM_CHAR];           /* ciphertext chars */
+    char p[NUM_CHARS];           /* plaintext chars */
+    char c[NUM_CHARS];           /* ciphertext chars */
 } Key;
 
 void list_chars(char* buf, int len);
