@@ -4,8 +4,6 @@
 
    only process lower case letters on Z_26 character set
 
-   compile with --std=c99 option
-
    @author: Ryan Duan
 */
 
@@ -13,16 +11,12 @@
 #include <string.h>
 #include <assert.h>
 
-char table[5][1024];
-
 #define BUF_LEN 1024
 char buf[1024];
 
-char key[5] = { 0 };
-
 #define NUM_CHARS 26
 int count[NUM_CHARS] = { 0 };
-double freq[NUM_CHARS] = { 0.0 };
+char key[NUM_CHARS] = { 0 };    /* at most NUM_CHARS length */
 
 inline char char_code(char c)
 {
@@ -59,11 +53,9 @@ void char_count_for_seq(int charcnt[], /* output: char count */
     for (i = 0; (index = r + i * m) < len; ++i) {
         ++ charcnt [ char_code(buf[index]) ];
         ++(*n);
-        printf("%c\n", buf[index]);
+        /* printf("%c ", buf[index]); */
     }
-    /* for (i = 0; i < NUM_CHARS; ++i) { */
-    /*     freq[i] = count[i] / (double)strlength; */
-    /* } */
+    putchar('\n');
 }
 
 /* calculate the index of coincidence of the r-th row of the table (buf) */
@@ -71,22 +63,17 @@ void char_count_for_seq(int charcnt[], /* output: char count */
 double calc_Ic(int m, int r, const char* buf, int strlength)
 {
     int i;
-    int sum;
-    assert(r < m && r > 0);
+    int sum = 0;
+    int n;
+    assert(r < m && r >= 0);
     memset((void*)count, 0, sizeof(count));
-    char_count_for_seq(count, buf, r, m, strlength);
+    char_count_for_seq(count, &n, buf, r, m, strlength);
+    /* printf("n = %d\n", n); */
     for (i = 0; i < NUM_CHARS; ++i) {
+        /* printf("count[i] = %d\n", count[i]); */
         sum += count[i] * (count[i] - 1);
     }
-    return (double)sum / (strlength * (strlength - 1));
-}
-
-/* use global variables */
-void fill_table()
-{
-    int i, j;
-    memset((void*)table, 0, sizeof(table));
-    strncpy(&table[0][0], buf, BUF_LEN);
+    return (double)sum / (n * (n - 1));
 }
 
 int main(int argc, char* argv[])
@@ -97,11 +84,14 @@ int main(int argc, char* argv[])
         return -1;
     }
     while (read_to_buf(buf, BUF_LEN, in)) {
-        /* fill_table(); */
         int r;
+        int m;
         int strlength = strlen(buf);
-        for (r = 0; r < 1; r++) {
-            printf("Ic_row_1: %f\n", calc_Ic(2, r, buf, strlength));
+        for (m = 2; m < 6; ++m) {
+            printf("\n -- m = %d\n", m);
+            for (r = 0; r < m; ++r) {
+                printf("Ic_row[%d]: %f\n", r, calc_Ic(m, r, buf, strlength));
+            }
         }
     }
     fclose(in);
