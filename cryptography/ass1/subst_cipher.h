@@ -3,8 +3,7 @@
 
 #define NUM_CHARS 29
 
-typedef struct _Key
-{
+typedef struct _Key {
     char p[NUM_CHARS];           /* plaintext chars */
     char c[NUM_CHARS];           /* ciphertext chars */
 } Key;
