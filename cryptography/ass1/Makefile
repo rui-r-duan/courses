@@ -1,4 +1,4 @@
-av: ass1_prob3.o
+av: ass1_prob3.o vigenere.o
 	gcc -g -o $@ $^
 
 substcipher: ass1_prob1.o crypt_utils.o subst_cipher.o
