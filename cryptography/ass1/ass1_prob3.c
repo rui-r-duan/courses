@@ -25,15 +25,17 @@ char key[NUM_CHARS] = { 0 };    /* at most NUM_CHARS length */
   are multiples of the correct m
  */
 #define MAX_M 9
+/* 8+7+...+1=36, 36 combinations for 0<= i<j <=MAX_M-1 */
+#define MAX_COMBINATION 36
 double ic[MAX_M][MAX_M] = { 0.0 };
 double avg_ic[MAX_M] = { 0.0 };
 typedef struct _Pair {
     int i;
     int j;
 } Pair;
-Pair combinations[45]; /* 9+8+7+...+1=45, 45 combinations for 0<= i<j <=MAX_M */
-double mic[45][NUM_CHARS] = { 0.0 }; /* column are for different shift g */
-double min_g[45];
+Pair combinations[MAX_COMBINATION];
+double mic[MAX_COMBINATION][NUM_CHARS] = { 0.0 }; /* column are for different shift g */
+int min_g_index[MAX_COMBINATION] = { 0 };
 
 inline char char_code(char c)
 {
@@ -94,7 +96,7 @@ double calc_Ic(int m, int r, const char* buf, int strlength)
     return (double)sum / (n * (n - 1));
 }
 
-/* use global variables */
+/* Use global variables */
 void calc_avg_Ic()
 {
     int m, i;
@@ -132,6 +134,7 @@ void calc_mic(int m, const char* buf, int strlength)
     int g;                      /* shift */
     int ni, nj;
     int c = 0;                  /* counter for combinations */
+    memset((void*)combinations, 0, sizeof(Pair)*MAX_COMBINATION);
     for (i = 0; i < m-1; ++i) {
         for (j = i+1; j < m; ++j) {
             for (g = 0; g < NUM_CHARS; ++g) {
@@ -139,25 +142,44 @@ void calc_mic(int m, const char* buf, int strlength)
                 int k;
                 memset((void*)count, 0, sizeof(count));
                 memset((void*)count2, 0, sizeof(count2));
-                memset((void*)combinations, 0, sizeof(Pair)*45);
                 char_count_for_seq(count, &ni, buf, i, m, 0, strlength);
                 char_count_for_seq(count2, &nj, buf, j, m, g, strlength);
-                combinations[c].i = i;
-                combinations[c].j = j;
                 for (k = 0; k < NUM_CHARS; ++k) {
                     sum += count[k] * count2[k];
                 }
                 mic[c][g] = (double)sum / (ni * nj);
                 printf("(i:%d,j:%d,g:%d) = %f\n", i, j, g, mic[c][g]);
             }
+            combinations[c].i = i;
+            combinations[c].j = j;
             ++c;
         }
     }
 }
 
 /* use global variables */
-void find_min_g()
+void find_min_g(int m)
 {
+    int s = 0;
+    int k;
+    /* for key length == m, the number of (i,j) combinations is s */
+    for (k = m-1; k > 0; --k) {
+        s += k;
+    }
+    for (k = 0; k < s; ++k) {   /* iterate over all (i,j) combinations */
+        int g;
+        double min_diff = 100.0;
+        for (g = 0; g < NUM_CHARS; ++g) {
+            double diff = fabs(mic[k][g] - 0.065);
+            printf("diff = %f\n", diff);
+            if (diff < min_diff) {
+                min_diff = diff;
+                min_g_index[k] = g;
+            }
+        }
+        printf("g(i:%d,j:%d) = %d\n", combinations[k].i, combinations[k].j,
+               min_g_index[k]);
+    }
 }
 
 int main(int argc, char* argv[])
@@ -183,7 +205,7 @@ int main(int argc, char* argv[])
     m = find_key_len();
     printf("key length = %d\n", m);
     calc_mic(m, buf, strlength);
-    find_min_g();
+    find_min_g(m);
     fclose(in);
     return 0;
 }
