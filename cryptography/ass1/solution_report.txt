@@ -1,0 +1,183 @@
+Name: Rui Duan
+ID: 0561866
+
+----------------------------------------------------------------
+Problem 1
+----------------------------------------------------------------
+Key:
+abcdefghijklmnopqrstuvwxyz ,.
+seiocgdlnbufxwqj rp,tzhkyva.m
+
+Input:
+if continents were dogs, europe would win best in show. the landmass is a seemingly perfect combination of pristine beaches, charming villages, historic cities and stunning nature. there is so much to see that planning a trip can be overwhelming... mostly because it is overwhelmingly expensive. but good news, now is arguably one of the best times to visit europe we have seen in years. and it is not just because the euro is at its lowest level in over a decade. flight prices are on the predicted decline, as well. airfare experts, including expedia and the airlines reporting corporation, foresee that given the falling price of fuel and the rise of budget airlines, airfare will get cheaper in two thousand and fifteen. what is more, a recent report from these experts found that the cheapest time to buy international flights is about one hundred and seventy one days before a trip.
+
+Encryption Output:
+ngaiqw,nwcw,pahcrcaoqdp.actrqjcahqtfoahnwaecp,anwaplqhma,lcafswoxsppanpasapccxnwdfyajcrgci,aiqxenws,nqwaqgajrnp,nwcaecsilcp.ailsrxnwdaznffsdcp.alnp,qrniain,ncpaswoap,twwnwdaws,trcma,lcrcanpapqaxtila,qapcca,ls,ajfswwnwdasa,rnjaiswaecaqzcrhlcfxnwdmmmaxqp,fyaecistpcan,anpaqzcrhlcfxnwdfyackjcwpnzcmaet,adqqoawchp.awqhanpasrdtsefyaqwcaqga,lcaecp,a,nxcpa,qaznpn,actrqjcahcalszcapccwanwaycsrpmaswoan,anpawq,abtp,aecistpca,lcactrqanpas,an,pafqhcp,afczcfanwaqzcrasaocisocmagfndl,ajrnicpasrcaqwa,lcajrconi,coaocifnwc.aspahcffmasnrgsrcackjcr,p.anwiftonwdackjconsaswoa,lcasnrfnwcparcjqr,nwdaiqrjqrs,nqw.agqrcpcca,ls,adnzcwa,lcagsffnwdajrnicaqgagtcfaswoa,lcarnpcaqgaetodc,asnrfnwcp.asnrgsrcahnffadc,ailcsjcranwa,hqa,lqtpswoaswoagng,ccwmahls,anpaxqrc.asarcicw,arcjqr,agrqxa,lcpcackjcr,pagqtwoa,ls,a,lcailcsjcp,a,nxca,qaetyanw,crws,nqwsfagfndl,panpaseqt,aqwcaltworcoaswoapczcw,yaqwcaosypaecgqrcasa,rnjm
+
+Decryption Output:
+if continents were dogs, europe would win best in show. the landmass is a seemingly perfect combination of pristine beaches, charming villages, historic cities and stunning nature. there is so much to see that planning a trip can be overwhelming... mostly because it is overwhelmingly expensive. but good news, now is arguably one of the best times to visit europe we have seen in years. and it is not just because the euro is at its lowest level in over a decade. flight prices are on the predicted decline, as well. airfare experts, including expedia and the airlines reporting corporation, foresee that given the falling price of fuel and the rise of budget airlines, airfare will get cheaper in two thousand and fifteen. what is more, a recent report from these experts found that the cheapest time to buy international flights is about one hundred and seventy one days before a trip.
+
+--------------------------------
+Program 1 Sample Usage
+--------------------------------
+$> make substcipher
+$> substcipher --genkey key
+$> substcipher --enc encout1_prob1 --key key input1
+$> substcipher --dec decout1_prob1 --key key encout1_prob1
+
+
+----------------------------------------------------------------
+Problem 2
+----------------------------------------------------------------
+Key:
+6
+
+3 2 5 1 0 4
+
+Input:
+if continents were dogs, europe would win best in show. the landmass is a seemingly perfect combination of pristine beaches, charming villages, historic cities and stunning nature. there is so much to see that planning a trip can be overwhelming... mostly because it is overwhelmingly expensive. but good news, now is arguably one of the best times to visit europe we have seen in years. and it is not just because the euro is at its lowest level in over a decade. flight prices are on the predicted decline, as well. airfare experts, including expedia and the airlines reporting corporation, foresee that given the falling price of fuel and the rise of budget airlines, airfare will get cheaper in two thousand and fifteen. what is more, a recent report from these experts found that the cheapest time to buy international flights is about one hundred and seventy one days before a trip.
+
+Encryption Output:
+c nfioentitnewe srgo,d srupe oowl euiw  dntsieb hsw noht  .ednaalmi  sssesm aelg niyfrcepeocb tmtaoniifop n tsniriebc ea,sceh mrnahiivl glse ga,tsrihoc tcii sneiatsn dugnnin ru.taeehet r soi scu m hs eoteah t tnailpna tgn  paircebo n wreevhni.mlgm s..o yeltbsu acei  tisrehvowimglene pylxisenevub  .tdonog ,snwe i  wosugbraao eyln fho tebt esmist e oit v tuiseepwor ahe evee s ny anie .nsratii d on  sttsbuj uaecesehet   osrui tta iole swl vtsei  lenreavo cedd af i.el trhgpseaci o  ern erhtpciedetedl dc,eani ewl sliaf .r exraetr,epscnui lgneid deapxidnta  a rehien ilsopterr gonicrotpra,nfoi seeroeah t tev ign eahtfni llgci rpef efouna  ld eihtro  esfgdtuberiia l,saen aferirli w l thegcep aert oniwohst u dnnaaift df.nwee  tsahiro,m er ca e tenertrfop  mhort exseetr epsnu ofdtatht c eehhse patemtit ub  oyetnniroiatanlfg li ssthiobta uenho  rddnuednsa  neyvetendo   seyaberaof ir.t p
+
+Decryption Output:
+if continents were dogs, europe would win best in show. the landmass is a seemingly perfect combination of pristine beaches, charming villages, historic cities and stunning nature. there is so much to see that planning a trip can be overwhelming... mostly because it is overwhelmingly expensive. but good news, now is arguably one of the best times to visit europe we have seen in years. and it is not just because the euro is at its lowest level in over a decade. flight prices are on the predicted decline, as well. airfare experts, including expedia and the airlines reporting corporation, foresee that given the falling price of fuel and the rise of budget airlines, airfare will get cheaper in two thousand and fifteen. what is more, a recent report from these experts found that the cheapest time to buy international flights is about one hundred and seventy one days before a trip.
+
+--------------------------------
+Program 2 Sample Usage
+--------------------------------
+$> make permcipher
+$> permcipher --genkey key --keylen 6
+$> permcipher --enc encout1_prob2 --key key input1
+$> permcipher --dec decout1_prob2 --key key encout1_prob2
+
+----------------------------------------------------------------
+Problem 3 (problem 4 in the assignment)
+----------------------------------------------------------------
+
+From the program output, we can see the meaningful decryption result is with
+the key:
+
+crypt
+
+
+Input:
+cjnpkgrlilqwawbnuptgkerwxuzviaiiysxckwdntjawhqcutttvptewtrpgvcwlkkkgczafsihrimixukrwxrfmgfgkfxgukpjvvzmcmjvawbnuptgcicvxvkgczkekgcqbchvnrqhhwiadfrcyxgvzqqtuvbdguvttkccdpvvfphftamzxqwrtgukcelqlrxgvycwtncbjkkeerecjqihvrjzpkkfexqgjtpjfupemswwxcjqxzpjtxkvlyaeaemwhovudkmnfxegfrwxtdyiaecyhlgjfpogymbxyfpzxxvpngkxfitnkfdniyrwxukssxpkqabmvkgcqbciagpadfrcyxgvyyimjvwpkgscwbpurwxqkftkorrwvnrqhxurlslgvjxmvccraceathhtfpmeygczwgutttvttkatmcvgiltwcsmjmvyghitfzaxodkbf
+
+Program Output:
+key length = 5
+key_equation[0] = 0
+key_equation[1] = 15
+key_equation[2] = 22
+key_equation[3] = 13
+key_equation[4] = 17
+
+=== key: apwnr
+vig_out00
+curctgcpvuqhejknftgpkpvjgukzvjitcfgcvaqwtuejqqnygctgtgnwevcpvnaytkvkpiaqwvqrtqvguvvjgrqqtogvjkpuvtwevkqpvjgejknftgpctgigvvkpikpotlqmguencuuqwteqornckpvkudcugfqpugxgtcnhcevqtuotlqmgqhvgpuvgruqwvkpvjgjcnnfwtkpiencuuvqvcnmykvjrgqrngyjqycnmdajgcuukipuxktvwcnnapqjqogyqtmyjkngqvjgtocvjencuugujcxgjqogyqtmgxgtapkijvcnvjqwijvjguvwfgpvunkmgotlqmgvjgaeqornckpvjcvvjgactgdgjkpfvjgqvjgtocvjencuugucpfuggnkvvngejcpegqhejcvejkpiwrygctgxgtaeqpegtpgfcdqwvvjkurtqdngooooo
+
+=== key: bqxos
+vig_out01
+btqbsfboutpgdijmesfojouiftjyuihsbefbuzpvstdippmxfbsfsfmvduboumzxsjujohzpvupqspuftuuifqppsnfuijotusvdujpouifdijmesfobsfhfuujohjonskplftdmbttpvsdpnqmbjoujtcbtfepotfwfsbmgbdupstnskplfpgufotufqtpvujouifibmmevsjohdmbttupubmlxjuiqfpqmfxipxbmlczifbttjhotwjsuvbmmzopipnfxpslxijmfpuifsnbuidmbttftibwfipnfxpslfwfszojhiubmuipvhiuiftuvefoutmjlfnskplfuifzdpnqmbjouibuuifzbsfcfijoeuifpuifsnbuidmbttftboetffmjuumfdibodfpgdibudijohvqxfbsfwfszdpodfsofebcpvuuijtqspcmfnnnnn
+
+=== key: crypt
+vig_out02
+aspareantsofchildreninthesixthgradeatyourschoolwearereluctantlywritingyoutoprotestthepoormethinstructionthechildrenaregettinginmrjokesclassourcomplaintisbasedonseveralfactorsmrjokeoftenstepsoutinthehallduringclasstotalkwithpeoplewhowalkbyheassignsvirtuallynohomeworkwhileothermathclasseshavehomeworkeverynightalthoughthestudentslikemrjoketheycomplainthattheyarebehindtheothermathclassesandseelittlechanceofchatchingupweareveryconcernedaboutthisproblemmmmm
+
+=== key: dszqu
+vig_out03
+zrozqdzmsrnebghkcqdmhmsgdrhwsgfqzcdzsxntqrbgnnkvdzqdqdktbszmskxvqhshmfxntsnoqnsdrssgdonnqldsghmrsqtbshnmsgdbghkcqdmzqdfdsshmfhmlqinjdrbkzrrntqbnlokzhmshrazrdcnmrdudqzkezbsnqrlqinjdnesdmrsdorntshmsgdgzkkctqhmfbkzrrsnszkjvhsgodnokdvgnvzkjaxgdzrrhfmruhqstzkkxmngnldvnqjvghkdnsgdqlzsgbkzrrdrgzudgnldvnqjdudqxmhfgszksgntfgsgdrstcdmsrkhjdlqinjdsgdxbnlokzhmsgzssgdxzqdadghmcsgdnsgdqlzsgbkzrrdrzmcrddkhsskdbgzmbdnebgzsbghmftovdzqdudqxbnmbdqmdczantssghroqnakdlllll
+
+=== key: etarv
+vig_out04
+yqnypcylrqmdafgjbpclglrfcqgvrfepybcyrwmspqafmmjucypcpcjsarylrjwupgrglewmsrmnpmrcqrrfcnmmpkcrfglqrpsargmlrfcafgjbpclypcecrrgleglkphmicqajyqqmspamknjyglrgqzyqcbmlqctcpyjdyarmpqkphmicmdrclqrcnqmsrglrfcfyjjbspgleajyqqrmryjiugrfncmnjcufmuyjizwfcyqqgelqtgprsyjjwlmfmkcumpiufgjcmrfcpkyrfajyqqcqfytcfmkcumpictcpwlgefryjrfmsefrfcqrsbclrqjgickphmicrfcwamknjyglrfyrrfcwypczcfglbrfcmrfcpkyrfajyqqcqylbqccjgrrjcafylacmdafyrafglesnucypctcpwamlacplcbyzmsrrfgqnpmzjckkkkk
+
+=== key: fubsw
+vig_out05
+xpmxobxkqplczefiaobkfkqebpfuqedoxabxqvlropzellitbxobobirzqxkqivtofqfkdvlrqlmolqbpqqebmllojbqefkpqorzqflkqebzefiaobkxobdbqqfkdfkjoglhbpzixpplrozljmixfkqfpyxpbalkpbsboxicxzqlopjoglhblcqbkpqbmplrqfkqebexiiarofkdzixppqlqxihtfqemblmibteltxihyvebxppfdkpsfoqrxiivkleljbtlohtefiblqebojxqezixppbpexsbeljbtlohbsbovkfdeqxiqelrdeqebpqrabkqpifhbjoglhbqebvzljmixfkqexqqebvxobybefkaqeblqebojxqezixppbpxkapbbifqqibzexkzblczexqzefkdrmtbxobsbovzlkzbokbaxylrqqefpmolyibjjjjj
+
+=== key: gvctx
+vig_out06
+wolwnawjpokbydehznajejpdaoetpdcnwzawpukqnoydkkhsawnanahqypwjphusnepejcukqpklnkpaoppdalkkniapdejopnqypekjpdaydehznajwnacappejcejinfkgaoyhwookqnykilhwejpeoxwoazkjoaranwhbwypknoinfkgakbpajopalokqpejpdadwhhzqnejcyhwoopkpwhgsepdlaklhasdkswhgxudawooecjorenpqwhhujkdkiaskngsdehakpdaniwpdyhwooaodwradkiaskngaranujecdpwhpdkqcdpdaopqzajpohegainfkgapdauykilhwejpdwppdauwnaxadejzpdakpdaniwpdyhwooaowjzoaahepphaydwjyakbydwpydejcqlsawnaranuykjyanjazwxkqppdeolnkxhaiiiii
+
+=== key: hwduy
+vig_out07
+vnkvmzvionjaxcdgymzidioczndsocbmvyzvotjpmnxcjjgrzvmzmzgpxoviogtrmdodibtjpojkmjoznooczkjjmhzocdinompxodjioczxcdgymzivmzbzoodibdihmejfznxgvnnjpmxjhkgvdiodnwvnzyjinzqzmvgavxojmnhmejfzjaozinozknjpodioczcvggypmdibxgvnnojovgfrdockzjkgzrcjrvgfwtczvnndbinqdmopvggtijcjhzrjmfrcdgzjoczmhvocxgvnnzncvqzcjhzrjmfzqzmtidbcovgocjpbcocznopyziongdfzhmejfzocztxjhkgvdiocvoocztvmzwzcdiyoczjoczmhvocxgvnnznviynzzgdoogzxcvixzjaxcvoxcdibpkrzvmzqzmtxjixzmizyvwjpoocdnkmjwgzhhhhh
+
+=== key: ixevz
+vig_out08
+umjulyuhnmizwbcfxlyhchnbymcrnbaluxyunsiolmwbiifqyulylyfownuhnfsqlcnchasionijlinymnnbyjiilgynbchmnlowncihnbywbcfxlyhulyaynnchachgldieymwfummiolwigjfuchncmvumyxihmypylufzuwnilmgldieyiznyhmnyjmionchnbybuffxolchawfummninufeqcnbjyijfyqbiqufevsbyummcahmpclnouffshibigyqileqbcfyinbylgunbwfummymbupybigyqileypylshcabnufnbioabnbymnoxyhnmfceygldieynbyswigjfuchnbunnbysulyvybchxnbyinbylgunbwfummymuhxmyyfcnnfywbuhwyizwbunwbchaojqyulypylswihwylhyxuvionnbcmjlivfyggggg
+
+=== key: jyfwa
+vig_out09
+tlitkxtgmlhyvabewkxgbgmaxlbqmazktwxtmrhnklvahhepxtkxkxenvmtgmerpkbmbgzrhnmhikhmxlmmaxihhkfxmabglmknvmbhgmaxvabewkxgtkxzxmmbgzbgfkchdxlvetllhnkvhfietbgmblutlxwhglxoxkteytvmhklfkchdxhymxglmxilhnmbgmaxateewnkbgzvetllmhmtedpbmaixhiexpahpteduraxtllbzglobkmnteerghahfxphkdpabexhmaxkftmavetllxlatoxahfxphkdxoxkrgbzamtemahnzamaxlmnwxgmlebdxfkchdxmaxrvhfietbgmatmmaxrtkxuxabgwmaxhmaxkftmavetllxltgwlxxebmmexvatgvxhyvatmvabgznipxtkxoxkrvhgvxkgxwtuhnmmablikhuexfffff
+
+=== key: kzgxb
+vig_out10
+skhsjwsflkgxuzadvjwfaflzwkaplzyjsvwslqgmjkuzggdowsjwjwdmulsfldqojalafyqgmlghjglwkllzwhggjewlzafkljmulagflzwuzadvjwfsjwywllafyafejbgcwkudskkgmjugehdsaflaktskwvgfkwnwjsdxsulgjkejbgcwgxlwfklwhkgmlaflzwzsddvmjafyudskklglsdcoalzhwghdwozgosdctqzwskkayfknajlmsddqfgzgewogjcozadwglzwjeslzudskkwkzsnwzgewogjcwnwjqfayzlsdlzgmyzlzwklmvwflkdacwejbgcwlzwqugehdsaflzsllzwqsjwtwzafvlzwglzwjeslzudskkwksfvkwwdalldwuzsfuwgxuzsluzafymhowsjwnwjqugfuwjfwvstgmllzakhjgtdweeeee
+
+=== key: lahyc
+vig_out11
+rjgrivrekjfwtyzcuivezekyvjzokyxiruvrkpflijtyffcnvrivivcltkrekcpnizkzexpflkfgifkvjkkyvgffidvkyzejkiltkzfekyvtyzcuiverivxvkkzexzediafbvjtcrjjflitfdgcrzekzjsrjvufejvmvircwrtkfijdiafbvfwkvejkvgjflkzekyvyrcculizextcrjjkfkrcbnzkygvfgcvnyfnrcbspyvrjjzxejmziklrccpefyfdvnfibnyzcvfkyvidrkytcrjjvjyrmvyfdvnfibvmvipezxykrckyflxykyvjkluvekjczbvdiafbvkyvptfdgcrzekyrkkyvprivsvyzeukyvfkyvidrkytcrjjvjreujvvczkkcvtyretvfwtyrktyzexlgnvrivmviptfetvievursflkkyzjgifscvddddd
+
+=== key: mbizd
+vig_out12
+qifqhuqdjievsxybthudydjxuiynjxwhqtuqjoekhisxeebmuqhuhubksjqdjbomhyjydwoekjefhejuijjxufeehcujxydijhksjyedjxusxybthudqhuwujjydwydchzeauisbqiiekhsecfbqydjyirqiutediuluhqbvqsjehichzeauevjudijufiekjydjxuxqbbtkhydwsbqiijejqbamyjxfuefbumxemqbaroxuqiiywdilyhjkqbbodexecumehamxybuejxuhcqjxsbqiiuixqluxecumehauluhodywxjqbjxekwxjxuijktudjibyauchzeaujxuosecfbqydjxqjjxuoqhuruxydtjxuejxuhcqjxsbqiiuiqdtiuubyjjbusxqdsuevsxqjsxydwkfmuqhuluhosedsuhdutqrekjjxyifherbuccccc
+
+=== key: ncjae
+vig_out13
+phepgtpcihdurwxasgtcxciwthxmiwvgpstpindjghrwddaltpgtgtajripcianlgxixcvndjidegdithiiwteddgbtiwxchigjrixdciwtrwxasgtcpgtvtiixcvxcbgydzthraphhdjgrdbeapxcixhqphtsdchtktgpaupridghbgydztduitchitehdjixciwtwpaasjgxcvraphhidipazlxiwetdeatlwdlpazqnwtphhxvchkxgijpaancdwdbtldgzlwxatdiwtgbpiwraphhthwpktwdbtldgztktgncxvwipaiwdjvwiwthijstcihaxztbgydztiwtnrdbeapxciwpiiwtnpgtqtwxcsiwtdiwtgbpiwraphhthpcshttaxiiatrwpcrtdurwpirwxcvjeltpgtktgnrdcrtgctspqdjiiwxhegdqatbbbbb
+
+=== key: odkbf
+vig_out14
+ogdofsobhgctqvwzrfsbwbhvsgwlhvuforsohmcifgqvcczksofsfsziqhobhzmkfwhwbumcihcdfchsghhvsdccfashvwbghfiqhwcbhvsqvwzrfsbofsushhwbuwbafxcysgqzoggcifqcadzowbhwgpogsrcbgsjsfoztoqhcfgafxcyscthsbghsdgcihwbhvsvozzrifwbuqzogghchozykwhvdscdzskvckozypmvsoggwubgjwfhiozzmbcvcaskcfykvwzschvsfaohvqzoggsgvojsvcaskcfysjsfmbwuvhozhvciuvhvsghirsbhgzwysafxcyshvsmqcadzowbhvohhvsmofspsvwbrhvschvsfaohvqzoggsgobrgsszwhhzsqvobqsctqvohqvwbuidksofsjsfmqcbqsfbsropcihhvwgdfcpzsaaaaa
+
+=== key: pelcg
+vig_out15
+nfcnernagfbspuvyqeravagurfvkgutenqrnglbhefpubbyjrnereryhpgnagyljevgvatlbhgbcebgrfggurcbbezrguvafgehpgvbagurpuvyqeranertrggvatvazewbxrfpynffbhepbzcynvagvfonfrqbafrirenysnpgbefzewbxrbsgrafgrcfbhgvagurunyyqhevatpynffgbgnyxjvgucrbcyrjubjnyxolurnffvtafiveghnyylabubzrjbexjuvyrbgurezngupynffrfunirubzrjbexrirelavtugnygubhtugurfghqragfyvxrzewbxrgurlpbzcynvagunggurlneroruvaqgurbgurezngupynffrfnaqfrryvggyrpunaprbspungpuvathcjrnerirelpbaprearqnobhgguvfceboyrzzzzz
+
+=== key: qfmdh
+vig_out16
+mebmdqmzfearotuxpdqzuzftqeujftsdmpqmfkagdeotaaxiqmdqdqxgofmzfxkidufuzskagfabdafqefftqbaadyqftuzefdgofuazftqotuxpdqzmdqsqffuzsuzydvawqeoxmeeagdoaybxmuzfuenmeqpazeqhqdmxrmofadeydvawqarfqzefqbeagfuzftqtmxxpgduzsoxmeefafmxwiuftbqabxqitaimxwnktqmeeuszehudfgmxxkzatayqiadwituxqaftqdymftoxmeeqetmhqtayqiadwqhqdkzustfmxftagstftqefgpqzfexuwqydvawqftqkoaybxmuzftmfftqkmdqnqtuzpftqaftqdymftoxmeeqemzpeqqxuffxqotmzoqarotmfotuzsgbiqmdqhqdkoazoqdzqpmnagfftuebdanxqyyyyy
+
+=== key: rgnei
+vig_out17
+ldalcplyedzqnstwocpytyespdtiesrcloplejzfcdnszzwhplcpcpwfnelyewjhctetyrjzfezaczepdeespazzcxpestydecfnetzyespnstwocpylcprpeetyrtyxcuzvpdnwlddzfcnzxawltyetdmldpozydpgpclwqlnezcdxcuzvpzqepydepadzfetyespslwwofctyrnwlddezelwvhtesapzawphszhlwvmjsplddtrydgtceflwwjyzszxphzcvhstwpzespcxlesnwlddpdslgpszxphzcvpgpcjytrselweszfrsespdefopyedwtvpxcuzvpespjnzxawltyesleespjlcpmpstyoespzespcxlesnwlddpdlyodppwteewpnslynpzqnslenstyrfahplcpgpcjnzynpcypolmzfeestdaczmwpxxxxx
+
+=== key: shofj
+vig_out18
+kczkbokxdcypmrsvnboxsxdrocshdrqbknokdiyebcmryyvgokbobovemdkxdvigbsdsxqiyedyzbydocddrozyybwodrsxcdbemdsyxdromrsvnboxkboqoddsxqsxwbtyuocmvkccyebmywzvksxdsclkconyxcofobkvpkmdybcwbtyuoypdoxcdozcyedsxdrorkvvnebsxqmvkccdydkvugsdrzoyzvogrygkvulirokccsqxcfsbdekvvixyrywogybugrsvoydrobwkdrmvkccocrkforywogybuofobixsqrdkvdryeqrdrocdenoxdcvsuowbtyuodroimywzvksxdrkddroikbolorsxndroydrobwkdrmvkccockxncoovsddvomrkxmoypmrkdmrsxqezgokbofobimyxmobxonklyeddrsczbylvowwwww
+
+=== key: tipgk
+vig_out19
+jbyjanjwcbxolqrumanwrwcqnbrgcqpajmnjchxdablqxxufnjananudlcjwcuhfarcrwphxdcxyaxcnbccqnyxxavncqrwbcadlcrxwcqnlqrumanwjanpnccrwprwvasxtnblujbbxdalxvyujrwcrbkjbnmxwbnenajuojlcxabvasxtnxocnwbcnybxdcrwcqnqjuumdarwplujbbcxcjutfrcqynxyunfqxfjutkhqnjbbrpwberacdjuuhwxqxvnfxatfqrunxcqnavjcqlujbbnbqjenqxvnfxatnenahwrpqcjucqxdpqcqnbcdmnwcburtnvasxtncqnhlxvyujrwcqjccqnhjanknqrwmcqnxcqnavjcqlujbbnbjwmbnnurccunlqjwlnxolqjclqrwpdyfnjanenahlxwlnawnmjkxdccqrbyaxkunvvvvv
+
+=== key: ujqhl
+vig_out20
+iaxizmivbawnkpqtlzmvqvbpmaqfbpozilmibgwczakpwwtemizmzmtckbivbtgezqbqvogwcbwxzwbmabbpmxwwzumbpqvabzckbqwvbpmkpqtlzmvizmombbqvoqvuzrwsmaktiaawczkwuxtiqvbqajiamlwvamdmzitnikbwzauzrwsmwnbmvabmxawcbqvbpmpittlczqvoktiaabwbitseqbpxmwxtmepweitsjgpmiaaqovadqzbcittgvwpwumewzsepqtmwbpmzuibpktiaamapidmpwumewzsmdmzgvqopbitbpwcopbpmabclmvbatqsmuzrwsmbpmgkwuxtiqvbpibbpmgizmjmpqvlbpmwbpmzuibpktiaamaivlammtqbbtmkpivkmwnkpibkpqvocxemizmdmzgkwvkmzvmlijwcbbpqaxzwjtmuuuuu
+
+=== key: vkrim
+vig_out21
+hzwhylhuazvmjopskylupuaolzpeaonyhklhafvbyzjovvsdlhylylsbjahuasfdypapunfvbavwyvalzaaolwvvytlaopuzaybjapvuaoljopskyluhylnlaapunputyqvrlzjshzzvbyjvtwshpuapzihzlkvuzlclyhsmhjavyztyqvrlvmaluzalwzvbapuaolohsskbypunjshzzavahsrdpaowlvwsldovdhsrifolhzzpnuzcpyabhssfuvovtldvyrdopslvaolythaojshzzlzohclovtldvyrlclyfupnoahsaovbnoaolzabkluazsprltyqvrlaolfjvtwshpuaohaaolfhylilopukaolvaolythaojshzzlzhukzllspaasljohujlvmjohajopunbwdlhylclyfjvujlyulkhivbaaopzwyvislttttt
+
+=== key: wlsjn
+vig_out22
+gyvgxkgtzyulinorjxktotznkyodznmxgjkgzeuaxyinuurckgxkxkraizgtzrecxozotmeuazuvxuzkyzznkvuuxskznotyzxaizoutznkinorjxktgxkmkzzotmotsxpuqkyirgyyuaxiusvrgotzoyhgykjutykbkxgrlgizuxysxpuqkulzktyzkvyuazotznkngrrjaxotmirgyyzuzgrqcoznvkuvrkcnucgrqhenkgyyomtyboxzagrretunuskcuxqcnorkuznkxsgznirgyykyngbknuskcuxqkbkxetomnzgrznuamnznkyzajktzyroqksxpuqkznkeiusvrgotzngzznkegxkhknotjznkuznkxsgznirgyykygtjykkrozzrkingtikulingzinotmavckgxkbkxeiutikxtkjghuazznoyvxuhrksssss
+
+=== key: xmtko
+vig_out23
+fxufwjfsyxtkhmnqiwjsnsymjxncymlwfijfydtzwxhmttqbjfwjwjqzhyfsyqdbwnynsldtzytuwtyjxyymjuttwrjymnsxywzhyntsymjhmnqiwjsfwjljyynslnsrwotpjxhqfxxtzwhtruqfnsynxgfxjitsxjajwfqkfhytwxrwotpjtkyjsxyjuxtzynsymjmfqqizwnslhqfxxytyfqpbnymujtuqjbmtbfqpgdmjfxxnlsxanwyzfqqdstmtrjbtwpbmnqjtymjwrfymhqfxxjxmfajmtrjbtwpjajwdsnlmyfqymtzlmymjxyzijsyxqnpjrwotpjymjdhtruqfnsymfyymjdfwjgjmnsiymjtymjwrfymhqfxxjxfsixjjqnyyqjhmfshjtkhmfyhmnslzubjfwjajwdhtshjwsjifgtzyymnxuwtgqjrrrrr
+
+=== key: ynulp
+vig_out24
+ewtevierxwsjglmphvirmrxliwmbxlkvehiexcsyvwglsspaievivipygxerxpcavmxmrkcsyxstvsxiwxxlitssvqixlmrwxvygxmsrxliglmphvirevikixxmrkmrqvnsoiwgpewwsyvgsqtpemrxmwfewihsrwizivepjegxsvwqvnsoisjxirwxitwsyxmrxlilepphyvmrkgpewwxsxepoamxltistpialsaepofcliewwmkrwzmvxyeppcrslsqiasvoalmpisxlivqexlgpewwiwlezilsqiasvoizivcrmklxepxlsyklxliwxyhirxwpmoiqvnsoixlicgsqtpemrxlexxlicevifilmrhxlisxlivqexlgpewwiwerhwiipmxxpiglergisjglexglmrkytaievizivcgsrgivrihefsyxxlmwtvsfpiqqqqq
+
+=== key: zovmq
+vig_out25
+dvsduhdqwvrifkloguhqlqwkhvlawkjudghdwbrxuvfkrrozhduhuhoxfwdqwobzulwlqjbrxwrsurwhvwwkhsrruphwklqvwuxfwlrqwkhfkloguhqduhjhwwlqjlqpumrnhvfodvvrxufrpsodlqwlvedvhgrqvhyhudoidfwruvpumrnhriwhqvwhsvrxwlqwkhkdoogxulqjfodvvwrwdonzlwkshrsohzkrzdonebkhdvvljqvyluwxdoobqrkrphzrunzklohrwkhupdwkfodvvhvkdyhkrphzrunhyhubqljkwdowkrxjkwkhvwxghqwvolnhpumrnhwkhbfrpsodlqwkdwwkhbduhehklqgwkhrwkhupdwkfodvvhvdqgvhholwwohfkdqfhrifkdwfklqjxszhduhyhubfrqfhuqhgderxwwklvsureohppppp
+
+--------------------------------
+Program 3 Usage
+--------------------------------
+$> make av
+$> av cipher1
