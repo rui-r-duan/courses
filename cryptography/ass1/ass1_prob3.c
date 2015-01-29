@@ -35,7 +35,7 @@ typedef struct _Pair {
     int j;
 } Pair;
 Pair combinations[MAX_COMBINATION];
-double mic[MAX_COMBINATION][NUM_CHARS] = { 0.0 }; /* column are for different shift g */
+double mic[MAX_COMBINATION][NUM_CHARS] = { 0.0 }; /* column is for different shift g */
 int g_array[MAX_COMBINATION] = { 0 };
 int key_equation[MAX_M] = { 0 };
 
