@@ -199,9 +199,16 @@ int main(int argc, char* argv[])
     int r;                  /* row in table */
     int m;                  /* step */
     int strlength;
-    FILE* in = fopen(argv[1], "r");
-    if (NULL == in) {
-        return -1;
+    FILE* in = stdin;
+    if (argc > 2) {
+        printf("Usage: $> av inputfile\n");
+        return 0;
+    }
+    if (argc == 2) {
+        in = fopen(argv[1], "r");
+        if (NULL == in) {
+            return -1;
+        }
     }
     (void)read_to_buf(buf, BUF_LEN, in);
     strlength = strlen(buf);
