@@ -22,6 +22,9 @@ Ext.application({
     views: [
         'Main'
     ],
+    controllers: [
+        'CountDown'
+    ],
 
     icon: {
         '57': 'resources/icons/Icon.png',

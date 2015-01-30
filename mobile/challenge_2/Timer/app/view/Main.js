@@ -23,10 +23,7 @@ Ext.define('Timer.view.Main', {
                     {
                         xtype: 'button',
                         text: '5',
-                        id: 'five',
-                        handler: function() {
-                            alert('Clicked me');
-                        }
+                        id: 'five'
                     },
                     {
                         xtype: 'button',
@@ -47,7 +44,7 @@ Ext.define('Timer.view.Main', {
                         xtype: 'button',
                         text: 'Hidden',
                         id: 'count',
-                        hidden: true
+                        hidden: false
                     }
                 ]
             }
