@@ -1,3 +1,5 @@
+var count = 0;
+
 Ext.define('Timer.controller.CountDown', {
     extend: 'Ext.app.Controller',
 
@@ -30,19 +32,32 @@ Ext.define('Timer.controller.CountDown', {
 
     onFive: function() {
         this.getMainbtn().setHidden(false);
-        this.getMainbtn().setText('5');
+        count += 5;
+        this.getMainbtn().setText(count);
     },
     onTen: function() {
-        this.getMainbtn().setText('10');
+        this.getMainbtn().setHidden(false);
+        count += 10;
+        this.getMainbtn().setText(count);
     },
     onThirty: function() {
-        this.getMainbtn().setText('30');
+        this.getMainbtn().setHidden(false);
+        count += 30;
+        this.getMainbtn().setText(count);
     },
     onSixty: function() {
-        this.getMainbtn().setText('60');
+        this.getMainbtn().setHidden(false);
+        count += 60;
+        this.getMainbtn().setText(count);
 
     },
     onMainBtn: function() {
-        console.log('start count down');
+        task.delay(count*1000);
     }
+});
+
+var task = Ext.create('Ext.util.DelayedTask', function() {
+    count = 0;
+    Timer.app.getController('CountDown').getMainbtn().setHidden(true);
+    Ext.Msg.alert('', 'Back to work minion!', Ext.emptyFn);
 });
