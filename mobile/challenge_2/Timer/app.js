@@ -16,7 +16,9 @@ Ext.application({
     requires: [
         'Ext.MessageBox',
         'Ext.Button',
-        'Ext.util.DelayedTask'
+        'Ext.util.DelayedTask',
+        'Ext.device.Orientation',
+        'Ext.device.Notification'
     ],
 
     views: [
@@ -50,17 +52,11 @@ Ext.application({
 
         // Initialize the main view
         Ext.Viewport.add(Ext.create('Timer.view.Main'));
-    },
-
-    onUpdated: function() {
-        Ext.Msg.confirm(
-            "Application Update",
-            "This application has just successfully been updated to the latest version. Reload now?",
-            function(buttonId) {
-                if (buttonId === 'yes') {
-                    window.location.reload();
-                }
+        Ext.device.Orientation.on({
+            scope: this,
+            orientationchange: function(e) {
+                console.log("orientation changed!");
             }
-        );
+        });
     }
 });

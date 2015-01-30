@@ -21,24 +21,29 @@ Ext.define('Timer.view.Main', {
                         title: 'Coffee Break'
                     },
                     {
-                        xtype: 'button',
-                        text: '5',
-                        id: 'five'
-                    },
-                    {
-                        xtype: 'button',
-                        text: '10',
-                        id: 'ten'
-                    },
-                    {
-                        xtype: 'button',
-                        text: '30',
-                        id: 'thirty'
-                    },
-                    {
-                        xtype: 'button',
-                        text: '60',
-                        id: 'sixty'
+                        xtype: 'titlebar',
+                        items: [
+                            {
+                                xtype: 'button',
+                                text: '5',
+                                id: 'five'
+                            },
+                            {
+                                xtype: 'button',
+                                text: '10',
+                                id: 'ten'
+                            },
+                            {
+                                xtype: 'button',
+                                text: '30',
+                                id: 'thirty'
+                            },
+                            {
+                                xtype: 'button',
+                                text: '60',
+                                id: 'sixty'
+                            }
+                        ]
                     },
                     {
                         xtype: 'button',

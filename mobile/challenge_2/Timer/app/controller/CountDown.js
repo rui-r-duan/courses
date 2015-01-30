@@ -52,12 +52,19 @@ Ext.define('Timer.controller.CountDown', {
 
     },
     onMainBtn: function() {
-        task.delay(count*1000);
+        task.delay(1000);
     }
 });
 
 var task = Ext.create('Ext.util.DelayedTask', function() {
-    count = 0;
-    Timer.app.getController('CountDown').getMainbtn().setHidden(true);
-    Ext.Msg.alert('', 'Back to work minion!', Ext.emptyFn);
+    var b = Timer.app.getController('CountDown').getMainbtn();
+    count--;
+    if (count == 0) {
+        b.setHidden(true);
+        Ext.device.Notification.vibrate();
+        Ext.Msg.alert('', 'Back to work minion!', Ext.emptyFn);
+    } else {
+        b.setText(count);
+        this.delay(1000);
+    }        
 });
