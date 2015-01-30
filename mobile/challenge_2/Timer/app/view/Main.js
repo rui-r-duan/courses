@@ -44,7 +44,7 @@ Ext.define('Timer.view.Main', {
                         xtype: 'button',
                         text: 'Hidden',
                         id: 'count',
-                        hidden: false
+                        hidden: true
                     }
                 ]
             }
