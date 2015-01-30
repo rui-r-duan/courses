@@ -14,7 +14,9 @@ Ext.application({
     name: 'Timer',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'Ext.Button',
+        'Ext.util.DelayedTask'
     ],
 
     views: [
