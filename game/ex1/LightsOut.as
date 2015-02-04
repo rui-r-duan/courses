@@ -24,6 +24,7 @@
 			super();
 			lights = new Array(numLightsRow);
 			moveCnt = 0;
+			
 			for (var i:int = 0; i < numLightsRow; i++)
 			{
 				lights[i] = new Array(numLightsCol);
@@ -39,9 +40,21 @@
 						createListener(i, j));
 				}
 			}
-			lights[3][0].turnOn();
-			lights[4][0].turnOn();
-			lights[4][1].turnOn();
+			randomizeGameboardStates();
+		}
+		
+		private function randomizeGameboardStates():void
+		{
+			// randomly click the gameboard a random number of times
+			// this ensures the game is solvable
+			var r:int = Math.floor(Math.random() * numLightsRow + numLightsCol);
+			var row:int, col:int, i:int;
+			for (i = 0; i < r; i++)
+			{
+				row = Math.floor(Math.random() * numLightsRow);
+				col = Math.floor(Math.random() * numLightsCol);
+				switchAt(row, col);
+			}
 		}
 		
 		private function createListener(a:int, b:int):Function
