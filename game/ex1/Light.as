@@ -11,9 +11,9 @@
 	{
 		private var isOn:Boolean;
 		private var size:int;
-		private var ellipseWidth:int = 8;
-		private var onColor:uint = 0xFFCC33;
-		private var offColor:uint = 0xEEEEEE;
+		private const ellipseWidth:int = 8;
+		private const onColor:uint = 0xFFCC33;
+		private const offColor:uint = 0xEEEEEE;
 		
 		public function Light(sz:int, bOn:Boolean = false)
 		{
@@ -30,27 +30,27 @@
 		public function turnOn():void
 		{
 			isOn = true;
-			graphics.beginFill(onColor);
-			graphics.drawRoundRect(0, 0, size, size, ellipseWidth);
-			graphics.endFill();
+			redraw();
 		}
 		
 		public function turnOff():void
 		{
 			isOn = false;
-			graphics.beginFill(offColor);
-			graphics.drawRoundRect(0, 0, size, size, ellipseWidth);
-			graphics.endFill();
+			redraw();
 		}
-	
+		
 		public function invertState():void
 		{
 			isOn = !isOn;
+			redraw();
+		}
+		
+		private function redraw():void
+		{
 			var color:uint = isOn ? onColor : offColor;
 			graphics.beginFill(color);
 			graphics.drawRoundRect(0, 0, size, size, ellipseWidth);
 			graphics.endFill();
 		}
 	}
-
 }
