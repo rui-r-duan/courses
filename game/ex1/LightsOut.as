@@ -3,10 +3,8 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.text.TextField;
-	import flash.display.MovieClip;
 	import flash.system.fscommand;
-	
+
 	/**
 	 * ...
 	 * @author Ryan Duan
@@ -22,13 +20,13 @@
 		private const marginTop:int = (stage.stageHeight
 			- lightSize * numLightsRow - spacing * (numLightsRow - 1)) / 2;
 		private const marginLeft:int = lightSize;
-		
+
 		public function LightsOut()
 		{
 			super();
 			lights = new Array(numLightsRow);
 			moveCnt = 0;
-			
+
 			// handle the Flash exported instances
 			txtMoves.text = "0";
 			removeChild(mcYouWin);
@@ -56,13 +54,13 @@
 			lights[4][1].turnOn();
 			lights[3][0].turnOn();
 		}
-		
-		private function onQuitClicked(e:MouseEvent):void 
+
+		private function onQuitClicked(e:MouseEvent):void
 		{
 			trace("quit");
 			fscommand("quit");
 		}
-		
+
 		private function onResetClicked(e:MouseEvent):void
 		{
 			if (getChildByName("mcYouWin") != null)
@@ -71,11 +69,11 @@
 			}
 			moveCnt = 0;
 			txtMoves.text = "0";
-			
+
 			// generate random gameboard configuration that is solvable
 			randomizeGameboardStates();
 		}
-		
+
 		private function randomizeGameboardStates():void
 		{
 			// randomly click the gameboard a random number of times
@@ -89,7 +87,7 @@
 				switchAt(row, col);
 			}
 		}
-		
+
 		private function createListener(a:int, b:int):Function
 		{
 			// Use a closure to capture index (a,b) outside of the Light that
@@ -109,7 +107,7 @@
 			}
 			return foo;
 		}
-		
+
 		private function switchAt(row:int, col:int):void
 		{
 			lights[row][col].invertState();
@@ -130,7 +128,7 @@
 				lights[row][col + 1].invertState();
 			}
 		}
-		
+
 		private function isWin():Boolean
 		{
 			var isDone:Boolean = true;
