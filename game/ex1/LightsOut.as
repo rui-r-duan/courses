@@ -1,7 +1,11 @@
 ﻿package
 {
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	import flash.display.MovieClip;
+	import flash.system.fscommand;
 	
 	/**
 	 * ...
@@ -25,6 +29,12 @@
 			lights = new Array(numLightsRow);
 			moveCnt = 0;
 			
+			// handle the Flash exported instances
+			txtMoves.text = "0";
+			removeChild(mcYouWin);
+			btnReset.addEventListener(MouseEvent.CLICK, onResetClicked);
+			btnQuit.addEventListener(MouseEvent.CLICK, onQuitClicked);
+
 			for (var i:int = 0; i < numLightsRow; i++)
 			{
 				lights[i] = new Array(numLightsCol);
@@ -40,6 +50,29 @@
 						createListener(i, j));
 				}
 			}
+			//randomizeGameboardStates();
+			// load preset game board for easy game test
+			lights[4][0].turnOn();
+			lights[4][1].turnOn();
+			lights[3][0].turnOn();
+		}
+		
+		private function onQuitClicked(e:MouseEvent):void 
+		{
+			trace("quit");
+			fscommand("quit");
+		}
+		
+		private function onResetClicked(e:MouseEvent):void
+		{
+			if (getChildByName("mcYouWin") != null)
+			{
+				removeChild(mcYouWin);
+			}
+			moveCnt = 0;
+			txtMoves.text = "0";
+			
+			// generate random gameboard configuration that is solvable
 			randomizeGameboardStates();
 		}
 		
@@ -64,11 +97,14 @@
 			var foo:Function = function(evt:MouseEvent):void
 			{
 				moveCnt++;
-				trace(moveCnt);
+				trace(String(moveCnt));
+				txtMoves.text = moveCnt.toString();
 				switchAt(a, b);
 				if (isWin())
 				{
-					trace("You Win!");
+					addChild(mcYouWin);
+					trace(mcYouWin.visible);
+					mcYouWin.gotoAndPlay(0);
 				}
 			}
 			return foo;
