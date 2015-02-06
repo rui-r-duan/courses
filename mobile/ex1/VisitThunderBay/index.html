@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+    <script src="scripts/app.js"></script>
   </head>
   <body>
 
@@ -19,13 +20,13 @@
       </div>
       <div data-role="content">
 	<ul data-role="listview">
-	  <li><a href="#terryfox">Terry Fox Lookout</a></li>
-	  <li><a href="#kakabeka">Kakabeka Falls</a></li>
-	  <li><a href="#TBArtGallery">TB Art Gallery</a></li>
+	  <li><a href="#terryfox" data-transition="slidedown">Terry Fox Lookout</a></li>
+	  <li><a href="#kakabeka" data-transition="slidedown">Kakabeka Falls</a></li>
+	  <li><a href="#TBArtGallery" data-transition="slidedown">TB Art Gallery</a></li>
 	</ul>
       </div>
       <div data-role="footer" data-theme="b">
-	<h4>Visit Thunder Bay &copy2014</h4>
+	<h4>Ryan Duan &copy2015</h4>
       </div>
     </div>
 
@@ -38,10 +39,10 @@
       <div data-role="content">
 	<p>Here's just a few of our favorite snaps taken by fans.</p>
 	<img src="img/639px-Terry_Fox.jpg" alt="Terry Fox Monument" width="100%" height="100%">
-	<img src="img/640px-Terry_Fox_Memorial_2008.jpg" alt="Closeup view of the statue of Terry Fox" width="100%" height="100%"
+	<img src="img/640px-Terry_Fox_Memorial_2008.jpg" alt="Closeup view of the statue of Terry Fox" width="100%" height="100%">
       </div>
       <div data-role="footer" data-theme="b">
-	<h4>Page Footer</h4>
+	<h4>Ryan Duan &copy2015</h4>
       </div>
     </div>
 
@@ -56,7 +57,7 @@
 	<img src="img/640px-Thefalls.jpg" alt="Kakabeka Falls front view" width="100%" height="100%">
       </div>
       <div data-role="footer" data-theme="b">
-	<h4>Page Footer</h4>
+	<h4>Ryan Duan &copy2015</h4>
       </div>
     </div>
 
@@ -67,7 +68,7 @@
 	<h1>Reservation</h1>
       </div>
       <div data-role="content">
-	<form action="thankyou.html" method="get" id="reportForm">
+	<form action="thankyou.php" method="get" name="feedback" id="reportForm" onsubmit="return checkForm()">
 	  <div data-role="fieldcontain">
 	    <label for="reportName">Name:</label>
 	    <br>
@@ -76,9 +77,9 @@
 	  <div data-role="fieldcontain">
 	    <label for="selectmenu" class="select">Time:</label>
 	    <br>
-	    <select name="selectmenu" id="selectmenu" data-native-menu = "false">
+	    <select name="selectmenu" id="selectmenu" data-native-menu="false">
 	      <option value="">Select your Time</option>
-	      <optgroup label="Morning">
+	      <optgroup label="Morning">o
 		<option value="10:00am">10:00am</option>
 		<option value="10:30am">10:30am</option>
 		<option value="11:00am">11:00am</option>
@@ -96,7 +97,7 @@
 	</form>
       </div>
       <div data-role="footer" data-theme="b">
-	<h4>Reservation</h4>
+	<h4>Ryan Duan &copy2015</h4>
       </div>
     </div>
   </body>
