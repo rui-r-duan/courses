@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Thunder Bay</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+  </head>
+  <body>
+
+    <!-- main page -->
+    <div data-role="page" id="mainpage" data-theme="e">
+      <div data-role="header" data-theme="b">
+	<h1>Visit Thunder Bay</h1>
+      </div>
+      <div data-role="content">
+	<ul data-role="listview">
+	  <li><a href="#museum">Terry Fox Lookout</a></li>
+	  <li><a href="#independence">Kakabeka Falls</a></li>
+	  <li><a href="#morris">TB Art Gallery</a></li>
+	</ul>
+      </div>
+      <div data-role="footer" data-theme="b">
+	<h4>Visit Thunder Bay &copy2014</h4>
+      </div>
+    </div>
+
+    <!-- museum page -->
+    <div data-role="page" id="museum">
+      <div data-role="header">
+	<h1>TB Museum of Art Gallery</h1>
+	<a href="#mainpage" data-role="button" data-icon="back">Back</a>
+      </div>
+      <div data-role="content">
+	Content
+      </div>
+      <div data-role="footer">
+	<h4>Page Footer</h4>
+      </div>
+    </div>
+
+    <!-- reservation page  -->
+    <div data-role="page" id="TBArtGallery">
+      <div data-role="header">
+	<a href="#mainpage" data-role="button" data-icon="back">Back</a>
+	<h1>Reservation</h1>
+      </div>
+      <div data-role="content">
+	<form action="../../../CS5450/BonusExercise1/thankyou.html" method="get" id="reportForm">
+	  <div data-role="fieldcontain">
+	    <label for="reportName">Name:</label>
+	    <input type="text" name="name" id="name" value="" />
+	  </div>
+	  <div data-role="fieldcontain">
+	    <label for="selectmenu" class="select">Time:</label>
+	    <select name="selectmenu" id="selectmenu" data-native-menu = "false">
+	      <option value="">Select your Time</option>
+	      <optgroup label="Morning">
+		<option value="10:00am">10:00am</option>
+		<option value="10:30am">10:30am</option>
+		<option value="11:00am">11:00am</option>
+		<option value="11:30am">11:30am</option>
+	      </optgroup>
+	      <optgroup label="Afternoon">
+		<option value="2:00pm">2:00pm</option>
+		<option value="2:30pm">2:30pm</option>
+		<option value="3:00pm">3:00pm</option>
+		<option value="3:30pm">3:30pm</option></optgroup>
+	    </select>
+	  </div>
+	</form>
+      </div>
+      <div data-role="footer">
+	<h4>Reservation</h4>
+      </div>
+    </div>
+  </body>
+</html>
