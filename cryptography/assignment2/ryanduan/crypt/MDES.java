@@ -44,9 +44,12 @@ public class MDES {
         m = Collections.unmodifiableMap(hm);
     }
 
-    private static int bitmasks[] = {
+    private static int[] bitmasks = {
         0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
     };
+
+    private static int[][] L;
+    private static int[][] R;
 
     // @Nullable: null check must be done in client code
     public static Integer charToInt(char c) {
@@ -193,9 +196,9 @@ public class MDES {
     }
 
     public static void txtToCode(char[] txt, int txtLen, int[] code) {
-        assert txtLen * 5 < code.length :
+        assert txtLen * 5 <= code.length :
         "txtLen=" + txtLen + ", code.length=" + code.length +
-            ": txtLen*5 must less than code.length!";
+            ": txtLen*5 must less than or equal to code.length!";
 
         int codeIndex = 0;
         for (int i = 0; i < txtLen; i++) {
@@ -205,6 +208,23 @@ public class MDES {
             for (int j = 0; j < 5; j++) {
                 code[codeIndex++] = r[j];
             }
+        }
+    }
+
+    public static void divideInputBitStr(int[] bs, int len) {
+        assert len % 16 == 0;
+
+        int cnt = len / 16;     // count of 16-bit
+        L = new int[cnt][8];
+        R = new int[cnt][8];
+
+        // each i is for 8-bit
+        for (int i = 0; i < cnt; i++) {
+            // shallow copy
+            L[i] = Arrays.copyOfRange(bs, i * 2 * 8, (i * 2 + 1) * 8);
+            R[i] = Arrays.copyOfRange(bs, (i * 2 + 1) * 8, (i * 2 + 2) * 8);
+            printBitString(L[i]);
+            printBitString(R[i]);
         }
     }
 

@@ -20,7 +20,7 @@ class Test_P1_3 {
         //
         // Bit buffer length should be multiple of 16, and must contain all the
         // code for all the characters.
-        int bitBufLen = (len * 5 / 16 + 1) * 16; // ceiling * 16
+        int bitBufLen = ((int)Math.ceil(len * 5 / 16)) * 16;
         int[] bitStr = new int[bitBufLen];
 
         // padding with 0 in the end of the bit string
@@ -29,6 +29,7 @@ class Test_P1_3 {
         // turn char string into binary code
         MDES.txtToCode(charBuffer, len, bitStr);
         MDES.printBitString(bitStr);
+        MDES.divideInputBitStr(bitStr, bitBufLen);
     }
 
     // populate input chars from standard input into charBuffer, and return the
