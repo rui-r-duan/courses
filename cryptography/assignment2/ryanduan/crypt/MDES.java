@@ -48,9 +48,6 @@ public class MDES {
         0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
     };
 
-    private static int[][] L;
-    private static int[][] R;
-
     // @Nullable: null check must be done in client code
     public static Integer charToInt(char c) {
         return m.get(c);
@@ -211,20 +208,41 @@ public class MDES {
         }
     }
 
-    public static void divideInputBitStr(int[] bs, int len) {
-        assert len % 16 == 0;
+    // @param: int[] bs: bit string with length that is multiple of 16
+    // @param: int[][] key: int[2][12] two 12-bit keys
+    public static void encode(int[] bs, int[][] key) {
+        assert bs.length % 16 == 0;
 
-        int cnt = len / 16;     // count of 16-bit
-        L = new int[cnt][8];
-        R = new int[cnt][8];
+        /// divide bs[] into 16-bit string blocks with Ls[i] as the left-most
+        /// 8-bit, and Rs[i] as the right-most 8-bit
 
-        // each i is for 8-bit
+        int cnt = bs.length / 16;     // count of 16-bit
+        int[][] Ls = new int[cnt][8];
+        int[][] Rs = new int[cnt][8];
+
+        // used as encoding storage
+        int[][] L = new int[3][8];
+        int[][] R = new int[3][8];
+
+        /// process the i-th block
+        /// each i is used as a counter for one block (16 bit)
         for (int i = 0; i < cnt; i++) {
+
             // shallow copy
-            L[i] = Arrays.copyOfRange(bs, i * 2 * 8, (i * 2 + 1) * 8);
-            R[i] = Arrays.copyOfRange(bs, (i * 2 + 1) * 8, (i * 2 + 2) * 8);
-            printBitString(L[i]);
-            printBitString(R[i]);
+            Ls[i] = Arrays.copyOfRange(bs, i * 2 * 8, (i * 2 + 1) * 8);
+            Rs[i] = Arrays.copyOfRange(bs, (i * 2 + 1) * 8, (i * 2 + 2) * 8);
+            // printBitString(Ls[i]);
+            // printBitString(Rs[i]);
+
+            /// two-pass encode for each block
+            L[0] = Arrays.copyOf(Ls[i], 8);
+            R[0] = Arrays.copyOf(Rs[i], 8);
+            for (int j = 1; j <= 2; j++) {
+                L[j] = Arrays.copyOf(R[j-1], 8);
+                R[j] = bitStrXOR(L[j-1], f(R[j-1], key[j-1]));
+            }
+            printBitString(L[2]);
+            printBitString(R[2]);
         }
     }
 
