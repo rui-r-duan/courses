@@ -4,19 +4,39 @@ import ryanduan.crypt.MDES;
 class Test_P1_2 {
     public static void main(String[] args) {
         try {
+            // test MDES.intToBinaryStr()
+            MDES.printBitString(MDES.intToBinaryStr(9, 2));
+            MDES.printBitString(MDES.intToBinaryStr(10, 5));
+            // MDES.printBitString(MDES.intToBinaryStr(10, 9));
+
+            // test MDES.expand()
             int[] a = {1, 0, 1, 1, 0, 1, 0, 1};
             int[] r = MDES.expand(a);
-            for (int j : r) {
-                System.out.print(j);
+            if (r == null) {
+                System.err.println("Failed to new Object");
+                return;
             }
-            System.out.println();
-            int[][] s = MDES.split12Bit(r);
-            for (int[] i : s) {
-                for (int k : i) {
-                    System.out.print(k);
-                }
-                System.out.println();
+            MDES.printBitString(r);
+
+            // test MDES.split12Bit()
+            int[][] b = MDES.split12Bit(r);
+            if (b == null) {
+                System.err.println("Failed to new Object");
+                return;
             }
+            for (int[] i : b) {
+                MDES.printBitString(i);
+            }
+
+            // test MDES.sboxTransform()
+            int[] sboxout1 = MDES.sboxTransform(b[0], MDES.S1);
+            int[] sboxout2 = MDES.sboxTransform(b[1], MDES.S2);
+            if (sboxout1 == null || sboxout2 == null) {
+                System.err.println("Failed to new Object");
+                return;
+            }
+            MDES.printBitString(sboxout1);
+            MDES.printBitString(sboxout2);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

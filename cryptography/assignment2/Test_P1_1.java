@@ -12,7 +12,11 @@ class Test_P1_1 {
                     return;
                 }
 
-                int[] r = MDES.intToBinaryStr(i);
+                int[] r = MDES.intToBinaryStr(i, 5);
+                if (r == null) {
+                    System.err.println("Failed to new Object");
+                    return;
+                }
 
                 System.out.print((char)ch + "\t");
                 for (int j : r) {
