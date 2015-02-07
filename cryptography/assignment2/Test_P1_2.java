@@ -8,10 +8,6 @@ class Test_P1_2 {
             int[] a = {1, 0, 1, 1, 0, 1, 0, 1};
             int[] key = {1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0};
             int[] r = MDES.f(a, key);
-            if (r == null) {
-                System.err.println("Failed to new Object");
-                return;
-            }
             MDES.printBitString(r);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();

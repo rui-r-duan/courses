@@ -23,10 +23,6 @@ class Test_P1_3 {
         // code for all the characters.
         int bitBufLen = (len * 5 / 16 + 1) * 16; // ceiling * 16
         int[] bitStr = new int[bitBufLen];
-        if (bitStr == null) {
-            System.err.println("Failed to new Object");
-            return;
-        }
     }
 
     // populate input chars from standard input into charBuffer, and return the

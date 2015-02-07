@@ -48,7 +48,7 @@ public class MDES {
         0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
     };
 
-    // return value can be null
+    // @Nullable: null check must be done in client code
     public static Integer charToInt(char c) {
         return m.get(c);
     }
@@ -67,15 +67,15 @@ public class MDES {
     // if a = 10 (bin: 1010), and outputLength = 5, then
     //
     // @return: binary string representation of the integer
+    //
+    // @NotNull: no need to check new fail with null check, because
+    //           if new fails, Java will throw OutOfMemoryError.
     public static int[] intToBinaryStr(int a, int outputLength) {
         assert outputLength >= 1 && outputLength <= 8 : outputLength;
 
         // new int[0] is legal in Java, but we do not allow outputLength == 0
         // because it is meaningless
         int[] s = new int[outputLength];
-        if (s == null) {
-            return null;
-        }
         for (int i = 0, maskIndex = bitmasks.length - outputLength;
              i < outputLength; i++) {
             // high bits of the integer are pushed in the array first
@@ -86,6 +86,7 @@ public class MDES {
     }
 
     // expand 8 bit string to 12 bit string
+    // @NotNull
     private static int[] expand(int[] a) {
         if (a.length != 8) {
             // it is a runtime exception, do not need to declare in the method
@@ -93,9 +94,6 @@ public class MDES {
             throw new IllegalArgumentException("length of input string must be 8, but now it is " + a.length);
         }
         int[] r = new int[12];
-        if (r == null) {
-            return null;
-        }
         boolean shouldAppend = false;
         for (int i = 0, j = 8;
              i < a.length; i++) {
@@ -110,11 +108,9 @@ public class MDES {
 
     // @param: int[] a: 12-bit string
     // @return: two int[6] (two 6-bit strings)
+    // @NotNull
     private static int[][] split12Bit(int[] a) {
         int[][] r = new int[2][6];
-        if (r == null) {
-            return null;
-        }
         int k = 0;
         for (int i = 0; i < r.length; i++) {
             for (int j = 0; j < r[i].length; j++) {
@@ -132,6 +128,7 @@ public class MDES {
         return s;
     }
 
+    // @NotNull
     private static int[] bitStrXOR(int[] a, int[] b) {
         assert a.length == b.length
             : "a.length: " + a.length + ", b.length: " + b.length;
@@ -145,13 +142,11 @@ public class MDES {
 
     // @param: int[] a: 8-bit string
     // @return: 4-bit string (possible 'null' if new int[] fails)
+    // @NotNull
     public static int[] sboxTransform(int[] a, int[][] sbox) {
         int[] r = new int[4];
         int[] rowStr = new int[2];
         int[] colStr = new int[4];
-        if (r == null || rowStr == null || colStr == null) {
-            return null;
-        }
         rowStr[0] = a[0];
         rowStr[1] = a[5];
         colStr[0] = a[1];
@@ -171,6 +166,7 @@ public class MDES {
         return r;
     }
 
+    // @NotNull
     private static int[] concatIntArray(int[] a, int[] b) {
         int[] r = new int[a.length + b.length];
         int i = 0;
@@ -185,27 +181,13 @@ public class MDES {
     // @param: int[] a: 8-bit string
     // @param: int[] key: 12-bit string
     // @return: int[] : 8-bit string
+    // @NotNull
     public static int[] f(int[] a, int[] key) {
         int[] ea = expand(a);
-        if (ea == null) {
-            return null;
-        }
-
         int[] eak = bitStrXOR(ea, key);
-        if (eak == null) {
-            return null;
-        }
-
         int[][] b = split12Bit(eak);
-        if (b == null) {
-            return null;
-        }
-
         int[] sboxout1 = sboxTransform(b[0], S1);
         int[] sboxout2 = sboxTransform(b[1], S2);
-        if (sboxout1 == null || sboxout2 == null) {
-            return null;
-        }
         int[] output = concatIntArray(sboxout1, sboxout2);
         return output;
     }
