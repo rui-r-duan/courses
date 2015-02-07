@@ -16,14 +16,14 @@ public class MDES {
         '?', '(', ')'
     };
 
-    public static final int[][] S1 = {
+    private static final int[][] S1 = {
         {15, 1, 8, 14, 6, 11, 3, 4, 9, 7, 2, 13, 12, 0, 5, 10},
         {3, 13, 4, 7, 15, 2, 8, 14, 12, 0, 1, 10, 6, 9, 11, 5},
         {0, 14, 7, 11, 10, 4, 13, 1, 5, 8, 12, 6, 9, 3, 2, 15},
         {13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 12, 0, 5, 14, 9}
     };
 
-    public static final int[][] S2 = {
+    private static final int[][] S2 = {
         {7, 13, 14, 3, 0, 6, 9, 10, 1, 2, 8, 5, 11, 12, 4, 15},
         {13, 8, 11, 5, 6, 15, 0, 3, 4, 7, 2, 12, 1, 10, 14, 9},
         {10, 6, 9, 0, 12, 11, 7, 13, 15, 1, 3, 14, 5, 2, 8, 4},
@@ -86,7 +86,7 @@ public class MDES {
     }
 
     // expand 8 bit string to 12 bit string
-    public static int[] expand(int[] a) {
+    private static int[] expand(int[] a) {
         if (a.length != 8) {
             // it is a runtime exception, do not need to declare in the method
             // signature
@@ -110,7 +110,7 @@ public class MDES {
 
     // @param: int[] a: 12-bit string
     // @return: two int[6] (two 6-bit strings)
-    public static int[][] split12Bit(int[] a) {
+    private static int[][] split12Bit(int[] a) {
         int[][] r = new int[2][6];
         if (r == null) {
             return null;
@@ -133,7 +133,8 @@ public class MDES {
     }
 
     private static int[] bitStrXOR(int[] a, int[] b) {
-        assert a.length == b.length : "a.length: " + a.length + ", b.length: " + b.length;
+        assert a.length == b.length
+            : "a.length: " + a.length + ", b.length: " + b.length;
 
         int[] r = new int[a.length];
         for (int i = 0; i < a.length; i++) {

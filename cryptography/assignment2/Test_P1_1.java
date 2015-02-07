@@ -19,10 +19,7 @@ class Test_P1_1 {
                 }
 
                 System.out.print((char)ch + "\t");
-                for (int j : r) {
-                    System.out.print(j);
-                }
-                System.out.println();
+                MDES.printBitString(r);
             }
         } catch (IOException e) {
             e.printStackTrace();
