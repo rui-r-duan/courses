@@ -1,15 +1,19 @@
+// Mini DES (Data Encryption Standard) Simulation
+//
+// @author: Ryan Duan
+
 package ryanduan.crypt;
 
 import java.util.*;
 
-class MDES {
-    private static char[] table = {
+public class MDES {
+    private static final char[] table = {
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
         'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ', '.',
         '?', '(', ')'
     };
 
-    private static Map<Character, Integer> m;
+    private static final Map<Character, Integer> m;
     static {
         m = new HashMap<Character, Integer>();
         m.put('a', 0); m.put('b', 1); m.put('c', 2); m.put('d', 3);
@@ -26,26 +30,17 @@ class MDES {
         0x10, 0x08, 0x04, 0x02, 0x01
     };
 
-    private static int charToInt(char c) {
+    // return value can be null
+    public static Integer charToInt(char c) {
         return m.get(c);
     }
 
-    private static int[] intToBinaryStr(int a) {
+    public static int[] intToBinaryStr(int a) {
         // Only need 5 bit string for all the characters.
         int[] s = new int[5];
         for (int i = 0; i < 5; i++) {
             s[i] = (a & bitmasks[i]) >> (4 - i);
         }
         return s;
-    }
-
-    public static void main(String[] args) {
-        for (char key : m.keySet()) {
-            int [] r = intToBinaryStr(charToInt(key));
-            for (int i : r) {
-                System.out.print(i);
-            }
-            System.out.println("\t" + key);
-        }
     }
 }
