@@ -233,9 +233,63 @@ public class MDES {
         }
     }
 
+    private static int[][] toInternalKey(String key)
+    {
+        int[][] k = new int[2][12];
+        int c = 0;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 12; j++) {
+                char ch = key.charAt(c++);
+                if (ch == '1') {
+                    k[i][j] = 1;
+                } else if (ch == '0') {
+                    k[i][j] = 0;
+                } else {
+                    System.err.println("Error Key");
+                }
+            }
+        }
+        return k;
+    }
+                 
+
+    public static String encode(String in, String key) {
+        assert key.length() == 24;
+
+        int [][] internalKey;
+        try {
+            internalKey = toInternalKey(key);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        // Convert chars to bit string (using int array to simulate it) one
+        // char is converted to 5 bits.
+        //
+        // Bit buffer length should be multiple of 16, and must contain all the
+        // code for all the characters.
+        int bitBufLen = ((int)Math.ceil(in.length() * 5 / 16)) * 16;
+        int[] bitStr = new int[bitBufLen];
+
+        // padding with 0 in the end of the bit string
+        Arrays.fill(bitStr, 0);
+
+        // turn char string into binary code
+        txtToCode(in.toCharArray(), in.length(), bitStr);
+        printBitString(bitStr);
+        int[] encoded = encodeInternal(bitStr, new int[][] {
+                {1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0},
+                {1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1}
+            });
+        printBitString(encoded);
+        char[] encodedTxt = new char[in.length()];
+        codeToTxt(encoded, encodedTxt);
+        return new String(encodedTxt);
+    }
+
     // @param: int[] bs: bit string with length that is multiple of 16
     // @param: int[][] key: int[2][12] two 12-bit keys
-    public static int[] encode(int[] bs, int[][] key) {
+    public static int[] encodeInternal(int[] bs, int[][] key) {
         assert bs.length % 16 == 0;
 
         int[] result = new int[bs.length];
@@ -248,7 +302,7 @@ public class MDES {
         int[][] Ls = new int[cnt][8];
         int[][] Rs = new int[cnt][8];
 
-        // used as encoding storage
+        // used as encoding storage for each block
         int[][] L = new int[3][8];
         int[][] R = new int[3][8];
 
@@ -280,7 +334,7 @@ public class MDES {
     }
 
     private static int copyIntArrIntoArr(int[] target, int targetOffset,
-                                          int[] src) {
+                                         int[] src) {
         for (int i = 0; i < src.length; i++) {
             target[targetOffset++] = src[i];
         }
