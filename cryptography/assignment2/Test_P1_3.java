@@ -29,10 +29,14 @@ class Test_P1_3 {
         // turn char string into binary code
         MDES.txtToCode(charBuffer, len, bitStr);
         MDES.printBitString(bitStr);
-        MDES.encode(bitStr, new int[][] {
+        int[] encoded = MDES.encode(bitStr, new int[][] {
                 {1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0},
                 {1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1}
             });
+        MDES.printBitString(encoded);
+        char[] encodedTxt = new char[len];
+        MDES.codeToTxt(encoded, encodedTxt);
+        System.out.println(new String(encodedTxt));
     }
 
     // populate input chars from standard input into charBuffer, and return the

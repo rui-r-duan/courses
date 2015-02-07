@@ -43,6 +43,12 @@ public class MDES {
         hm.put(',', 28); hm.put('?', 29); hm.put('(', 30); hm.put(')', 31);
         m = Collections.unmodifiableMap(hm);
     }
+    // reverse map
+    private static final char rm[] = {
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+        'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ', '.',
+        ',', '?', '(', ')'
+    };
 
     private static int[] bitmasks = {
         0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
@@ -51,6 +57,11 @@ public class MDES {
     // @Nullable: null check must be done in client code
     public static Integer charToInt(char c) {
         return m.get(c);
+    }
+
+    // @NotNull
+    public static char intToChar(int a) {
+        return rm[a];
     }
 
     // Note:
@@ -192,6 +203,8 @@ public class MDES {
         return output;
     }
 
+    // since txt buffer may contain garbage in the end, so pass txtLen to
+    // indicate the length of the useful content in txt
     public static void txtToCode(char[] txt, int txtLen, int[] code) {
         assert txtLen * 5 <= code.length :
         "txtLen=" + txtLen + ", code.length=" + code.length +
@@ -208,10 +221,25 @@ public class MDES {
         }
     }
 
+    // @param: int[] code: input
+    // @param: char[] txt: output
+    public static void codeToTxt(int[] code, char[] txt) {
+        // each block is 5-bit which corresponds to a char
+        int cntBlocks = code.length / 5;
+        for (int i = 0; i < cntBlocks; i++) {
+            int[] b = Arrays.copyOfRange(code, i*5, (i+1)*5);
+            int a = bitStrToInt(b);
+            txt[i] = intToChar(a);
+        }
+    }
+
     // @param: int[] bs: bit string with length that is multiple of 16
     // @param: int[][] key: int[2][12] two 12-bit keys
-    public static void encode(int[] bs, int[][] key) {
+    public static int[] encode(int[] bs, int[][] key) {
         assert bs.length % 16 == 0;
+
+        int[] result = new int[bs.length];
+        int resultOffset = 0;
 
         /// divide bs[] into 16-bit string blocks with Ls[i] as the left-most
         /// 8-bit, and Rs[i] as the right-most 8-bit
@@ -241,9 +269,22 @@ public class MDES {
                 L[j] = Arrays.copyOf(R[j-1], 8);
                 R[j] = bitStrXOR(L[j-1], f(R[j-1], key[j-1]));
             }
-            printBitString(L[2]);
-            printBitString(R[2]);
+            // printBitString(L[2]);
+            // printBitString(R[2]);
+
+            /// populate result[] with the encoded block
+            resultOffset = copyIntArrIntoArr(result, resultOffset, L[2]);
+            resultOffset = copyIntArrIntoArr(result, resultOffset, R[2]);
         }
+        return result;
+    }
+
+    private static int copyIntArrIntoArr(int[] target, int targetOffset,
+                                          int[] src) {
+        for (int i = 0; i < src.length; i++) {
+            target[targetOffset++] = src[i];
+        }
+        return targetOffset;
     }
 
     public static void printBitString(int[] a) {
