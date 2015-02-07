@@ -10,6 +10,13 @@ class Test_P1_2 {
                 System.out.print(j);
             }
             System.out.println();
+            int[][] s = MDES.split12Bit(r);
+            for (int[] i : s) {
+                for (int k : i) {
+                    System.out.print(k);
+                }
+                System.out.println();
+            }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
