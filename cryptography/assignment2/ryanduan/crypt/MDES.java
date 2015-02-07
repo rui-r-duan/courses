@@ -132,6 +132,16 @@ public class MDES {
         return s;
     }
 
+    private static int[] bitStrXOR(int[] a, int[] b) {
+        assert a.length == b.length : "a.length: " + a.length + ", b.length: " + b.length;
+
+        int[] r = new int[a.length];
+        for (int i = 0; i < a.length; i++) {
+            r[i] = a[i] ^ b[i];
+        }
+        return r;
+    }
+
     // @param: int[] a: 8-bit string
     // @return: 4-bit string (possible 'null' if new int[] fails)
     public static int[] sboxTransform(int[] a, int[][] sbox) {
@@ -158,6 +168,45 @@ public class MDES {
         // System.out.println("s-box val = " + t);
         r = intToBinaryStr(t, 4);
         return r;
+    }
+
+    private static int[] concatIntArray(int[] a, int[] b) {
+        int[] r = new int[a.length + b.length];
+        int i = 0;
+        for (int j = 0; j < a.length; j++) {
+            r[i] = a[j];
+            r[i + a.length] = b[j];
+            i++;
+        }
+        return r;
+    }
+
+    // @param: int[] a: 8-bit string
+    // @param: int[] key: 12-bit string
+    // @return: int[] : 8-bit string
+    public static int[] f(int[] a, int[] key) {
+        int[] ea = expand(a);
+        if (ea == null) {
+            return null;
+        }
+
+        int[] eak = bitStrXOR(ea, key);
+        if (eak == null) {
+            return null;
+        }
+
+        int[][] b = split12Bit(eak);
+        if (b == null) {
+            return null;
+        }
+
+        int[] sboxout1 = sboxTransform(b[0], S1);
+        int[] sboxout2 = sboxTransform(b[1], S2);
+        if (sboxout1 == null || sboxout2 == null) {
+            return null;
+        }
+        int[] output = concatIntArray(sboxout1, sboxout2);
+        return output;
     }
 
     public static void printBitString(int[] a) {
