@@ -6,7 +6,6 @@ class Test_P1_3 {
     public static void main(String[] args) {
         // read characters from standard input
         char[] charBuffer = new char[1024];
-        Arrays.fill(charBuffer, (char)0);
         int len = 0;
         try {
             len = readInput(charBuffer);
@@ -23,6 +22,13 @@ class Test_P1_3 {
         // code for all the characters.
         int bitBufLen = (len * 5 / 16 + 1) * 16; // ceiling * 16
         int[] bitStr = new int[bitBufLen];
+
+        // padding with 0 in the end of the bit string
+        Arrays.fill(bitStr, 0);
+
+        // turn char string into binary code
+        MDES.txtToCode(charBuffer, len, bitStr);
+        MDES.printBitString(bitStr);
     }
 
     // populate input chars from standard input into charBuffer, and return the

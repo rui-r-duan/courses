@@ -192,6 +192,22 @@ public class MDES {
         return output;
     }
 
+    public static void txtToCode(char[] txt, int txtLen, int[] code) {
+        assert txtLen * 5 < code.length :
+        "txtLen=" + txtLen + ", code.length=" + code.length +
+            ": txtLen*5 must less than code.length!";
+
+        int codeIndex = 0;
+        for (int i = 0; i < txtLen; i++) {
+            Integer a = charToInt(txt[i]);
+            int[] r = intToBinaryStr(a, 5);
+            // append the content of r to code
+            for (int j = 0; j < 5; j++) {
+                code[codeIndex++] = r[j];
+            }
+        }
+    }
+
     public static void printBitString(int[] a) {
         for (int i : a) {
             System.out.print(i);
