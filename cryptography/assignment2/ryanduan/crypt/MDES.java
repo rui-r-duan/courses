@@ -1,5 +1,8 @@
 // Mini DES (Data Encryption Standard) Simulation
 //
+// Use integer 1 or 0 to simulate a bit, so a bit string is simulated by an int
+// string.
+//
 // @author: Ryan Duan
 
 package ryanduan.crypt;
@@ -39,8 +42,31 @@ public class MDES {
         // Only need 5 bit string for all the characters.
         int[] s = new int[5];
         for (int i = 0; i < 5; i++) {
+            // high bits in the integer are pushed in the array first
             s[i] = (a & bitmasks[i]) >> (4 - i);
         }
         return s;
     }
+
+    // expand 8 bit string to 12 bit string
+    public static int[] expand(int[] a) {
+        if (a.length != 8) {
+            // it is a runtime exception, do not need to declare in the method
+            // signature
+            throw new IllegalArgumentException("length of input string must be 8, but now it is " + a.length);
+        }
+        int[] r = new int[12];
+        boolean shouldAppend = false;
+        for (int i = 0, j = 8;
+             i < a.length; i++) {
+            r[i] = a[i];
+            if (shouldAppend) {
+                r[j++] = a[i];
+            }
+            shouldAppend = !shouldAppend;
+        }
+        return r;
+    }
+
+    
 }
