@@ -44,11 +44,11 @@ public class MDES {
         ',', '?', '(', ')'
     };
 
-    private static final int ENC_PASSES = 2;
-    private static final int BLOCK_SIZE = 16;
-    private static final int HALF_BLOCK_SIZE = BLOCK_SIZE / 2;
-    private static final int KEY_LEN = 12;
-    private static final int NUM_CHAR_BITS = 5;
+    static final int ENC_PASSES = 2;
+    static final int BLOCK_SIZE = 16;
+    static final int HALF_BLOCK_SIZE = BLOCK_SIZE / 2;
+    static final int KEY_LEN = 12;
+    static final int NUM_CHAR_BITS = 5;
 
     // @Nullable: null check must be done in client code
     // O(1)
@@ -146,7 +146,7 @@ public class MDES {
     }
 
     // @NotNull
-    private static int[] bitStrXOR(int[] a, int[] b) {
+    static int[] bitStrXOR(int[] a, int[] b) {
         assert a.length == b.length
             : "a.length: " + a.length + ", b.length: " + b.length;
 
@@ -214,7 +214,7 @@ public class MDES {
     // @return: int[] : bit string
     //
     // @NotNull
-    private static int[] txtToCode(char[] txt) {
+    static int[] txtToCode(char[] txt) {
         int[] code = new int[NUM_CHAR_BITS * txt.length];
         int codeIndex = 0;
         for (int i = 0; i < txt.length; i++) {
@@ -235,7 +235,6 @@ public class MDES {
             // bit buffer length should be multiple of BLOCK_SIZE
             double t = (double)bs.length / BLOCK_SIZE;
             int bitBufLen = ((int)Math.ceil(t)) * BLOCK_SIZE;
-            System.out.println("====" + bitBufLen);
             int[] code = new int[bitBufLen];
 
             // padding with 0 in the end of the bit string
@@ -265,7 +264,7 @@ public class MDES {
     // @pre: it is used to translate encrypted or decrypted bit string to text
     //       so the input code must be multiple of BLOCK_SIZE.
     // @NotNull
-    private static char[] codeToTxt(int[] code) {
+    static char[] codeToTxt(int[] code) {
         assert code.length % BLOCK_SIZE == 0 :
         "code.length: " + code.length + " is not multiple of " + BLOCK_SIZE;
 
@@ -284,7 +283,7 @@ public class MDES {
     }
 
     // @NotNull
-    private static int[][] toInternalKey(String key)
+    static int[][] toInternalKey(String key)
     {
         assert key.length() == KEY_LEN * ENC_PASSES;
 
@@ -422,8 +421,8 @@ public class MDES {
         return e;
     }
 
-    private static int copyIntArrIntoArr(int[] target, int targetOffset,
-                                         int[] src) {
+    static int copyIntArrIntoArr(int[] target, int targetOffset,
+                                 int[] src) {
         for (int i = 0; i < src.length; i++) {
             target[targetOffset++] = src[i];
         }
