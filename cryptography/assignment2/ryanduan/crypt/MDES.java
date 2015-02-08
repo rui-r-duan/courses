@@ -44,10 +44,6 @@ public class MDES {
         ',', '?', '(', ')'
     };
 
-    private static int[] bitmasks = {
-        0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
-    };
-
     // @Nullable: null check must be done in client code
     // O(1)
     private static Integer charToInt(char c) {
@@ -84,11 +80,10 @@ public class MDES {
         assert outputLength >= 1 && outputLength <= 8 : outputLength;
 
         int[] s = new int[outputLength];
-        int maskIndex = bitmasks.length - outputLength;
-        for (int i = 0; i < outputLength; i++) {
+        for (int i = outputLength - 1; i >= 0; i--) {
             // high bits of the integer are pushed in the array first
-            int mask = bitmasks[maskIndex++];
-            s[i] = (a & mask) >> (outputLength - i - 1);
+            s[i] = a & 0x1;
+            a = a >> 1;
         }
         return s;
     }
@@ -166,7 +161,6 @@ public class MDES {
 
         // S-Box's index begins from 0
         int t = sbox[row][col];
-        // System.out.println("s-box val = " + t);
         r = intToBinaryStr(t, 4);
         return r;
     }
@@ -255,12 +249,16 @@ public class MDES {
         return k;
     }
 
-    public static String encrypt(String in, String key) {
-        return MDES_Framework(in, key, 'e');
+    // @param: String txt: input as English text
+    // @param: String key: input as binary string of length 24
+    public static String encrypt(String txt, String key) {
+        return MDES_Framework(txt, key, 'e');
     }
 
-    public static String decrypt(String in, String key) {
-        return MDES_Framework(in, key, 'd');
+    // @param: String txt: input as English text
+    // @param: String key: input as binary string of length 24
+    public static String decrypt(String txt, String key) {
+        return MDES_Framework(txt, key, 'd');
     }
 
     // @param: char encOrDec:
@@ -333,8 +331,8 @@ public class MDES {
     // @output: L and R: each one is int[3][8],
     //          L[2] and R[2] togeher are the encryption result of L0 and R0
     //
-    private static void encryptKernel(int[] L0, int[] R0, int[][] key,
-                                      int[][] L, int[][] R) {
+    static void encryptKernel(int[] L0, int[] R0, int[][] key,
+                              int[][] L, int[][] R) {
         L[0] = L0;
         R[0] = R0;
         for (int i = 1; i <= 2; i++) {
@@ -361,8 +359,8 @@ public class MDES {
         return result;
     }
 
-    private static void decryptKernel(int[] L2, int[] R2, int[][] key,
-                                      int[][] L, int[][] R) {
+    static void decryptKernel(int[] L2, int[] R2, int[][] key,
+                              int[][] L, int[][] R) {
         L[2] = L2;
         R[2] = R2;
         for (int i = 2; i >= 1; i--) {
@@ -379,7 +377,7 @@ public class MDES {
         return targetOffset;
     }
 
-    private static void printBitString(int[] a) {
+    public static void printBitString(int[] a) {
         for (int i : a) {
             System.out.print(i);
         }
