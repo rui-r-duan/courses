@@ -124,7 +124,7 @@ public class MDES {
     // @param: int[] a: string of length KEY_LEN
     // @return: two int[KEY_LEN/2]
     // @NotNull
-    static int[][] splitIntoHalves(int[] a) {
+    private static int[][] splitIntoHalves(int[] a) {
         assert a.length % 2 == 0;
 
         int[][] r = new int[2][KEY_LEN / 2];
@@ -331,7 +331,7 @@ public class MDES {
         int[] bitStr = addPadding(code);
         printBitString(bitStr);
 
-        // encrypt bit string
+        // encrypt or decrypt bit string
         int[] outBitStr = {0};  // initialize to int[1] that contains only 0
         if (encOrDec == 'e') {
             outBitStr = encryptInternal(bitStr, internalKey);
@@ -353,10 +353,10 @@ public class MDES {
         assert bs.length % BLOCK_SIZE == 0;
 
         int[] result = new int[bs.length];
-        int resultOffset = 0;
 
         int[][] blocks = divideBitStrIntoBlocks(bs);
 
+        int resultOffset = 0;
         for (int i = 0; i < blocks.length; i++) {
             int[] encBlock = encryptKernel(blocks[i], key);
 
@@ -370,9 +370,9 @@ public class MDES {
     // @param: int[][] key: int[ENC_PASSES][KEY_LEN],
     //                      each pass uses a different key
     // @return: int[]: a block of encrypted bit string of length BLOCK_SIZE
-    static int[] encryptKernel(int[] block, int[][] key) {
-        int[] L0 = Arrays.copyOfRange(block, 0, HALF_BLOCK_SIZE);
-        int[] R0 = Arrays.copyOfRange(block, HALF_BLOCK_SIZE, 2*HALF_BLOCK_SIZE);
+    static int[] encryptKernel(int[] blk, int[][] key) {
+        int[] L0 = Arrays.copyOfRange(blk, 0, HALF_BLOCK_SIZE);
+        int[] R0 = Arrays.copyOfRange(blk, HALF_BLOCK_SIZE, 2*HALF_BLOCK_SIZE);
         int[][] L = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
         int[][] R = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
 
@@ -383,42 +383,43 @@ public class MDES {
             R[i] = bitStrXOR(L[i-1], f(R[i-1], key[i-1]));
         }
 
-        int[] result = new int[BLOCK_SIZE];
-        System.arraycopy(L[ENC_PASSES], 0, result, 0, HALF_BLOCK_SIZE);
-        System.arraycopy(R[ENC_PASSES], 0, result, HALF_BLOCK_SIZE,
-                         HALF_BLOCK_SIZE);
-        return result;
+        int[] e = concatIntArray(L[ENC_PASSES], R[ENC_PASSES]);
+        return e;
     }
 
     // It is a framework similar to encryptInternal(), so refer to its comment.
     private static int[] decryptInternal(int[] bs, int[][] key) {
         assert bs.length % BLOCK_SIZE == 0;
+
         int[] result = new int[bs.length];
+
+        int[][] blocks = divideBitStrIntoBlocks(bs);
+
         int resultOffset = 0;
-        int cnt = bs.length / BLOCK_SIZE;
-        int[][] L = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
-        int[][] R = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
-        for (int i = 0; i < cnt; i++) {
-            int[] Ln = Arrays.copyOfRange(bs, i*2*HALF_BLOCK_SIZE,
-                                          (i*2+1)*HALF_BLOCK_SIZE);
-            int[] Rn = Arrays.copyOfRange(bs, (i*2+1)*HALF_BLOCK_SIZE,
-                                          (i*2+2)*HALF_BLOCK_SIZE);
-            decryptKernel(Ln, Rn, key, L, R);
-            resultOffset = copyIntArrIntoArr(result, resultOffset, L[0]);
-            resultOffset = copyIntArrIntoArr(result, resultOffset, R[0]);
+        for (int i = 0; i < blocks.length; i++) {
+            int[] decBlock = decryptKernel(blocks[i], key);
+
+            // populate result[] with the decrypted block
+            resultOffset = copyIntArrIntoArr(result, resultOffset, decBlock);
         }
         return result;
     }
 
-    // Ln and Rn means L and R in the n-th pass
-    static void decryptKernel(int[] Ln, int[] Rn, int[][] key,
-                              int[][] L, int[][] R) {
+    static int[] decryptKernel(int[] blk, int[][] key) {
+        int[] Ln = Arrays.copyOfRange(blk, 0, HALF_BLOCK_SIZE);
+        int[] Rn = Arrays.copyOfRange(blk, HALF_BLOCK_SIZE, 2*HALF_BLOCK_SIZE);
+        int[][] L = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
+        int[][] R = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
+
         L[ENC_PASSES] = Ln;
         R[ENC_PASSES] = Rn;
         for (int i = ENC_PASSES; i >= 1; i--) {
             R[i-1] = L[i];
             L[i-1] = bitStrXOR(R[i], f(R[i-1], key[i-1]));
         }
+
+        int[] e = concatIntArray(L[0], R[0]);
+        return e;
     }
 
     private static int copyIntArrIntoArr(int[] target, int targetOffset,
