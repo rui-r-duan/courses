@@ -1,9 +1,9 @@
 import java.io.*;
 import java.util.Arrays;
-import ryanduan.crypt.CBC;
+import ryanduan.crypt.CTR;
 import ryanduan.crypt.MDES;
 
-class Test_P2 {
+class Test_P2_CTR {
     public static void main(String[] args) {
         // read characters from standard input
         char[] charBuffer = new char[1024];
@@ -22,10 +22,10 @@ class Test_P2 {
 
         // encryption and decryption
         String key = "101101010010100101101011";
-        int[] iv = CBC.genIV();
-        int[] encout = CBC.encrypt(code, key, iv);
+        int[] iv = CTR.genIV();
+        int[] encout = CTR.encrypt(code, key, iv);
         MDES.printBitString(encout);
-        int[] decout = CBC.decrypt(encout, key, iv);
+        int[] decout = CTR.decrypt(encout, key, iv);
         MDES.printBitString(decout);
 
         // bit string to text

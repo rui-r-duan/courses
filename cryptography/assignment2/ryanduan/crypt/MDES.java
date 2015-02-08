@@ -86,7 +86,7 @@ public class MDES {
     // @NotNull: no need to check new fail with null check, because
     //           if new fails, Java will throw OutOfMemoryError.
     //
-    private static int[] intToBinaryStr(int a, int outputLength) {
+    static int[] intToBitStr(int a, int outputLength) {
         assert outputLength >= 0 && outputLength <= 32 : outputLength;
 
         int[] s = new int[outputLength];
@@ -137,7 +137,7 @@ public class MDES {
         return r;
     }
 
-    private static int bitStrToInt(int[] a) {
+    static int bitStrToInt(int[] a) {
         int s = 0;
         for (int i = 0; i < a.length; i++) {
             s += a[i] * Math.pow(2, (a.length - i - 1));
@@ -177,7 +177,7 @@ public class MDES {
 
         // S-Box's index begins from 0
         int t = sbox[row][col];
-        r = intToBinaryStr(t, 4);
+        r = intToBitStr(t, 4);
         return r;
     }
 
@@ -219,7 +219,7 @@ public class MDES {
         int codeIndex = 0;
         for (int i = 0; i < txt.length; i++) {
             Integer a = charToInt(txt[i]);
-            int[] r = intToBinaryStr(a, NUM_CHAR_BITS);
+            int[] r = intToBitStr(a, NUM_CHAR_BITS);
             // append the content of r to code
             for (int j = 0; j < NUM_CHAR_BITS; j++) {
                 code[codeIndex++] = r[j];
