@@ -268,7 +268,7 @@ public class MDES {
         //
         // Bit buffer length should be multiple of 16, and must contain all the
         // code for all the characters.
-        int bitBufLen = ((int)Math.ceil(in.length() * 5 / 16)) * 16;
+        int bitBufLen = ((int)Math.ceil((double)in.length() * 5 / 16)) * 16;
         int[] bitStr = new int[bitBufLen];
 
         // padding with 0 in the end of the bit string
