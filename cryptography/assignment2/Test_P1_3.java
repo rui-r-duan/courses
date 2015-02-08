@@ -5,22 +5,30 @@ import ryanduan.crypt.MDES;
 class Test_P1_3 {
     public static void main(String[] args) {
         // read characters from standard input
-        char[] charBuffer = new char[1024];
+        char[] inputBuffer = new char[1024];
         int len = 0;
         try {
-            len = readInput(charBuffer);
+            len = readInput(inputBuffer);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("len=" + len);
-        String in = new String(charBuffer, 0, len); 
+        String in = new String(inputBuffer, 0, len); 
         System.out.println(in);
 
+        // text to bit string
+        int[] code = MDES.txtToCode(in.toCharArray());
+        MDES.printBitString(code);
+
+        // encryption and decryption
         String key = "101101010010100101101011";
-        String encout = MDES.encrypt(in, key);
-        System.out.println(encout);
-        String decout = MDES.decrypt(encout, key);
-        System.out.println(decout);
+        int[] encout = MDES.encrypt(code, key);
+        MDES.printBitString(encout);
+        int[] decout = MDES.decrypt(encout, key);
+        MDES.printBitString(decout);
+
+        // bit string to text
+        char[] txt = MDES.codeToTxt(decout);
+        System.out.println(txt);
     }
 
     // populate input chars from standard input into charBuffer, and return the

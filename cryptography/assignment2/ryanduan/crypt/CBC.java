@@ -20,17 +20,22 @@ public class CBC {
         return v;
     }
 
-    public static String CBC_Framework(String in, String key,
-                                        int[] iv, char encOrDec) {
+    public static int[] encrypt(int[] bitstring, String key, int[] iv) {
+        return CBC_Framework(bitstring, key, iv, 'e');
+    }
+
+    public static int[] decrypt(int[] bitstring, String key, int[] iv) {
+        return CBC_Framework(bitstring, key, iv, 'd');
+    }
+
+    private static int[] CBC_Framework(int[] in, String key,
+                                       int[] iv, char encOrDec) {
         assert key.length() == MDES.ENC_PASSES * MDES.KEY_LEN
             && (encOrDec == 'e' || encOrDec == 'd');
 
         int [][] internalKey = MDES.toInternalKey(key);
 
-        // text to bit string
-        int[] code = MDES.txtToCode(in.toCharArray());
-        int[] bitStr = MDES.addPadding(code);
-        MDES.printBitString(bitStr);
+        int[] bitStr = MDES.addPadding(in);
 
         // encrypt or decrypt bit string
         int[] outBitStr = {0};  // initialize to int[1] that contains only 0
@@ -40,12 +45,8 @@ public class CBC {
             outBitStr = decryptInternal(bitStr, internalKey, iv);
         } else { // do nothing
         }
-        MDES.printBitString(outBitStr);
 
-        // bit string to text
-        char[] txt = MDES.codeToTxt(outBitStr);
-
-        return new String(txt);
+        return outBitStr;
     }
 
     private static int[] encryptInternal(int[] bs, int[][] key, int[] iv) {

@@ -214,7 +214,7 @@ public class MDES {
     // @return: int[] : bit string
     //
     // @NotNull
-    static int[] txtToCode(char[] txt) {
+    public static int[] txtToCode(char[] txt) {
         int[] code = new int[NUM_CHAR_BITS * txt.length];
         int codeIndex = 0;
         for (int i = 0; i < txt.length; i++) {
@@ -264,7 +264,7 @@ public class MDES {
     // @pre: it is used to translate encrypted or decrypted bit string to text
     //       so the input code must be multiple of BLOCK_SIZE.
     // @NotNull
-    static char[] codeToTxt(int[] code) {
+    public static char[] codeToTxt(int[] code) {
         assert code.length % BLOCK_SIZE == 0 :
         "code.length: " + code.length + " is not multiple of " + BLOCK_SIZE;
 
@@ -304,31 +304,28 @@ public class MDES {
         return k;
     }
 
-    // @param: String txt: input as English text
+    // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
-    public static String encrypt(String txt, String key) {
-        return MDES_Framework(txt, key, 'e');
+    public static int[] encrypt(int[] bitstring, String key) {
+        return MDES_Framework(bitstring, key, 'e');
     }
 
-    // @param: String txt: input as English text
+    // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
-    public static String decrypt(String txt, String key) {
-        return MDES_Framework(txt, key, 'd');
+    public static int[] decrypt(int[] bitstring, String key) {
+        return MDES_Framework(bitstring, key, 'd');
     }
 
     // @param: char encOrDec:
     //         if 'e' then do encryption, if 'd' then do decryption.
-    //
-    private static String MDES_Framework(String in, String key, char encOrDec) {
+    private static int[] MDES_Framework(int[] in, String key, char encOrDec) {
         assert key.length() == ENC_PASSES * KEY_LEN
             && (encOrDec == 'e' || encOrDec == 'd');
 
         int [][] internalKey = toInternalKey(key);
 
         // text to bit string
-        int[] code = txtToCode(in.toCharArray());
-        int[] bitStr = addPadding(code);
-        printBitString(bitStr);
+        int[] bitStr = addPadding(in);
 
         // encrypt or decrypt bit string
         int[] outBitStr = {0};  // initialize to int[1] that contains only 0
@@ -338,12 +335,8 @@ public class MDES {
             outBitStr = decryptInternal(bitStr, internalKey);
         } else { // do nothing
         }
-        printBitString(outBitStr);
 
-        // bit string to text
-        char[] txt = codeToTxt(outBitStr);
-
-        return new String(txt);
+        return outBitStr;
     }
 
     // @param: int[] bs: bit string of length that is multiple of 16

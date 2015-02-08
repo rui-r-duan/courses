@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Arrays;
 import ryanduan.crypt.CBC;
+import ryanduan.crypt.MDES;
 
 class Test_P2 {
     public static void main(String[] args) {
@@ -12,16 +13,24 @@ class Test_P2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("len=" + len);
         String in = new String(charBuffer, 0, len); 
         System.out.println(in);
 
+        // text to bit string
+        int[] code = MDES.txtToCode(in.toCharArray());
+        MDES.printBitString(code);
+
+        // encryption and decryption
         String key = "101101010010100101101011";
         int[] iv = CBC.genIV();
-        String encout = CBC.CBC_Framework(in, key, iv, 'e');
-        System.out.println(encout);
-        String decout = CBC.CBC_Framework(encout, key, iv, 'd');
-        System.out.println(decout);
+        int[] encout = CBC.encrypt(code, key, iv);
+        MDES.printBitString(encout);
+        int[] decout = CBC.decrypt(encout, key, iv);
+        MDES.printBitString(decout);
+
+        // bit string to text
+        char[] txt = MDES.codeToTxt(decout);
+        System.out.println(txt);
     }
 
     // populate input chars from standard input into charBuffer, and return the
