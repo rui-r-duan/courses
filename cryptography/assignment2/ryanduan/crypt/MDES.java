@@ -44,6 +44,11 @@ public class MDES {
         ',', '?', '(', ')'
     };
 
+    private static final int ENC_PASSES = 2;
+    private static final int BLOCK_SIZE = 16;
+    private static final int HALF_BLOCK_SIZE = BLOCK_SIZE / 2;
+    private static final int KEY_LEN = 12;
+
     // @Nullable: null check must be done in client code
     // O(1)
     private static Integer charToInt(char c) {
@@ -56,11 +61,12 @@ public class MDES {
         return rm[a];
     }
 
+    // ----------------------------------------------------------------
     // Note:
     // I could have used Integer.toBinaryString(int i) to return a String,
     // but that function do not allow me to control the length of the output.
     //
-    // This function can control the length of output range from 1 to 8.
+    // This function can control the length of output range from 0 to 32.
     //
     // Example 1:
     // if a = 9 (bin: 1001), and outputLength = 2, then
@@ -68,6 +74,11 @@ public class MDES {
     //
     // Example 2:
     // if a = 10 (bin: 1010), and outputLength = 5, then
+    // output should be be 01010
+    // ----------------------------------------------------------------
+    //
+    // @param: int a: a positive integer
+    // @param: int outputLength: >=0 and <= 32
     //
     // @return: binary string representation of the integer
     //
@@ -75,9 +86,7 @@ public class MDES {
     //           if new fails, Java will throw OutOfMemoryError.
     //
     private static int[] intToBinaryStr(int a, int outputLength) {
-        // new int[0] is legal in Java, but we do not allow outputLength == 0
-        // because it is meaningless
-        assert outputLength >= 1 && outputLength <= 8 : outputLength;
+        assert outputLength >= 0 && outputLength <= 32 : outputLength;
 
         int[] s = new int[outputLength];
         for (int i = outputLength - 1; i >= 0; i--) {
@@ -88,18 +97,20 @@ public class MDES {
         return s;
     }
 
-    // expand 8 bit string to 12 bit string
+    // expand string of HALF_BLOCK_SIZE to string of KEY_LEN
     // @NotNull
     private static int[] expand(int[] a) {
-        if (a.length != 8) {
+        if (a.length != HALF_BLOCK_SIZE) {
             // it is a runtime exception, do not need to declare in the method
             // signature
-            throw new IllegalArgumentException("length of input string must be 8, but now it is " + a.length);
+            throw new
+                IllegalArgumentException("length of input string must be "
+                                         + HALF_BLOCK_SIZE +
+                                         ", but now it is " + a.length);
         }
-        int[] r = new int[12];
+        int[] r = new int[KEY_LEN];
         boolean shouldAppend = false;
-        for (int i = 0, j = 8;
-             i < a.length; i++) {
+        for (int i = 0, j = HALF_BLOCK_SIZE; i < a.length; i++) {
             r[i] = a[i];
             if (shouldAppend) {
                 r[j++] = a[i];
@@ -109,14 +120,16 @@ public class MDES {
         return r;
     }
 
-    // @param: int[] a: 12-bit string
-    // @return: two int[6] (two 6-bit strings)
+    // @param: int[] a: string of length KEY_LEN
+    // @return: two int[KEY_LEN/2]
     // @NotNull
-    private static int[][] split12Bit(int[] a) {
-        int[][] r = new int[2][6];
+    static int[][] splitIntoHalves(int[] a) {
+        assert a.length % 2 == 0;
+
+        int[][] r = new int[2][KEY_LEN / 2];
         int k = 0;
-        for (int i = 0; i < r.length; i++) {
-            for (int j = 0; j < r[i].length; j++) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < KEY_LEN / 2; j++) {
                 r[i][j] = a[k++];
             }
         }
@@ -143,6 +156,8 @@ public class MDES {
         return r;
     }
 
+    // Caution: specialized for this S1 and S2 (size fixed)
+    //
     // @param: int[] a: 8-bit string
     // @return: 4-bit string (possible 'null' if new int[] fails)
     // @NotNull
@@ -184,7 +199,7 @@ public class MDES {
     private static int[] f(int[] a, int[] key) {
         int[] ea = expand(a);
         int[] eak = bitStrXOR(ea, key);
-        int[][] b = split12Bit(eak);
+        int[][] b = splitIntoHalves(eak);
         int[] sboxout1 = sboxTransform(b[0], S1); // output 4-bit string
         int[] sboxout2 = sboxTransform(b[1], S2); // output 4-bit string
         int[] output = concatIntArray(sboxout1, sboxout2);
@@ -213,15 +228,16 @@ public class MDES {
     // @param: char[] txt: output
     //
     // @pre: it is used to translate encrypted or decrypted bit string to text
-    //       so the input code must be multiple of 16.
+    //       so the input code must be multiple of BLOCK_SIZE.
     //
     private static void codeToTxt(int[] code, char[] txt) {
-        assert code.length % 16 == 0 :
-        "code.length: " + code.length + " is not multiple of 16";
+        assert code.length % BLOCK_SIZE == 0 :
+        "code.length: " + code.length + " is not multiple of " + BLOCK_SIZE;
 
         // each block is 5-bit which corresponds to a char
         //
-        // Note: if code.length = 528
+        // Caution: for example, if code.length == 528, the last 3 bits will be
+        // disgarded
         int cntBlocks = code.length / 5;
         for (int i = 0; i < cntBlocks; i++) {
             int[] b = Arrays.copyOfRange(code, i*5, (i+1)*5);
@@ -232,10 +248,12 @@ public class MDES {
 
     private static int[][] toInternalKey(String key)
     {
-        int[][] k = new int[2][12];
+        assert key.length() == KEY_LEN * ENC_PASSES;
+
+        int[][] k = new int[ENC_PASSES][KEY_LEN];
         int c = 0;
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 12; j++) {
+        for (int i = 0; i < ENC_PASSES; i++) {
+            for (int j = 0; j < KEY_LEN; j++) {
                 char ch = key.charAt(c++);
                 if (ch == '1') {
                     k[i][j] = 1;
@@ -265,7 +283,8 @@ public class MDES {
     //         if 'e' then do encryption, if 'd' then do decryption.
     //
     private static String MDES_Framework(String in, String key, char encOrDec) {
-        assert key.length() == 24 && (encOrDec == 'e' || encOrDec == 'd');
+        assert key.length() == ENC_PASSES * KEY_LEN
+            && (encOrDec == 'e' || encOrDec == 'd');
 
         int [][] internalKey = toInternalKey(key);
 
@@ -274,7 +293,7 @@ public class MDES {
 
         // Bit buffer length should be multiple of 16, and must contain all the
         // code for all the characters.
-        int bitBufLen = ((int)Math.ceil((double)in.length() * 5 / 16)) * 16;
+        int bitBufLen = ((int)Math.ceil((double)in.length() * 5 / BLOCK_SIZE)) * BLOCK_SIZE;
         int[] bitStr = new int[bitBufLen];
 
         // padding with 0 in the end of the bit string
@@ -298,9 +317,9 @@ public class MDES {
     }
 
     // @param: int[] bs: bit string of length that is multiple of 16
-    // @param: int[][] key: int[2][12] two 12-bit keys
+    // @param: int[][] key: int[ENC_PASSES][KEY_LEN], each pass uses a KEY_LEN key
     private static int[] encryptInternal(int[] bs, int[][] key) {
-        assert bs.length % 16 == 0;
+        assert bs.length % BLOCK_SIZE == 0;
 
         int[] result = new int[bs.length];
         int resultOffset = 0;
@@ -308,62 +327,67 @@ public class MDES {
         // divide bs[] into 16-bit string blocks,
         // process each block,
         // each i is used as a counter for one block (16 bit)
-        int cnt = bs.length / 16;     // count of blocks
+        int cnt = bs.length / BLOCK_SIZE;     // count of blocks
 
         // used as encoding storage for each block
-        int[][] L = new int[3][8];
-        int[][] R = new int[3][8];
+        int[][] L = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
+        int[][] R = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
 
         for (int i = 0; i < cnt; i++) {
             // two-pass encrypt for each block
-            int[] L0 = Arrays.copyOfRange(bs, i*2*8, (i*2+1)*8);
-            int[] R0 = Arrays.copyOfRange(bs, (i*2+1)*8, (i*2+2)*8);
+            int[] L0 = Arrays.copyOfRange(bs, i*2*HALF_BLOCK_SIZE,
+                                          (i*2+1)*HALF_BLOCK_SIZE);
+            int[] R0 = Arrays.copyOfRange(bs, (i*2+1)*HALF_BLOCK_SIZE,
+                                          (i*2+2)*HALF_BLOCK_SIZE);
             encryptKernel(L0, R0, key, L, R);
             // populate result[] with the encrypted block
-            resultOffset = copyIntArrIntoArr(result, resultOffset, L[2]);
-            resultOffset = copyIntArrIntoArr(result, resultOffset, R[2]);
+            resultOffset = copyIntArrIntoArr(result, resultOffset, L[ENC_PASSES]);
+            resultOffset = copyIntArrIntoArr(result, resultOffset, R[ENC_PASSES]);
         }
         return result;
     }
 
-    // @input: L0 and R0: each one is an 8-bit string
-    // @input: int[][] key: int[2][12] two 12-bit keys
-    // @output: L and R: each one is int[3][8],
-    //          L[2] and R[2] togeher are the encryption result of L0 and R0
+    // @input: L0 and R0: each one is an HALF_BLOCK_SIZE string
+    // @input: int[][] key: int[ENC_PASSES][KEY_LEN], each pass uses a KEY_LEN key
+    // @output: L and R: each one is int[ENC_PASSES+1][HALF_BLOCK_SIZE],
+    //          L[ENC_PASSES] and R[ENC_PASSES] togeher are the encryption result of L0 and R0
     //
     static void encryptKernel(int[] L0, int[] R0, int[][] key,
                               int[][] L, int[][] R) {
         L[0] = L0;
         R[0] = R0;
-        for (int i = 1; i <= 2; i++) {
-            L[i] = Arrays.copyOf(R[i-1], 8);
+        for (int i = 1; i <= ENC_PASSES; i++) {
+            L[i] = Arrays.copyOf(R[i-1], HALF_BLOCK_SIZE);
             R[i] = bitStrXOR(L[i-1], f(R[i-1], key[i-1]));
         }
     }
 
     // It is a framework similar to encryptInternal(), so refer to its comment.
     private static int[] decryptInternal(int[] bs, int[][] key) {
-        assert bs.length % 16 == 0;
+        assert bs.length % BLOCK_SIZE == 0;
         int[] result = new int[bs.length];
         int resultOffset = 0;
-        int cnt = bs.length / 16;
-        int[][] L = new int[3][8];
-        int[][] R = new int[3][8];
+        int cnt = bs.length / BLOCK_SIZE;
+        int[][] L = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
+        int[][] R = new int[ENC_PASSES + 1][HALF_BLOCK_SIZE];
         for (int i = 0; i < cnt; i++) {
-            int[] L2 = Arrays.copyOfRange(bs, i*2*8, (i*2+1)*8);
-            int[] R2 = Arrays.copyOfRange(bs, (i*2+1)*8, (i*2+2)*8);
-            decryptKernel(L2, R2, key, L, R);
+            int[] Ln = Arrays.copyOfRange(bs, i*2*HALF_BLOCK_SIZE,
+                                          (i*2+1)*HALF_BLOCK_SIZE);
+            int[] Rn = Arrays.copyOfRange(bs, (i*2+1)*HALF_BLOCK_SIZE,
+                                          (i*2+2)*HALF_BLOCK_SIZE);
+            decryptKernel(Ln, Rn, key, L, R);
             resultOffset = copyIntArrIntoArr(result, resultOffset, L[0]);
             resultOffset = copyIntArrIntoArr(result, resultOffset, R[0]);
         }
         return result;
     }
 
-    static void decryptKernel(int[] L2, int[] R2, int[][] key,
+    // Ln and Rn means L and R in the n-th pass
+    static void decryptKernel(int[] Ln, int[] Rn, int[][] key,
                               int[][] L, int[][] R) {
-        L[2] = L2;
-        R[2] = R2;
-        for (int i = 2; i >= 1; i--) {
+        L[ENC_PASSES] = Ln;
+        R[ENC_PASSES] = Rn;
+        for (int i = ENC_PASSES; i >= 1; i--) {
             R[i-1] = L[i];
             L[i-1] = bitStrXOR(R[i], f(R[i-1], key[i-1]));
         }
