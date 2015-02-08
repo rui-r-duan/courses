@@ -48,6 +48,7 @@ public class MDES {
     private static final int BLOCK_SIZE = 16;
     private static final int HALF_BLOCK_SIZE = BLOCK_SIZE / 2;
     private static final int KEY_LEN = 12;
+    private static final int NUM_CHAR_BITS = 5;
 
     // @Nullable: null check must be done in client code
     // O(1)
@@ -206,44 +207,54 @@ public class MDES {
         return output;
     }
 
-    // @param: char[] txt: input
-    // @param: int[] code: output
-    private static void txtToCode(char[] txt, int[] code) {
-        assert txt.length * 5 <= code.length :
-        "txt.length=" + txt.length + ", code.length=" + code.length +
-            ": (txt.length * 5) must less than or equal to code.length!";
+    // Convert chars to bit string (using int array to simulate it).
+    // Each char is converted to (NUM_CHAR_BITS) bits.
+    //
+    // @param: char[] txt: English text
+    // @return: int[] : bit string
+    private static int[] txtToCode(char[] txt) {
+        // Bit buffer length should be multiple of BLOCK_SIZE, and must contain
+        // all the code for all the characters.
+        int bitBufLen = ((int)Math.ceil((double)txt.length * NUM_CHAR_BITS / BLOCK_SIZE)) * BLOCK_SIZE;
+        int[] code = new int[bitBufLen];
+
+        // padding with 0 in the end of the bit string
+        Arrays.fill(code, 0);
 
         int codeIndex = 0;
         for (int i = 0; i < txt.length; i++) {
             Integer a = charToInt(txt[i]);
-            int[] r = intToBinaryStr(a, 5);
+            int[] r = intToBinaryStr(a, NUM_CHAR_BITS);
             // append the content of r to code
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < NUM_CHAR_BITS; j++) {
                 code[codeIndex++] = r[j];
             }
         }
+        return code;
     }
 
-    // @param: int[] code: input
-    // @param: char[] txt: output
+    // @param: int[] code: input bit string
+    // @return: char[]: English text
     //
     // @pre: it is used to translate encrypted or decrypted bit string to text
     //       so the input code must be multiple of BLOCK_SIZE.
     //
-    private static void codeToTxt(int[] code, char[] txt) {
+    private static char[] codeToTxt(int[] code) {
         assert code.length % BLOCK_SIZE == 0 :
         "code.length: " + code.length + " is not multiple of " + BLOCK_SIZE;
 
-        // each block is 5-bit which corresponds to a char
+        // each block is of lengt NUM_CHAR_BITS which corresponds to a char
         //
         // Caution: for example, if code.length == 528, the last 3 bits will be
         // disgarded
-        int cntBlocks = code.length / 5;
+        int cntBlocks = code.length / NUM_CHAR_BITS;
+        char[] txt = new char[cntBlocks];
         for (int i = 0; i < cntBlocks; i++) {
-            int[] b = Arrays.copyOfRange(code, i*5, (i+1)*5);
+            int[] b = Arrays.copyOfRange(code, i*NUM_CHAR_BITS, (i+1)*NUM_CHAR_BITS);
             int a = bitStrToInt(b);
             txt[i] = intToChar(a);
         }
+        return txt;
     }
 
     private static int[][] toInternalKey(String key)
@@ -288,20 +299,11 @@ public class MDES {
 
         int [][] internalKey = toInternalKey(key);
 
-        // Convert chars to bit string (using int array to simulate it) one
-        // char is converted to 5 bits.
-
-        // Bit buffer length should be multiple of 16, and must contain all the
-        // code for all the characters.
-        int bitBufLen = ((int)Math.ceil((double)in.length() * 5 / BLOCK_SIZE)) * BLOCK_SIZE;
-        int[] bitStr = new int[bitBufLen];
-
-        // padding with 0 in the end of the bit string
-        Arrays.fill(bitStr, 0);
-
-        // turn char string into binary code (bit string)
-        txtToCode(in.toCharArray(), bitStr);
+        // text to bit string
+        int[] bitStr = txtToCode(in.toCharArray());
         printBitString(bitStr);
+
+        // encrypt bit string
         int[] outBitStr = {0};  // initialize to int[1] that contains only 0
         if (encOrDec == 'e') {
             outBitStr = encryptInternal(bitStr, internalKey);
@@ -310,8 +312,9 @@ public class MDES {
         } else { // do nothing
         }
         printBitString(outBitStr);
-        char[] txt = new char[in.length()];
-        codeToTxt(outBitStr, txt);
+
+        // bit string to text
+        char[] txt = codeToTxt(outBitStr);
 
         return new String(txt);
     }
