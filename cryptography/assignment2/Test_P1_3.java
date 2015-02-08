@@ -17,8 +17,10 @@ class Test_P1_3 {
         System.out.println(in);
 
         String key = "101101010010100101101011";
-        String out = MDES.encode(in, key);
-        System.out.println(out);
+        String encout = MDES.encrypt(in, key);
+        System.out.println(encout);
+        String decout = MDES.decrypt(encout, key);
+        System.out.println(decout);
     }
 
     // populate input chars from standard input into charBuffer, and return the
