@@ -1,9 +1,9 @@
-import java.io.*;
-import java.util.Arrays;
+import ryanduan.crypt.Hash;
 import ryanduan.crypt.MDES;
 import ryanduan.crypt.RDUtils;
+import java.io.*;
 
-class Test_P1_3 {
+class TestHash {
     public static void main(String[] args) {
         // read characters from standard input
         char[] inputBuffer = new char[1024];
@@ -20,15 +20,8 @@ class Test_P1_3 {
         int[] code = MDES.txtToCode(in.toCharArray());
         MDES.printBitString(code);
 
-        // encryption and decryption
-        String key = "101101010010100101101011";
-        int[] encout = MDES.encrypt(code, MDES.convKeyBits_StrToInt(key));
-        MDES.printBitString(encout);
-        int[] decout = MDES.decrypt(encout, MDES.convKeyBits_StrToInt(key));
-        MDES.printBitString(decout);
-
-        // bit string to text
-        char[] txt = MDES.codeToTxt(decout);
-        System.out.println(txt);
+        // compute hash
+        int[] hash = Hash.computeHash(code);
+        MDES.printBitString(hash);
     }
 }
