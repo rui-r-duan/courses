@@ -6,7 +6,6 @@
 package ryanduan.crypt;
 
 import java.util.*;
-import ryanduan.crypt.MDES;
 
 public class CBC {
     // generate initialization vector
@@ -42,7 +41,7 @@ public class CBC {
 
         int [][] internalKey = MDES.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
 
-        int[] bitStr = MDES.addPadding(in);
+        int[] bitStr = RDUtils.addPadding(in, MDES.BLOCK_SIZE);
 
         // encrypt or decrypt bit string
         int[] outBitStr = {0};  // initialize to int[1] that contains only 0

@@ -228,26 +228,6 @@ public class MDES {
         return code;
     }
 
-    static int[] addPadding(int[] bs) {
-        if (bs.length % BLOCK_SIZE == 0) {
-            return bs;
-        } else {
-            // bit buffer length should be multiple of BLOCK_SIZE
-            double t = (double)bs.length / BLOCK_SIZE;
-            int bitBufLen = ((int)Math.ceil(t)) * BLOCK_SIZE;
-            int[] code = new int[bitBufLen];
-
-            // padding with 0 in the end of the bit string
-            Arrays.fill(code, 0);
-
-            // copy
-            for (int i = 0; i < bs.length; i++) {
-                code[i] = bs[i];
-            }
-            return code;
-        }
-    }
-
     static int[][] divideBitStrIntoBlocks(int[] bs, int blocksize) {
         assert bs.length % blocksize == 0;
         int n = bs.length / blocksize;
@@ -327,7 +307,7 @@ public class MDES {
 
         int [][] internalKey = divideBitStrIntoBlocks(key, KEY_LEN);
 
-        int[] bitStr = addPadding(in);
+        int[] bitStr = RDUtils.addPadding(in, BLOCK_SIZE);
 
         // encrypt or decrypt bit string
         int[] outBitStr = {0};  // initialize to int[1] that contains only 0
