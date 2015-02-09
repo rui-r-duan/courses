@@ -21,9 +21,9 @@ class Test_P1_3 {
 
         // encryption and decryption
         String key = "101101010010100101101011";
-        int[] encout = MDES.encrypt(code, key);
+        int[] encout = MDES.encrypt(code, MDES.convKeyBits_StrToInt(key));
         MDES.printBitString(encout);
-        int[] decout = MDES.decrypt(encout, key);
+        int[] decout = MDES.decrypt(encout, MDES.convKeyBits_StrToInt(key));
         MDES.printBitString(decout);
 
         // bit string to text

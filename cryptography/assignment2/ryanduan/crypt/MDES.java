@@ -248,12 +248,12 @@ public class MDES {
         }
     }
 
-    static int[][] divideBitStrIntoBlocks(int[] bs) {
-        assert bs.length % BLOCK_SIZE == 0;
-        int n = bs.length / BLOCK_SIZE;
-        int[][] r = new int[n][BLOCK_SIZE];
+    static int[][] divideBitStrIntoBlocks(int[] bs, int blocksize) {
+        assert bs.length % blocksize == 0;
+        int n = bs.length / blocksize;
+        int[][] r = new int[n][blocksize];
         for (int i = 0; i < n; i++) {
-            r[i] = Arrays.copyOfRange(bs, i*BLOCK_SIZE, (i+1)*BLOCK_SIZE);
+            r[i] = Arrays.copyOfRange(bs, i*blocksize, (i+1)*blocksize);
         }
         return r;
     }
@@ -283,22 +283,21 @@ public class MDES {
     }
 
     // @NotNull
-    static int[][] toInternalKey(String key)
+    public static int[] convKeyBits_StrToInt(String key)
     {
         assert key.length() == KEY_LEN * ENC_PASSES;
 
-        int[][] k = new int[ENC_PASSES][KEY_LEN];
+        byte[] bytes = key.getBytes();
+        int[] k = new int[bytes.length];
         int c = 0;
-        for (int i = 0; i < ENC_PASSES; i++) {
-            for (int j = 0; j < KEY_LEN; j++) {
-                char ch = key.charAt(c++);
-                if (ch == '1') {
-                    k[i][j] = 1;
-                } else if (ch == '0') {
-                    k[i][j] = 0;
-                } else {
-                    throw new IllegalArgumentException("bad key digit: " + ch);
-                }
+        for (int i = 0; i < bytes.length; i++) {
+            char ch = (char)bytes[i];
+            if (ch == '1') {
+                k[i] = 1;
+            } else if (ch == '0') {
+                k[i] = 0;
+            } else {
+                throw new IllegalArgumentException("bad key digit: " + ch);
             }
         }
         return k;
@@ -306,23 +305,23 @@ public class MDES {
 
     // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
-    public static int[] encrypt(int[] bitstring, String key) {
+    public static int[] encrypt(int[] bitstring, int[] key) {
         return MDES_Framework(bitstring, key, 'e');
     }
 
     // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
-    public static int[] decrypt(int[] bitstring, String key) {
+    public static int[] decrypt(int[] bitstring, int[] key) {
         return MDES_Framework(bitstring, key, 'd');
     }
 
     // @param: char encOrDec:
     //         if 'e' then do encryption, if 'd' then do decryption.
-    private static int[] MDES_Framework(int[] in, String key, char encOrDec) {
-        assert key.length() == ENC_PASSES * KEY_LEN
+    private static int[] MDES_Framework(int[] in, int[] key, char encOrDec) {
+        assert key.length == ENC_PASSES * KEY_LEN
             && (encOrDec == 'e' || encOrDec == 'd');
 
-        int [][] internalKey = toInternalKey(key);
+        int [][] internalKey = divideBitStrIntoBlocks(key, KEY_LEN);
 
         // text to bit string
         int[] bitStr = addPadding(in);
@@ -346,7 +345,7 @@ public class MDES {
 
         int[] result = new int[bs.length];
 
-        int[][] blocks = divideBitStrIntoBlocks(bs);
+        int[][] blocks = divideBitStrIntoBlocks(bs, BLOCK_SIZE);
 
         int resultOffset = 0;
         for (int i = 0; i < blocks.length; i++) {
@@ -385,7 +384,7 @@ public class MDES {
 
         int[] result = new int[bs.length];
 
-        int[][] blocks = divideBitStrIntoBlocks(bs);
+        int[][] blocks = divideBitStrIntoBlocks(bs, BLOCK_SIZE);
 
         int resultOffset = 0;
         for (int i = 0; i < blocks.length; i++) {

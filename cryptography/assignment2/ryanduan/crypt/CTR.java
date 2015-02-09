@@ -20,20 +20,20 @@ public class CTR {
         return v;
     }
 
-    public static int[] encrypt(int[] bitstring, String key, int[] iv) {
+    public static int[] encrypt(int[] bitstring, int[] key, int[] iv) {
         return CTR_Framework(bitstring, key, iv, 'e');
     }
 
-    public static int[] decrypt(int[] bitstring, String key, int[] iv) {
+    public static int[] decrypt(int[] bitstring, int[] key, int[] iv) {
         return CTR_Framework(bitstring, key, iv, 'd');
     }
 
-    private static int[] CTR_Framework(int[] in, String key,
+    private static int[] CTR_Framework(int[] in, int[] key,
                                        int[] iv, char encOrDec) {
-        assert key.length() == MDES.ENC_PASSES * MDES.KEY_LEN
+        assert key.length == MDES.ENC_PASSES * MDES.KEY_LEN
             && (encOrDec == 'e' || encOrDec == 'd');
 
-        int [][] internalKey = MDES.toInternalKey(key);
+        int [][] internalKey = MDES.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
 
         int[] bitStr = MDES.addPadding(in);
 
@@ -54,7 +54,7 @@ public class CTR {
 
         int[] result = new int[bs.length];
 
-        int[][] xs = MDES.divideBitStrIntoBlocks(bs);
+        int[][] xs = MDES.divideBitStrIntoBlocks(bs, MDES.BLOCK_SIZE);
         int[][] ys = new int[xs.length][MDES.BLOCK_SIZE];
 
         int[] t;

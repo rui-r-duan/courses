@@ -20,20 +20,20 @@ public class CBC {
         return v;
     }
 
-    public static int[] encrypt(int[] bitstring, String key, int[] iv) {
+    public static int[] encrypt(int[] bitstring, int[] key, int[] iv) {
         return CBC_Framework(bitstring, key, iv, 'e');
     }
 
-    public static int[] decrypt(int[] bitstring, String key, int[] iv) {
+    public static int[] decrypt(int[] bitstring, int[] key, int[] iv) {
         return CBC_Framework(bitstring, key, iv, 'd');
     }
 
-    private static int[] CBC_Framework(int[] in, String key,
+    private static int[] CBC_Framework(int[] in, int[] key,
                                        int[] iv, char encOrDec) {
-        assert key.length() == MDES.ENC_PASSES * MDES.KEY_LEN
+        assert key.length == MDES.ENC_PASSES * MDES.KEY_LEN
             && (encOrDec == 'e' || encOrDec == 'd');
 
-        int [][] internalKey = MDES.toInternalKey(key);
+        int [][] internalKey = MDES.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
 
         int[] bitStr = MDES.addPadding(in);
 
@@ -54,7 +54,7 @@ public class CBC {
 
         int[] result = new int[bs.length];
 
-        int[][] xs = MDES.divideBitStrIntoBlocks(bs);
+        int[][] xs = MDES.divideBitStrIntoBlocks(bs, MDES.BLOCK_SIZE);
         int[][] ys = new int[xs.length][MDES.BLOCK_SIZE];
 
         int[] t = MDES.bitStrXOR(iv, xs[0]);
@@ -76,7 +76,7 @@ public class CBC {
 
         int[] result = new int[bs.length];
 
-        int[][] ys = MDES.divideBitStrIntoBlocks(bs);
+        int[][] ys = MDES.divideBitStrIntoBlocks(bs, MDES.BLOCK_SIZE);
         int[][] xs = new int[ys.length][MDES.BLOCK_SIZE];
 
         int[] t = MDES.decryptKernel(ys[0], key);

@@ -7,7 +7,7 @@ class Test_P1_1 {
         try {
             while ((ch = System.in.read()) != -1) { // -1 indicates End-Of-File
                 Integer i = MDES.charToInt((char)ch);
-                int[] r = MDES.intToBinaryStr(i, 5);
+                int[] r = MDES.intToBitStr(i, 5);
                 System.out.print((char)ch + "\t");
                 MDES.printBitString(r);
             }

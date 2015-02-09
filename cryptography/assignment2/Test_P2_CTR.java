@@ -23,9 +23,9 @@ class Test_P2_CTR {
         // encryption and decryption
         String key = "101101010010100101101011";
         int[] iv = CTR.genIV();
-        int[] encout = CTR.encrypt(code, key, iv);
+        int[] encout = CTR.encrypt(code, MDES.convKeyBits_StrToInt(key), iv);
         MDES.printBitString(encout);
-        int[] decout = CTR.decrypt(encout, key, iv);
+        int[] decout = CTR.decrypt(encout, MDES.convKeyBits_StrToInt(key), iv);
         MDES.printBitString(decout);
 
         // bit string to text
