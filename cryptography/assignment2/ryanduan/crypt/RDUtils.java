@@ -135,4 +135,12 @@ public class RDUtils {
         }
         System.out.println();
     }
+
+    static int copyIntArrIntoArr(int[] target, int targetOffset,
+                                 int[] src) {
+        for (int i = 0; i < src.length; i++) {
+            target[targetOffset++] = src[i];
+        }
+        return targetOffset;
+    }
 }

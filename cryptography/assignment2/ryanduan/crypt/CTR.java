@@ -76,7 +76,7 @@ public class CTR {
             ys[i] = RDUtils.bitStrXOR(xs[i], t);
 
             // populate result[] with the encrypted block
-            resultOffset = MDES.copyIntArrIntoArr(result, resultOffset, ys[i]);
+            resultOffset = RDUtils.copyIntArrIntoArr(result, resultOffset, ys[i]);
         }
         return result;
     }

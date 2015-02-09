@@ -68,14 +68,14 @@ public class CBC {
 
         int[] t = RDUtils.bitStrXOR(iv, xs[0]);
         ys[0] = MDES.encryptKernel(t, key);
-        int resultOffset = MDES.copyIntArrIntoArr(result, 0, ys[0]);
+        int resultOffset = RDUtils.copyIntArrIntoArr(result, 0, ys[0]);
 
         for (int i = 1; i < xs.length; i++) {
             t = RDUtils.bitStrXOR(ys[i-1], xs[i]);
             ys[i] = MDES.encryptKernel(t, key);
 
             // populate result[] with the encrypted block
-            resultOffset = MDES.copyIntArrIntoArr(result, resultOffset, ys[i]);
+            resultOffset = RDUtils.copyIntArrIntoArr(result, resultOffset, ys[i]);
         }
         return result;
     }
@@ -91,14 +91,14 @@ public class CBC {
 
         int[] t = MDES.decryptKernel(ys[0], key);
         xs[0] = RDUtils.bitStrXOR(t, iv);
-        int resultOffset = MDES.copyIntArrIntoArr(result, 0, xs[0]);
+        int resultOffset = RDUtils.copyIntArrIntoArr(result, 0, xs[0]);
 
         for (int i = 1; i < ys.length; i++) {
             t = MDES.decryptKernel(ys[i], key);
             xs[i] = RDUtils.bitStrXOR(t, ys[i-1]);
 
             // populate result[] with the decrypted block
-            resultOffset = MDES.copyIntArrIntoArr(result, resultOffset, xs[i]);
+            resultOffset = RDUtils.copyIntArrIntoArr(result, resultOffset, xs[i]);
         }
         return result;
     }

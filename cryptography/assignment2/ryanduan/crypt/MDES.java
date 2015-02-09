@@ -257,7 +257,7 @@ public class MDES {
             int[] encBlock = encryptKernel(blocks[i], key);
 
             // populate result[] with the encrypted block
-            resultOffset = copyIntArrIntoArr(result, resultOffset, encBlock);
+            resultOffset = RDUtils.copyIntArrIntoArr(result, resultOffset, encBlock);
         }
         return result;
     }
@@ -298,7 +298,7 @@ public class MDES {
             int[] decBlock = decryptKernel(blocks[i], key);
 
             // populate result[] with the decrypted block
-            resultOffset = copyIntArrIntoArr(result, resultOffset, decBlock);
+            resultOffset = RDUtils.copyIntArrIntoArr(result, resultOffset, decBlock);
         }
         return result;
     }
@@ -319,13 +319,5 @@ public class MDES {
 
         int[] e = concatIntArray(L[0], R[0]);
         return e;
-    }
-
-    static int copyIntArrIntoArr(int[] target, int targetOffset,
-                                 int[] src) {
-        for (int i = 0; i < src.length; i++) {
-            target[targetOffset++] = src[i];
-        }
-        return targetOffset;
     }
 }
