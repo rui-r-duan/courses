@@ -20,18 +20,25 @@ public class CBC {
         return v;
     }
 
+    // @NotNull
     public static int[] encrypt(int[] bitstring, int[] key, int[] iv) {
         return CBC_Framework(bitstring, key, iv, 'e');
     }
 
+    // @NotNull
     public static int[] decrypt(int[] bitstring, int[] key, int[] iv) {
         return CBC_Framework(bitstring, key, iv, 'd');
     }
 
+    // @NotNull
     private static int[] CBC_Framework(int[] in, int[] key,
                                        int[] iv, char encOrDec) {
         assert key.length == MDES.ENC_PASSES * MDES.KEY_LEN
             && (encOrDec == 'e' || encOrDec == 'd');
+
+        if (in.length == 0) {   // void input
+            return in;
+        }
 
         int [][] internalKey = MDES.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
 

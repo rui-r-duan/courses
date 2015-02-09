@@ -18,8 +18,10 @@ public class Hash {
     public static int[] computeHash(int[] bitstring) {
         int[] hash = new int[MDES.BLOCK_SIZE];
 
+        int[] paddedBits = MDES.addPadding(bitstring);
+
         // divide input as KEY_SIZE blocks and they will be used as keys
-        int[][] keys = MDES.divideBitStrIntoBlocks(bitstring, KEY_SIZE);
+        int[][] keys = MDES.divideBitStrIntoBlocks(paddedBits, KEY_SIZE);
 
         int n = keys.length;
 

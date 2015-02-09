@@ -321,9 +321,12 @@ public class MDES {
         assert key.length == ENC_PASSES * KEY_LEN
             && (encOrDec == 'e' || encOrDec == 'd');
 
+        if (in.length == 0) {   // void input
+            return in;
+        }
+
         int [][] internalKey = divideBitStrIntoBlocks(key, KEY_LEN);
 
-        // text to bit string
         int[] bitStr = addPadding(in);
 
         // encrypt or decrypt bit string
@@ -422,6 +425,9 @@ public class MDES {
     }
 
     public static void printBitString(int[] a) {
+        if (a.length == 0) {
+            return;
+        }
         for (int i : a) {
             System.out.print(i);
         }

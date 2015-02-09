@@ -1,4 +1,4 @@
-all: Hash.class MDES.class CTR.class RDUtils.class
+testhash: Hash.class MDES.class CTR.class RDUtils.class
 	javac TestHash.java
 
 test3: MDES.class RDUtils.class
