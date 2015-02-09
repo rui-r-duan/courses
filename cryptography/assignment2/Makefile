@@ -1,13 +1,19 @@
+SRCS = $(shell find . -name "*.java")
+
+.PHONY: testhash
 testhash: Hash.class MDES.class CTR.class RDUtils.class
 	javac TestHash.java
 
+.PHONY: test3
 test3: MDES.class RDUtils.class
 	javac Test_P1_3.java
 
-CBCtest: MDES.class CBC.class
+.PHONY: testCBC
+testCBC: MDES.class CBC.class
 	javac Test_P2_CBC.java
 
-CTRtest: MDES.class CTR.class RDUtils.class
+.PHONY: testCTR
+testCTR: MDES.class CTR.class RDUtils.class
 	javac Test_P2_CTR.java
 
 MDES.class:
@@ -25,12 +31,8 @@ Hash.class:
 RDUtils.class:
 	javac ryanduan/crypt/RDUtils.java
 
-test1: MDES.class
-	javac Test_P1_1.java
-
-test2: MDES.class
-	javac Test_P1_2.java
-
+TAGS: $(SRCS)
+	etags $(SRCS)
 
 .PHONY: clean
 clean:
