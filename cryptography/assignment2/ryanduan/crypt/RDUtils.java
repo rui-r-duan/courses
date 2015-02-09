@@ -125,4 +125,14 @@ public class RDUtils {
         }
         return k;
     }
+
+    public static void printBitString(int[] a) {
+        if (a.length == 0) {
+            return;
+        }
+        for (int i : a) {
+            System.out.print(i);
+        }
+        System.out.println();
+    }
 }

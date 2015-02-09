@@ -18,14 +18,14 @@ class Test_P1_3 {
 
         // text to bit string
         int[] code = MDES.txtToCode(in.toCharArray());
-        MDES.printBitString(code);
+        RDUtils.printBitString(code);
 
         // encryption and decryption
         String key = "101101010010100101101011";
         int[] encout = MDES.encrypt(code, RDUtils.convKeyBits_StrToInt(key));
-        MDES.printBitString(encout);
+        RDUtils.printBitString(encout);
         int[] decout = MDES.decrypt(encout, RDUtils.convKeyBits_StrToInt(key));
-        MDES.printBitString(decout);
+        RDUtils.printBitString(decout);
 
         // bit string to text
         char[] txt = MDES.codeToTxt(decout);

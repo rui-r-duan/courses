@@ -19,15 +19,15 @@ class Test_P2_CTR {
 
         // text to bit string
         int[] code = MDES.txtToCode(in.toCharArray());
-        MDES.printBitString(code);
+        RDUtils.printBitString(code);
 
         // encryption and decryption
         String key = "101101010010100101101011";
         int[] iv = CTR.genIV();
         int[] encout = CTR.encrypt(code, RDUtils.convKeyBits_StrToInt(key), iv);
-        MDES.printBitString(encout);
+        RDUtils.printBitString(encout);
         int[] decout = CTR.decrypt(encout, RDUtils.convKeyBits_StrToInt(key), iv);
-        MDES.printBitString(decout);
+        RDUtils.printBitString(decout);
 
         // bit string to text
         char[] txt = MDES.codeToTxt(decout);

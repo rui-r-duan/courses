@@ -18,10 +18,10 @@ class TestHash {
 
         // text to bit string
         int[] code = MDES.txtToCode(in.toCharArray());
-        MDES.printBitString(code);
+        RDUtils.printBitString(code);
 
         // compute hash
         int[] hash = Hash.computeHash(code);
-        MDES.printBitString(hash);
+        RDUtils.printBitString(hash);
     }
 }
