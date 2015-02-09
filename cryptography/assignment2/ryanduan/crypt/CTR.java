@@ -21,25 +21,26 @@ public class CTR {
 
     // @NotNull
     public static int[] encrypt(int[] bitstring, int[] key, int[] iv) {
+        assert key.length == MDES.KEY_LEN * MDES.ENC_PASSES;
         return CTR_Framework(bitstring, key, iv, 'e');
     }
 
     // @NotNull
     public static int[] decrypt(int[] bitstring, int[] key, int[] iv) {
+        assert key.length == MDES.KEY_LEN * MDES.ENC_PASSES;
         return CTR_Framework(bitstring, key, iv, 'd');
     }
 
     // @NotNull
     private static int[] CTR_Framework(int[] in, int[] key,
                                        int[] iv, char encOrDec) {
-        assert key.length == MDES.ENC_PASSES * MDES.KEY_LEN
-            && (encOrDec == 'e' || encOrDec == 'd');
+        assert encOrDec == 'e' || encOrDec == 'd';
 
         if (in.length == 0) {   // void input
             return in;
         }
 
-        int [][] internalKey = MDES.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
+        int [][] internalKey = RDUtils.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
 
         int[] bitStr = RDUtils.addPadding(in, MDES.BLOCK_SIZE);
 
@@ -60,17 +61,17 @@ public class CTR {
 
         int[] result = new int[bs.length];
 
-        int[][] xs = MDES.divideBitStrIntoBlocks(bs, MDES.BLOCK_SIZE);
+        int[][] xs = RDUtils.divideBitStrIntoBlocks(bs, MDES.BLOCK_SIZE);
         int[][] ys = new int[xs.length][MDES.BLOCK_SIZE];
 
         int[] t;
-        int c = MDES.bitStrToInt(iv);
+        int c = RDUtils.bitStrToInt(iv);
         int[] cstr;
         int resultOffset = 0;
         for (int i = 0; i < xs.length; i++) {
-            t = MDES.encryptKernel(MDES.intToBitStr(c + i, MDES.BLOCK_SIZE),
+            t = MDES.encryptKernel(RDUtils.intToBitStr(c + i, MDES.BLOCK_SIZE),
                                    key);
-            ys[i] = MDES.bitStrXOR(xs[i], t);
+            ys[i] = RDUtils.bitStrXOR(xs[i], t);
 
             // populate result[] with the encrypted block
             resultOffset = MDES.copyIntArrIntoArr(result, resultOffset, ys[i]);

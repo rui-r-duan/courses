@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.Arrays;
 import ryanduan.crypt.CBC;
 import ryanduan.crypt.MDES;
+import ryanduan.crypt.RDUtils;
 
 class Test_P2_CBC {
     public static void main(String[] args) {
@@ -23,9 +24,9 @@ class Test_P2_CBC {
         // encryption and decryption
         String key = "101101010010100101101011";
         int[] iv = CBC.genIV();
-        int[] encout = CBC.encrypt(code, MDES.convKeyBits_StrToInt(key), iv);
+        int[] encout = CBC.encrypt(code, RDUtils.convKeyBits_StrToInt(key), iv);
         MDES.printBitString(encout);
-        int[] decout = CBC.decrypt(encout, MDES.convKeyBits_StrToInt(key), iv);
+        int[] decout = CBC.decrypt(encout, RDUtils.convKeyBits_StrToInt(key), iv);
         MDES.printBitString(decout);
 
         // bit string to text

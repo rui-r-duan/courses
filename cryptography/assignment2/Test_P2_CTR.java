@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.Arrays;
 import ryanduan.crypt.CTR;
 import ryanduan.crypt.MDES;
+import ryanduan.crypt.RDUtils;
 
 class Test_P2_CTR {
     public static void main(String[] args) {
@@ -23,9 +24,9 @@ class Test_P2_CTR {
         // encryption and decryption
         String key = "101101010010100101101011";
         int[] iv = CTR.genIV();
-        int[] encout = CTR.encrypt(code, MDES.convKeyBits_StrToInt(key), iv);
+        int[] encout = CTR.encrypt(code, RDUtils.convKeyBits_StrToInt(key), iv);
         MDES.printBitString(encout);
-        int[] decout = CTR.decrypt(encout, MDES.convKeyBits_StrToInt(key), iv);
+        int[] decout = CTR.decrypt(encout, RDUtils.convKeyBits_StrToInt(key), iv);
         MDES.printBitString(decout);
 
         // bit string to text

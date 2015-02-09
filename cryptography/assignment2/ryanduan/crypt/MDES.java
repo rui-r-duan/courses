@@ -62,42 +62,6 @@ public class MDES {
         return rm[a];
     }
 
-    // ----------------------------------------------------------------
-    // Note:
-    // I could have used Integer.toBinaryString(int i) to return a String,
-    // but that function do not allow me to control the length of the output.
-    //
-    // This function can control the length of output range from 0 to 32.
-    //
-    // Example 1:
-    // if a = 9 (bin: 1001), and outputLength = 2, then
-    // output should be its lower part: 01
-    //
-    // Example 2:
-    // if a = 10 (bin: 1010), and outputLength = 5, then
-    // output should be be 01010
-    // ----------------------------------------------------------------
-    //
-    // @param: int a: a positive integer
-    // @param: int outputLength: >=0 and <= 32
-    //
-    // @return: binary string representation of the integer
-    //
-    // @NotNull: no need to check new fail with null check, because
-    //           if new fails, Java will throw OutOfMemoryError.
-    //
-    static int[] intToBitStr(int a, int outputLength) {
-        assert outputLength >= 0 && outputLength <= 32 : outputLength;
-
-        int[] s = new int[outputLength];
-        for (int i = outputLength - 1; i >= 0; i--) {
-            // high bits of the integer are pushed in the array first
-            s[i] = a & 0x1;
-            a = a >> 1;
-        }
-        return s;
-    }
-
     // expand string of HALF_BLOCK_SIZE to string of KEY_LEN
     // @NotNull
     private static int[] expand(int[] a) {
@@ -137,26 +101,6 @@ public class MDES {
         return r;
     }
 
-    static int bitStrToInt(int[] a) {
-        int s = 0;
-        for (int i = 0; i < a.length; i++) {
-            s += a[i] * Math.pow(2, (a.length - i - 1));
-        }
-        return s;
-    }
-
-    // @NotNull
-    static int[] bitStrXOR(int[] a, int[] b) {
-        assert a.length == b.length
-            : "a.length: " + a.length + ", b.length: " + b.length;
-
-        int[] r = new int[a.length];
-        for (int i = 0; i < a.length; i++) {
-            r[i] = a[i] ^ b[i];
-        }
-        return r;
-    }
-
     // Caution: specialized for this S1 and S2 (size fixed)
     //
     // @param: int[] a: 8-bit string
@@ -172,12 +116,12 @@ public class MDES {
         colStr[1] = a[2];
         colStr[2] = a[3];
         colStr[3] = a[4];
-        int row = bitStrToInt(rowStr);
-        int col = bitStrToInt(colStr);
+        int row = RDUtils.bitStrToInt(rowStr);
+        int col = RDUtils.bitStrToInt(colStr);
 
         // S-Box's index begins from 0
         int t = sbox[row][col];
-        r = intToBitStr(t, 4);
+        r = RDUtils.intToBitStr(t, 4);
         return r;
     }
 
@@ -199,7 +143,7 @@ public class MDES {
     // @NotNull
     private static int[] f(int[] a, int[] key) {
         int[] ea = expand(a);
-        int[] eak = bitStrXOR(ea, key);
+        int[] eak = RDUtils.bitStrXOR(ea, key);
         int[][] b = splitIntoHalves(eak);
         int[] sboxout1 = sboxTransform(b[0], S1); // output 4-bit string
         int[] sboxout2 = sboxTransform(b[1], S2); // output 4-bit string
@@ -219,23 +163,13 @@ public class MDES {
         int codeIndex = 0;
         for (int i = 0; i < txt.length; i++) {
             Integer a = charToInt(txt[i]);
-            int[] r = intToBitStr(a, NUM_CHAR_BITS);
+            int[] r = RDUtils.intToBitStr(a, NUM_CHAR_BITS);
             // append the content of r to code
             for (int j = 0; j < NUM_CHAR_BITS; j++) {
                 code[codeIndex++] = r[j];
             }
         }
         return code;
-    }
-
-    static int[][] divideBitStrIntoBlocks(int[] bs, int blocksize) {
-        assert bs.length % blocksize == 0;
-        int n = bs.length / blocksize;
-        int[][] r = new int[n][blocksize];
-        for (int i = 0; i < n; i++) {
-            r[i] = Arrays.copyOfRange(bs, i*blocksize, (i+1)*blocksize);
-        }
-        return r;
     }
 
     // @param: int[] code: input bit string
@@ -256,56 +190,36 @@ public class MDES {
         char[] txt = new char[cntBlocks];
         for (int i = 0; i < cntBlocks; i++) {
             int[] b = Arrays.copyOfRange(code, i*NUM_CHAR_BITS, (i+1)*NUM_CHAR_BITS);
-            int a = bitStrToInt(b);
+            int a = RDUtils.bitStrToInt(b);
             txt[i] = intToChar(a);
         }
         return txt;
     }
 
-    // @NotNull
-    public static int[] convKeyBits_StrToInt(String key)
-    {
-        assert key.length() == KEY_LEN * ENC_PASSES;
-
-        byte[] bytes = key.getBytes();
-        int[] k = new int[bytes.length];
-        int c = 0;
-        for (int i = 0; i < bytes.length; i++) {
-            char ch = (char)bytes[i];
-            if (ch == '1') {
-                k[i] = 1;
-            } else if (ch == '0') {
-                k[i] = 0;
-            } else {
-                throw new IllegalArgumentException("bad key digit: " + ch);
-            }
-        }
-        return k;
-    }
-
     // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
     public static int[] encrypt(int[] bitstring, int[] key) {
+        assert key.length == KEY_LEN * ENC_PASSES;
         return MDES_Framework(bitstring, key, 'e');
     }
 
     // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
     public static int[] decrypt(int[] bitstring, int[] key) {
+        assert key.length == KEY_LEN * ENC_PASSES;
         return MDES_Framework(bitstring, key, 'd');
     }
 
     // @param: char encOrDec:
     //         if 'e' then do encryption, if 'd' then do decryption.
     private static int[] MDES_Framework(int[] in, int[] key, char encOrDec) {
-        assert key.length == ENC_PASSES * KEY_LEN
-            && (encOrDec == 'e' || encOrDec == 'd');
+        assert encOrDec == 'e' || encOrDec == 'd';
 
         if (in.length == 0) {   // void input
             return in;
         }
 
-        int [][] internalKey = divideBitStrIntoBlocks(key, KEY_LEN);
+        int [][] internalKey = RDUtils.divideBitStrIntoBlocks(key, KEY_LEN);
 
         int[] bitStr = RDUtils.addPadding(in, BLOCK_SIZE);
 
@@ -328,7 +242,7 @@ public class MDES {
 
         int[] result = new int[bs.length];
 
-        int[][] blocks = divideBitStrIntoBlocks(bs, BLOCK_SIZE);
+        int[][] blocks = RDUtils.divideBitStrIntoBlocks(bs, BLOCK_SIZE);
 
         int resultOffset = 0;
         for (int i = 0; i < blocks.length; i++) {
@@ -354,7 +268,7 @@ public class MDES {
         R[0] = R0;
         for (int i = 1; i <= ENC_PASSES; i++) {
             L[i] = Arrays.copyOf(R[i-1], HALF_BLOCK_SIZE);
-            R[i] = bitStrXOR(L[i-1], f(R[i-1], key[i-1]));
+            R[i] = RDUtils.bitStrXOR(L[i-1], f(R[i-1], key[i-1]));
         }
 
         int[] e = concatIntArray(L[ENC_PASSES], R[ENC_PASSES]);
@@ -367,7 +281,7 @@ public class MDES {
 
         int[] result = new int[bs.length];
 
-        int[][] blocks = divideBitStrIntoBlocks(bs, BLOCK_SIZE);
+        int[][] blocks = RDUtils.divideBitStrIntoBlocks(bs, BLOCK_SIZE);
 
         int resultOffset = 0;
         for (int i = 0; i < blocks.length; i++) {
@@ -389,7 +303,7 @@ public class MDES {
         R[ENC_PASSES] = Rn;
         for (int i = ENC_PASSES; i >= 1; i--) {
             R[i-1] = L[i];
-            L[i-1] = bitStrXOR(R[i], f(R[i-1], key[i-1]));
+            L[i-1] = RDUtils.bitStrXOR(R[i], f(R[i-1], key[i-1]));
         }
 
         int[] e = concatIntArray(L[0], R[0]);

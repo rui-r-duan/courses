@@ -23,7 +23,7 @@ public class Hash {
         int[] paddedBits = RDUtils.addPadding(bitstring, KEY_SIZE);
 
         // divide input as KEY_SIZE blocks and they will be used as keys
-        int[][] keys = MDES.divideBitStrIntoBlocks(paddedBits, KEY_SIZE);
+        int[][] keys = RDUtils.divideBitStrIntoBlocks(paddedBits, KEY_SIZE);
 
         int n = keys.length;
 
