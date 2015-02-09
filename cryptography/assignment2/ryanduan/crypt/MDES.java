@@ -163,6 +163,10 @@ public class MDES {
         int codeIndex = 0;
         for (int i = 0; i < txt.length; i++) {
             Integer a = charToInt(txt[i]);
+            if (a == null) {
+                System.out.println(txt[i] + " is not a valid character as input");
+                return new int[0];
+            }
             int[] r = RDUtils.intToBitStr(a, NUM_CHAR_BITS);
             // append the content of r to code
             for (int j = 0; j < NUM_CHAR_BITS; j++) {
@@ -198,6 +202,7 @@ public class MDES {
 
     // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
+    // @NotNull
     public static int[] encrypt(int[] bitstring, int[] key) {
         assert key.length == KEY_LEN * ENC_PASSES;
         return MDES_Framework(bitstring, key, 'e');
@@ -205,6 +210,7 @@ public class MDES {
 
     // @param: String bitstring: input as bit string
     // @param: String key: input as binary string of length 24
+    // @NotNull
     public static int[] decrypt(int[] bitstring, int[] key) {
         assert key.length == KEY_LEN * ENC_PASSES;
         return MDES_Framework(bitstring, key, 'd');
@@ -212,6 +218,7 @@ public class MDES {
 
     // @param: char encOrDec:
     //         if 'e' then do encryption, if 'd' then do decryption.
+    // @NotNull
     private static int[] MDES_Framework(int[] in, int[] key, char encOrDec) {
         assert encOrDec == 'e' || encOrDec == 'd';
 
@@ -237,6 +244,7 @@ public class MDES {
 
     // @param: int[] bs: bit string of length that is multiple of 16
     // @param: int[][] key: int[ENC_PASSES][KEY_LEN], each pass uses a KEY_LEN key
+    // @NotNull
     private static int[] encryptInternal(int[] bs, int[][] key) {
         assert bs.length % BLOCK_SIZE == 0;
 
@@ -258,6 +266,7 @@ public class MDES {
     // @param: int[][] key: int[ENC_PASSES][KEY_LEN],
     //                      each pass uses a different key
     // @return: int[]: a block of encrypted bit string of length BLOCK_SIZE
+    // @NotNull
     static int[] encryptKernel(int[] blk, int[][] key) {
         int[] L0 = Arrays.copyOfRange(blk, 0, HALF_BLOCK_SIZE);
         int[] R0 = Arrays.copyOfRange(blk, HALF_BLOCK_SIZE, 2*HALF_BLOCK_SIZE);
@@ -276,6 +285,7 @@ public class MDES {
     }
 
     // It is a framework similar to encryptInternal(), so refer to its comment.
+    // @NotNull
     private static int[] decryptInternal(int[] bs, int[][] key) {
         assert bs.length % BLOCK_SIZE == 0;
 
@@ -293,6 +303,7 @@ public class MDES {
         return result;
     }
 
+    // @NotNull
     static int[] decryptKernel(int[] blk, int[][] key) {
         int[] Ln = Arrays.copyOfRange(blk, 0, HALF_BLOCK_SIZE);
         int[] Rn = Arrays.copyOfRange(blk, HALF_BLOCK_SIZE, 2*HALF_BLOCK_SIZE);

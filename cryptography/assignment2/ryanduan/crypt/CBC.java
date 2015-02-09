@@ -9,8 +9,9 @@ import java.util.*;
 
 public class CBC {
     // generate initialization vector
+    // @NotNull
     public static int[] genIV() {
-        int[] v = new int[16];
+        int[] v = new int[MDES.BLOCK_SIZE];
         int randInt = (int)(Math.random() * 65521); // 65521 is a prime!
         for (int i = 0; i < 16; i++) {
             v[i] = randInt & 0x1;
@@ -56,6 +57,7 @@ public class CBC {
         return outBitStr;
     }
 
+    // @NotNull
     private static int[] encryptInternal(int[] bs, int[][] key, int[] iv) {
         assert bs.length % MDES.BLOCK_SIZE == 0;
 
@@ -78,6 +80,7 @@ public class CBC {
         return result;
     }
 
+    // @NotNull
     private static int[] decryptInternal(int[] bs, int[][] key, int[] iv) {
         assert bs.length % MDES.BLOCK_SIZE == 0;
 
