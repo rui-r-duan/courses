@@ -28,6 +28,7 @@ class BirthdayAttack {
         System.out.println("---- input message ----");
         System.out.println(in);
 
+        // get variations, compute their hashes, and add to list, sort the list
         String[] varMsgs = getEnoughVariations(in, MDES.BLOCK_SIZE);
         ArrayList<MsgRecord> mrList = new ArrayList<MsgRecord>(varMsgs.length);
         for (int i = 0; i < varMsgs.length; i++) {
@@ -49,23 +50,23 @@ class BirthdayAttack {
             System.out.println(r.getHash());
         }
 
-        // try 1000 times
+        // try 1000 times to find x' such that x' != x and h(x') == h(x)
         System.out.println("---- fault message ----");
         System.out.println(faultMsg);
         System.out.println("---- Now try 1000 times ----");
         for (int j = 0; j < 1000; j++) {
-            String v = genVariation(faultMsg);
+            String v = genVariation(faultMsg); // candidate for x'
             int[] hash = Hash.computeHash(MDES.txtToCode(v.toCharArray()));
             String h = RDUtils.intBitsToStrBits(hash);
             int index = findHashInList(h, mrList);
             if (index != -1) {
                 System.out.println("--------------------------------");
                 System.out.println("find it: index = " + index);
-                System.out.println("hash: " + h);
+                System.out.println("hash: " + h); // h(x) that is == h(x')
                 System.out.println("authentic message:");
-                System.out.println(mrList.get(index).getMessage());
+                System.out.println(mrList.get(index).getMessage()); // x
                 System.out.println("fault message:");
-                System.out.println(v);
+                System.out.println(v); // x'
             }
         }
     }
@@ -125,14 +126,6 @@ class MsgRecord {
     public String getHash() {
         return hash;
     }
-
-    // public int compareTo(MsgRecord obj) {
-    //     int[] intBitsHash_this = RDUtils.strBitsToIntBits(this.hash);
-    //     int hashVal_this = RDUtils.bitStrToInt(intBitsHash_this);
-    //     int[] intBitsHash_obj = RDUtils.strBitsToIntBits(obj.getHash());
-    //     int hashVal_obj = rDUtils.bitStrToInt(intBitsHash_obj);
-    //     return hashVal_this - hashVal_obj; // ascending order
-    // }
 }
 
 class MsgRecordComparator implements Comparator<MsgRecord> {
