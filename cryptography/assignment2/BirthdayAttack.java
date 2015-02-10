@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 class BirthdayAttack {
+    private static final String faultMsg = "cryptography is an important tool for network security.  but there are other issues for network security.";
+
     public static void main(String[] args) {
         // read characters from standard input
         char[] inputBuffer = new char[1024];
@@ -23,12 +25,12 @@ class BirthdayAttack {
             e.printStackTrace();
         }
         String in = new String(inputBuffer, 0, len); 
+        System.out.println("---- input message ----");
         System.out.println(in);
 
-        String[] varMsgs = genVariations(in, MDES.BLOCK_SIZE);
+        String[] varMsgs = getEnoughVariations(in, MDES.BLOCK_SIZE);
         ArrayList<MsgRecord> mrList = new ArrayList<MsgRecord>(varMsgs.length);
         for (int i = 0; i < varMsgs.length; i++) {
-
             // text to bit string
             int[] code = MDES.txtToCode(varMsgs[i].toCharArray());
 
@@ -36,15 +38,50 @@ class BirthdayAttack {
             int[] hash = Hash.computeHash(code);
 
             mrList.add(new MsgRecord(varMsgs[i],
-                                       RDUtils.intBitsToStrBits(hash)));
+                                     RDUtils.intBitsToStrBits(hash)));
         }
-
-        System.out.println("---- Messages with their Hashes (sorted) -----");
         mrList.sort(new MsgRecordComparator());
+
+        System.out.println("---- Message Variations with their Hashes (sorted) -----");
+        System.out.println("---- " + mrList.size() + " variations ----");
         for (MsgRecord r : mrList) {
             System.out.println(r.getMessage());
             System.out.println(r.getHash());
         }
+
+        // try 1000 times
+        System.out.println("---- fault message ----");
+        System.out.println(faultMsg);
+        System.out.println("---- Now try 1000 times ----");
+        for (int j = 0; j < 1000; j++) {
+            String v = genVariation(faultMsg);
+            int[] hash = Hash.computeHash(MDES.txtToCode(v.toCharArray()));
+            String h = RDUtils.intBitsToStrBits(hash);
+            int index = findHashInList(h, mrList);
+            if (index != -1) {
+                System.out.println("--------------------------------");
+                System.out.println("find it: index = " + index);
+                System.out.println("hash: " + h);
+                System.out.println("authentic message:");
+                System.out.println(mrList.get(index).getMessage());
+                System.out.println("fault message:");
+                System.out.println(v);
+            }
+        }
+    }
+
+    // Return index of the matched record in the list,
+    // if not found return -1.
+    private static int findHashInList(String hash, ArrayList<MsgRecord> list) {
+        int index = -1;
+        for (int i = 0; i < list.size(); i++) {
+            MsgRecord m = list.get(i);
+            if (m.getHash().equals(hash)) {
+                return i;
+            }
+        }
+        // it comes here if not found
+        return index;
     }
 
     // Generate 2^(m/2) variations of the input message.
@@ -52,25 +89,23 @@ class BirthdayAttack {
     // @NotNull
     // @param: String msg: original message
     // @param: int m: hash value bit-length
-    private static String[] genVariations(String msg, int m) {
+    private static String[] getEnoughVariations(String msg, int m) {
         int n = (int)Math.pow(2.0, (m / 2.0)); 
         String[] r = new String[n];
-
-        System.out.println("n=" + n);
         for (int i = 0; i < n; i++) {
-            StringBuilder sb = new StringBuilder(msg);
-            for (int j = 0; j < 4; j++) {
-                int randomIndex = (int)(Math.random() * 32);
-                int randomCode = (int)(Math.random() * 32);
-                sb.setCharAt(randomIndex, MDES.intToChar(randomCode));
-            }
-            r[i] = sb.toString();
+            r[i] = genVariation(msg);
         }
         return r;
     }
 
-    private static void printMsgRecords(ArrayList<MsgRecord> list) {
-        
+    private static String genVariation(String msg) {
+        StringBuilder sb = new StringBuilder(msg);
+        for (int j = 0; j < 4; j++) {
+            int randomIndex = (int)(Math.random() * 32);
+            int randomCode = (int)(Math.random() * 32);
+            sb.setCharAt(randomIndex, MDES.intToChar(randomCode));
+        }
+        return sb.toString();
     }
 }
 
