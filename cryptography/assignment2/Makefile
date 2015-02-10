@@ -1,34 +1,39 @@
 SRCS = $(shell find . -name "*.java")
 
 .PHONY: testhash
-testhash: Hash.class MDES.class CTR.class RDUtils.class
+testhash: TestHash.java Hash.class CTR.class MDES.class RDUtils.class
 	javac TestHash.java
 
 .PHONY: test3
-test3: MDES.class RDUtils.class
+test3: TEst_P1_3.java MDES.class RDUtils.class
 	javac Test_P1_3.java
 
 .PHONY: testCBC
-testCBC: MDES.class CBC.class
+testCBC: tEst_P2_CBC.java CBC.class MDES.class RDUtils.class
 	javac Test_P2_CBC.java
 
 .PHONY: testCTR
-testCTR: MDES.class CTR.class RDUtils.class
+testCTR: Test_P2_CTR.java CTR.class MDES.class RDUtils.class
 	javac Test_P2_CTR.java
 
-MDES.class:
+.PHONY: birthdayAttack
+birthdayAttack: BirthdayAttack.java MDES.class CTR.class Hash.class \
+		RDUtils.class
+	javac BirthdayAttack.java
+
+MDES.class: ryanduan/crypt/MDES.java RDUtils.class
 	javac ryanduan/crypt/MDES.java
 
-CBC.class:
+CBC.class: ryanduan/crypt/CBC.java MDES.class RDUtils.class
 	javac ryanduan/crypt/CBC.java
 
-CTR.class:
+CTR.class: ryanduan/crypt/CTR.java MDES.class RDUtils.class
 	javac ryanduan/crypt/CTR.java
 
-Hash.class:
+Hash.class: ryanduan/crypt/Hash.java MDES.class CTR.class RDUtils.class
 	javac ryanduan/crypt/Hash.java
 
-RDUtils.class:
+RDUtils.class: ryanduan/crypt/RDUtils.java
 	javac ryanduan/crypt/RDUtils.java
 
 TAGS: $(SRCS)

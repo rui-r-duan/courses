@@ -21,6 +21,7 @@ public class RDUtils {
         return i;
     }
 
+    // @NotNull
     public static int[] addPadding(int[] bs, int blocksize) {
         if (bs.length % blocksize == 0) {
             return bs;
@@ -97,6 +98,7 @@ public class RDUtils {
         return r;
     }
 
+    // @NotNull
     static int[][] divideBitStrIntoBlocks(int[] bs, int blocksize) {
         assert bs.length % blocksize == 0;
         int n = bs.length / blocksize;
@@ -108,9 +110,8 @@ public class RDUtils {
     }
 
     // @NotNull
-    public static int[] convKeyBits_StrToInt(String key)
-    {
-        byte[] bytes = key.getBytes();
+    public static int[] strBitsToIntBits(String bits) {
+        byte[] bytes = bits.getBytes();
         int[] k = new int[bytes.length];
         int c = 0;
         for (int i = 0; i < bytes.length; i++) {
@@ -120,10 +121,18 @@ public class RDUtils {
             } else if (ch == '0') {
                 k[i] = 0;
             } else {
-                throw new IllegalArgumentException("bad key digit: " + ch);
+                throw new IllegalArgumentException("bad bit: " + ch);
             }
         }
         return k;
+    }
+
+    public static String intBitsToStrBits(int[] bits) {
+        char[] cs = new char[bits.length];
+        for (int i = 0; i < bits.length; i++) {
+            cs[i] = (bits[i] == 1 ? '1' : '0');
+        }
+        return new String(cs);
     }
 
     public static void printBitString(int[] a) {

@@ -45,20 +45,20 @@ public class MDES {
     };
 
     static final int ENC_PASSES = 2;
-    static final int BLOCK_SIZE = 16;
+    public static final int BLOCK_SIZE = 16;
     static final int HALF_BLOCK_SIZE = BLOCK_SIZE / 2;
     static final int KEY_LEN = 12;
     static final int NUM_CHAR_BITS = 5;
 
     // @Nullable: null check must be done in client code
     // O(1)
-    private static Integer charToInt(char c) {
+    public static Integer charToInt(char c) {
         return m.get(c);
     }
 
     // @NotNull
     // O(1)
-    private static char intToChar(int a) {
+    public static char intToChar(int a) {
         return rm[a];
     }
 

@@ -21,7 +21,6 @@ public class Hash {
         int[] hash = new int[MDES.BLOCK_SIZE];
 
         int[] paddedBits = RDUtils.addPadding(bitstring, KEY_SIZE);
-        RDUtils.printBitString(paddedBits);
 
         // divide input as KEY_SIZE blocks and they will be used as keys
         int[][] keys = RDUtils.divideBitStrIntoBlocks(paddedBits, KEY_SIZE);

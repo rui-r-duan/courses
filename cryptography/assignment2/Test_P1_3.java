@@ -22,9 +22,9 @@ class Test_P1_3 {
 
         // encryption and decryption
         String key = "101101010010100101101011";
-        int[] encout = MDES.encrypt(code, RDUtils.convKeyBits_StrToInt(key));
+        int[] encout = MDES.encrypt(code, RDUtils.strBitsToIntBits(key));
         RDUtils.printBitString(encout);
-        int[] decout = MDES.decrypt(encout, RDUtils.convKeyBits_StrToInt(key));
+        int[] decout = MDES.decrypt(encout, RDUtils.strBitsToIntBits(key));
         RDUtils.printBitString(decout);
 
         // bit string to text

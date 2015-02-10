@@ -33,3 +33,6 @@ java -ea:ryanduan.crypt.MDES -ea:ryanduan.crypt.Hash TestHash < input4
 java -ea:ryanduan.crypt.MDES -ea:ryanduan.crypt.Hash TestHash < input5
 java -ea:ryanduan.crypt.MDES -ea:ryanduan.crypt.Hash TestHash < input_void
 java -ea:ryanduan.crypt.MDES -ea:ryanduan.crypt.Hash TestHash < input_invalid
+
+make birthdayAttack
+java -ea:ryanduan.crypt.MDES -ea:ryanduan.crypt.CTR -ea:ryanduan.crypt.Hash BirthdayAttack < input1

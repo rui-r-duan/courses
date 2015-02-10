@@ -24,9 +24,9 @@ class Test_P2_CBC {
         // encryption and decryption
         String key = "101101010010100101101011";
         int[] iv = CBC.genIV();
-        int[] encout = CBC.encrypt(code, RDUtils.convKeyBits_StrToInt(key), iv);
+        int[] encout = CBC.encrypt(code, RDUtils.strBitsToIntBits(key), iv);
         RDUtils.printBitString(encout);
-        int[] decout = CBC.decrypt(encout, RDUtils.convKeyBits_StrToInt(key), iv);
+        int[] decout = CBC.decrypt(encout, RDUtils.strBitsToIntBits(key), iv);
         RDUtils.printBitString(decout);
 
         // bit string to text
