@@ -41,7 +41,7 @@ public class CBC {
             return in;
         }
 
-        int [][] internalKey = RDUtils.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
+        int[][] internalKey = RDUtils.divideBitStrIntoBlocks(key, MDES.KEY_LEN);
 
         int[] bitStr = RDUtils.addPadding(in, MDES.BLOCK_SIZE);
 
