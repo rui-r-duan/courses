@@ -2,7 +2,7 @@ import java.io.*;
 import ryanduan.crypt.MDES;
 import ryanduan.crypt.RDUtils;
 
-class Test_P1_3 {
+class Test_P1 {
     public static void main(String[] args) {
         // read characters from standard input
         char[] inputBuffer = new char[1024];

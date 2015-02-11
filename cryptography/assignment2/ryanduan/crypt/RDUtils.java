@@ -113,7 +113,6 @@ public class RDUtils {
     public static int[] strBitsToIntBits(String bits) {
         byte[] bytes = bits.getBytes();
         int[] k = new int[bytes.length];
-        int c = 0;
         for (int i = 0; i < bytes.length; i++) {
             char ch = (char)bytes[i];
             if (ch == '1') {

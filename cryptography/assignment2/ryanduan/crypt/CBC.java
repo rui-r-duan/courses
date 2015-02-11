@@ -5,8 +5,6 @@
 
 package ryanduan.crypt;
 
-import java.util.Arrays;
-
 public class CBC {
     // generate initialization vector
     // @NotNull

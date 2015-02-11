@@ -18,8 +18,6 @@ public class Hash {
             return bitstring;
         }
 
-        int[] hash = new int[MDES.BLOCK_SIZE];
-
         int[] paddedBits = RDUtils.addPadding(bitstring, KEY_SIZE);
 
         // divide input as KEY_SIZE blocks and they will be used as keys

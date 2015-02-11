@@ -5,8 +5,6 @@
 
 package ryanduan.crypt;
 
-import java.util.Arrays;
-
 public class CTR {
     // generate initialization vector
     // @NotNull
@@ -68,7 +66,6 @@ public class CTR {
 
         int[] t;
         int c = RDUtils.bitStrToInt(iv);
-        int[] cstr;
         int resultOffset = 0;
         for (int i = 0; i < xs.length; i++) {
             t = MDES.encryptKernel(RDUtils.intToBitStr(c + i, MDES.BLOCK_SIZE),
