@@ -5,7 +5,7 @@
 
 package ryanduan.crypt;
 
-import java.util.*;
+import java.util.Arrays;
 
 public class CTR {
     // generate initialization vector

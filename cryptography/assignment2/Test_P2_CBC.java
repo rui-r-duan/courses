@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 import ryanduan.crypt.CBC;
 import ryanduan.crypt.MDES;
 import ryanduan.crypt.RDUtils;

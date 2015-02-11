@@ -1,7 +1,7 @@
 package ryanduan.crypt;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class RDUtils {
     // populate input chars from standard input into charBuffer, and return the

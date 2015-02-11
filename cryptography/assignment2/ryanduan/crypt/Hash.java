@@ -4,7 +4,7 @@
 
 package ryanduan.crypt;
 
-import java.util.*;
+import java.util.Arrays;
 
 public class Hash {
 
