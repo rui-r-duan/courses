@@ -5,8 +5,8 @@ testhash: TestHash.java Hash.class CTR.class MDES.class RDUtils.class
 	javac TestHash.java
 
 .PHONY: test3
-test3: Test_P1_3.java MDES.class RDUtils.class
-	javac Test_P1_3.java
+test3: Test_P1.java MDES.class RDUtils.class
+	javac Test_P1.java
 
 .PHONY: testCBC
 testCBC: tEst_P2_CBC.java CBC.class MDES.class RDUtils.class

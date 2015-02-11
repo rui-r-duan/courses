@@ -1,0 +1,50 @@
+Output format:
+
+---- Test MDES Encryption and Decryption ----
+$(inputted plaintext)
+$(bit string of the plaintext)
+$(encrypted bit string)
+$(decrypted bit string)
+$(decrypted plaintext)
+
+---- Test CBC Mode ----
+$(inputted plaintext)
+$(bit string of the plaintext)
+$(encrypted bit string)
+$(decrypted bit string)
+$(decrypted plaintext)
+
+---- Test CTR Mode ----
+$(inputted plaintext)
+$(bit string of the plaintext)
+$(encrypted bit string)
+$(decrypted bit string)
+$(decrypted plaintext)
+
+---- Test Hash ----
+$(inputted plaintext)
+$(bit string of the plaintext)
+$(hash bit string)
+
+---- Test Birthday Attack ----
+---- input message ----
+$($(inputted plaintext))
+---- Message Variations with their Hashes (sorted) -----
+---- $(N) variations ----
+$(msg 1)
+$(hash 1)
+$(msg 2)
+$(hash 2)
+...
+$(msg N)
+$(hash N)
+---- fault message ----
+$(fault message)
+---- Now try 1000 times ----
+--------------------------------
+find it: index = $(index)
+hash: $(bit string)
+authentic message:
+$(authentic message)
+fault message:
+$(fault message)
