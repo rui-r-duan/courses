@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="app.ryan.fileexplorer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>File Explorer</name>
+<widget id="app.ryan.dirorganizer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Directory Organizer</name>
     <description>
-        A File System Explorer.
+        A File System Explorer (Directory Organizer).
     </description>
     <author email="rduan@lakeheadu.ca" href="http://cordova.io">
         Ryan Duan
