@@ -1,0 +1,1 @@
+We have learnt JCA (Java Cryptography Architecture) which is guided by two principles: 1. algorithm independence and extensibility. 2. implementation independence and interoperability. The aim of the JCA is to let API users use cryptographic services without concern for the implementations or even the algorithms being used to implement these services.
