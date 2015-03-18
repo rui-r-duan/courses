@@ -15,8 +15,9 @@
        "baz": function() {
          alert( "boo baz :(" );
        },
-       
-       "default": function() {
+       /* The part before the colon is always treated as a string (behaves like
+	  a symbol in Lisp. So default is actually "default". */
+       default: function() {
          alert( "everything else is just ok" );
        }
        
@@ -24,6 +25,8 @@
      var foo; // without this line, it will get ReferenceError: "foo is not defined"
      
      // check if the property exists in the object.
+     console.log(foo); // undefined
+     console.log(stuffToDo[foo]); // undefined
      if ( stuffToDo[ foo ] ) {
        // This code won't run.
        stuffToDo[ foo ]();
