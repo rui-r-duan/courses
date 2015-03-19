@@ -1,3 +1,11 @@
+//----------------------------------------------------------------------------
+// Cryptography Assignment 3
+//
+// Generate a key pair which contains a public key and a private key, save them
+// into files separately.
+//
+// @author: Rui Duan <rduan@lakeheadu.ca>
+//----------------------------------------------------------------------------
 import java.security.*;
 import java.io.*;
 
