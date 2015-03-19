@@ -13,6 +13,32 @@ import ryanduan.crypto.RDUtils;
 
 public class Verify_Dec {
     public static void main(String[] args) {
+        // Verify
+        try {
+            // read public key for verification
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("mypubkey.dat"));
+            PublicKey mypubkey = (PublicKey)ois.readObject();
+            ois.close();
+
+            // read signature and the received message
+            ois = new ObjectInputStream(new FileInputStream("myinfo.dat"));
+            String msg = (String)ois.readObject();
+            byte[] sigbytes = (byte[])ois.readObject();
+            ois.close();
+
+            // verify
+            Signature sig = Signature.getInstance("SHA1withDSA");
+            sig.initVerify(mypubkey);
+            sig.update(msg.getBytes());
+            boolean isAccurate = sig.verify(sigbytes);
+
+            System.out.println("Verification result: "
+                               + (isAccurate ? "TRUE" : "FALSE"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Decrypt
         try {
             // read secret key
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("cipherkey.dat"));
@@ -30,8 +56,10 @@ public class Verify_Dec {
             cipher.init(Cipher.DECRYPT_MODE, cipherKey, iv);
             byte[] decrypted = cipher.doFinal(encrypted);
             
-            // print decrypted
-            System.out.print(new String(decrypted));
+            // save decrypted
+            PrintWriter out = new PrintWriter("decrypted.txt");
+            out.print(new String(decrypted));
+            out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

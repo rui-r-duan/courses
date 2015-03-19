@@ -48,12 +48,12 @@ public class Digest_Sig_Enc {
             Signature sig = Signature.getInstance("SHA1withDSA");
             sig.initSign(myprivkey);
             sig.update(in.getBytes());
-            byte[] signed = sig.sign();
+            byte[] signature = sig.sign();
 
             // save the message and the signature in file
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("mysig.dat"));
-            out.writeObject(in);
-            out.writeObject(signed);
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("myinfo.dat"));
+            out.writeObject(in); // emulate that the client receives this string
+            out.writeObject(signature);
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
