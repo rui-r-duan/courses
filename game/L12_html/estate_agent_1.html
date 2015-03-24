@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Estate Agent</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+     function House(rooms, price, garage) {
+       this.rooms = rooms;
+       this.price = price;
+       this.garage = garage;
+     }
+     house1 = new House(4, 100000, false);
+     house2 = new House(5, 200000, true);
+     with (house1) document.write('House 1 has ' + rooms + ' rooms, ' +
+	(garage ? 'a' : 'no') + ' garage, and costs $' + price + '<br>');
+     with (house2) document.write('House 2 has ' + rooms + ' rooms, ' +
+	(garage ? 'a' : 'no') + ' garage, and costs $' + price + '<br>');
+    </script>
+  </body>
+</html>
