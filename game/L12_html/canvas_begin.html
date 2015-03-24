@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Canvas Beginning</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <canvas id="ex1" width="500" height="150"
+      style="border:1px solid #cccccc">
+      HTML5 Canvas not supported
+    </canvas>
+    <script>
+     window.onload = function() {
+       drawExamples();
+     }
+     function drawExamples() {
+       var canvas = document.getElementById("ex1");
+       var context = canvas.getContext("2d");
+       context.fillStyle = "#ff0000";
+       context.fillRect(10, 10, 100, 100);
+     }
+    </script>
+  </body>
+</html>
