@@ -1,0 +1,159 @@
+<!doctype HTML>
+<html>
+  <meta charset="utf-8" />
+  <head>
+
+    <title>Painting</title>
+    <script src='javascript/jquery-1.4.min.js'></script>
+    <script src='javascript/draw/draw.js'></script>
+
+    <link href= 'css/canvas.css' type="text/css" rel="stylesheet"/>
+
+    <script>
+     var cancelList = new Array();
+     var cancelIndex = 0;
+
+     $(function(){
+       initCanvas();
+       $("img")[0].click();
+       $("#color input").click(chooseColor);
+     });
+
+     var initCanvas = function(){
+       canvas =  document.getElementById("canvas");
+       canvas.width = canvasWidth;
+       canvas.height = canvasHeight;
+       context = canvas.getContext('2d');
+       canvasTop = $(canvas).offset().top
+       canvasLeft = $(canvas).offset().left;
+
+
+       canvas_bak =  document.getElementById("canvas_bak");
+       canvas_bak.width = canvasWidth;
+       canvas_bak.height = canvasHeight;
+       context_bak = canvas_bak.getContext('2d');
+     }
+
+     // color picker
+     var showColor = function(obj){
+       var top = $(obj).offset().top;
+       var left = $(obj).offset().left;
+       $("#color")[0].style.left = left + "px";;
+       $("#color")[0].style.top = top + "px";
+       $("#color").show();
+
+     }
+     // line size picker
+     var showLineSize = function(obj){
+
+       if($("#line_size").is(":hidden")){
+	 var top = $(obj).offset().top;
+	 var left = $(obj).offset().left;
+	 $("#line_size")[0].style.left = left + $(obj).width() + 5; +  "px";
+	 $("#line_size")[0].style.top = top   + "px";
+	 $("#line_size").show();
+       }else{
+	 $("#line_size").hide();
+       }
+     }
+
+     var chooseColor = function(obj){
+       var objClass = $(this).attr("class");
+       $("#chooseColor").attr("class" , "");
+       $("#chooseColor").addClass (objClass).addClass('border_nochoose');
+       color  = $(this).css('background-color');
+       $("#color").hide();
+
+     }
+
+     var chooseLineSize =  function(_size){
+       $("#chooseSize").attr("src" , "image/line_size_"+_size+".png");
+       size = _size;
+       $("#line_size").hide();
+     }
+
+
+     // undo
+     var cancel = function(){
+       cancelIndex++;
+       context.clearRect(0,0,canvasWidth,canvasHeight);
+       var  image = new Image();
+       var index = cancelList.length-1 - cancelIndex  ;
+       var url = cancelList[index];
+       image.src = url;
+       image.onload = function(){
+	 context.drawImage(image , 0 ,0 , image.width , image.height , 0 ,0 , canvasWidth , canvasHeight);
+       }
+     }
+
+
+     // redo
+     var next = function(){
+       cancelIndex--;
+       context.clearRect(0,0,canvasWidth,canvasHeight);
+       var  image = new Image();
+       var index = cancelList.length-1 - cancelIndex  ;
+       var url = cancelList[index];
+       image.src = url;
+       image.onload = function(){
+	 context.drawImage(image , 0 ,0 , image.width , image.height , 0 ,0 , canvasWidth , canvasHeight);
+       }
+     }
+
+     // save history (used for undo and redo)
+     var saveImageToAry = function (){
+       cancelIndex = 0;
+       var dataUrl =  canvas.toDataURL();
+       cancelList.push(dataUrl);
+     }
+
+    </script>
+
+  </head>
+  <body>
+
+
+    <div id="drawController">
+      <img src = 'images/pencil.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('pencil',this)" class = 'border_nochoose' title = 'pencil'/><br/>
+      <img src = 'images/line.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('line',this);" class = 'border_nochoose' title = 'line'/><br/>
+      <img src = 'images/cancel.png' width = '20px;' height = '20px;' class="img" onclick="cancel(this)" class = 'border_nochoose' title = 'undo'/><br/>
+      <img src = 'images/next.png' width = '20px;' height = '20px;' class="img" onclick="next(this)" class = 'border_nochoose' title = 'redo'/><br/>
+      <input id="chooseColor"  type="button"  class = 'i1 border_nochoose' onclick="showColor(this)" title = 'choose color'/><br/>
+      <img src = 'images/square.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('square',this)" class = 'border_nochoose' title = 'rectangle'/><br/>
+      <img src = 'images/circle.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('circle',this)" class = 'border_nochoose' title = 'circle'/><br/>
+      <img src = 'images/handwriting.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('handwriting',this)" class = 'border_nochoose' title = 'free drawing'/><br/>
+      <img src = 'images/rubber.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('rubber',this)" class = 'border_nochoose' title = 'eraser'/><br/>
+      <img  id="chooseSize" src = 'images/line_size_1.png'  width = '20px;' height = '20px;' class="img" onclick="showLineSize(this)" class = 'border_nochoose' title = 'line width'/><br/>
+      <img src = 'images/clearall.png' width = '20px;' height = '20px;' class="img" onclick="clearContext('1')" class = 'border_nochoose' title = 'clear'/><br/>
+    </div>
+    <div style="float:left;width:30%">
+      <canvas id="canvas">
+	Your browser does not support canvas :(
+      </canvas>
+
+      <canvas id="canvas_bak"></canvas>
+    </div>
+
+    <div id="color" class="color" >
+      <input class="i1" type="button"/>
+      <input class="i2" type="button"/>
+      <input class="i3" type="button"/>
+      <input class="i4" type="button"/>
+      <input class="i5" type="button"/>
+      <input class="i6" type="button"/>
+      <input class="i7" type="button"/>
+      <input class="i8" type="button"/>
+      <input class="i9" type="button"/>
+    </div>
+
+
+    <div id="line_size"  class = "border_nochoose" style="z-index:99">
+      <img src="images/line_size_1.png" width = '80px;' height = '12px;' onclick="chooseLineSize(1)"><br/>
+      <img src="images/line_size_3.png" width = '80px;' height = '12px;' onclick="chooseLineSize(3)"><br/>
+      <img src="images/line_size_5.png" width = '80px;' height = '12px;' onclick="chooseLineSize(5)"><br/>
+      <img src="images/line_size_7.png" width = '80px;' height = '12px;' onclick="chooseLineSize(7)">
+    </div>
+
+
+  </body>
+</html>
