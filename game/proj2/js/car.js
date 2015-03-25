@@ -14,7 +14,7 @@ function Car () {
     };
 }
 Car.prototype = {
-    x: 660,
+    x: 700,
     y: 295,
     code: 'player',
     acceleration: 1.1,
