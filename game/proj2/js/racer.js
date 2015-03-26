@@ -5,7 +5,9 @@ var context  = canvas.getContext('2d');
 var ctxW     = canvas.width;
 var ctxH     = canvas.height;
 var player   = new Car();
+var track    = new Image();
 var trackHit = new Image();
+var goalImg  = new Image();
 var elPX     = document.getElementById('px');
 var elPY     = document.getElementById('py');
 var timer;
@@ -13,14 +15,21 @@ var seconds = 59;
 var milliseconds = 59;
 var timer_sec = document.getElementById('seconds');
 var timer_ms = document.getElementById('ms');
-var is_game_begin = false;
-var lose = false;
+
+// gameState and gameLevel control the whole game states
+var gameState = 0;		// 1: "run", 2: "lose", 3: "win"
+var maps = [
+    "images/level_one.png",
+    "images/level_two.png"
+];
+var gameLevel = 0;		// 0 and 1
 var gameloopid;
 
-trackHit.src = "images/level_one.png";
-
-// collision
+track.src = maps[gameLevel];
+trackHit.src = maps[gameLevel];
+goalImg.src = "images/goal.png";
 var hit = new HitMap(trackHit);
+var goal = new Goal(goalImg);
 
 // Keyboard Variables
 var key = {
@@ -46,8 +55,34 @@ function speedXY (rotation, speed) {
 }
 
 function step(car) {
-    if (!is_game_begin && lose) {
-	// lose, do nothing
+    if (gameState == 0) {	// init
+
+	if (gameLevel == 0) {
+	    goal.x = 546;
+	    goal.y = 488;
+	} else if (gameLevel == 1) {
+	    goal.x = 530;
+	    goal.y = 430;
+	    track.src = maps[gameLevel];
+	    trackHit.src = maps[gameLevel];
+	    hit = new HitMap(trackHit);
+	    car = new Car();
+	    startTimer();
+	} else {		// gameLevel > 1
+	    context.fillText("YOU WIN!!", 180, 180);
+	    cancelTimer();
+	    window.cancelAnimationFrame(gameloopid);
+	    return;
+	}
+
+	// press any arrow key to start the level
+	if (keys[key.UP] || keys[key.DOWN] || keys[key.LEFT]
+	    || keys[key.RIGHT]) {
+
+	    console.log("Game started");
+	    gameState = 1;	// run
+	    startTimer();
+	}
 	return;
     }
 
@@ -59,15 +94,6 @@ function step(car) {
         } else {
             car.speed *= car.speedDecay;
         }
-
-	// press any arrow key to start the level
-	if (!is_game_begin && !lose
-	    && (keys[key.UP] || keys[key.DOWN] || keys[key.LEFT]
-		|| keys[key.RIGHT])) {
-	    console.log("Game started");
-	    is_game_begin = true;
-	    startTimer();
-	}
 
         // keys movements
         if (keys[key.UP])  { car.accelerate(); }
@@ -95,6 +121,16 @@ function step(car) {
             car.decelerate(1);
         }
 
+	// If car hit the goal from left to right, it wins this level.
+	if (goal.isPointInGoal(car.collisions.top.getXY())
+	    && ! car.collisions.bottom.getXY().x < goal.x) {
+
+	    gameState = 0;	// init
+	    console.log("You win!");
+	    gameLevel++;
+	    cancelTimer();
+	}
+
         // info
         elPX.innerHTML = Math.floor(car.x);
         elPY.innerHTML = Math.floor(car.y);
@@ -102,6 +138,8 @@ function step(car) {
 }
 function draw(car) {
     context.clearRect(0,0,ctxW,ctxH);
+    context.drawImage(track, 0, 0);
+    context.drawImage(goal.img, goal.x, goal.y);
     drawRotatedImage(car.img, car.x, car.y, car.rotation);
     drawCollisionPoints(car);
 }
@@ -160,8 +198,6 @@ function startTimer() {
 }
 
 function cancelTimer() {
-    seconds = 59;
-    milliseconds = 99;
     clearInterval(timer);
     timer_sec.innerHTML = seconds;
     timer_ms.innerHTML = milliseconds;
@@ -177,13 +213,13 @@ function updateTimer() {
 	seconds--;
     }
 
-    if (seconds == 50) {
+    if (seconds == 0) {
 	cancelTimer();
 
 	// stop this level, stop keyboard control
 	console.log("You lose");
-	lose = true;
-	is_game_begin = false;
+	gameState = 2;
+	context.fillText("You Lose", 250, 250);
 	window.cancelAnimationFrame(gameloopid);
     }
 }
