@@ -2,3 +2,11 @@
     border: 2px solid #444;
     background-image: url("../images/level_one.png");
 }
+
+#timer {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    background: white;
+    border: 1px solid #444;
+}

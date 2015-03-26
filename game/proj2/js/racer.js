@@ -8,6 +8,14 @@ var player   = new Car();
 var trackHit = new Image();
 var elPX     = document.getElementById('px');
 var elPY     = document.getElementById('py');
+var timer;
+var seconds = 59;
+var milliseconds = 59;
+var timer_sec = document.getElementById('seconds');
+var timer_ms = document.getElementById('ms');
+var is_game_begin = false;
+var lose = false;
+var gameloopid;
 
 trackHit.src = "images/level_one.png";
 
@@ -29,6 +37,7 @@ var keys = {
     39: false
 };
 
+
 function speedXY (rotation, speed) {
     return {
         x: Math.sin(rotation * TO_RADIANS) * speed,
@@ -36,7 +45,12 @@ function speedXY (rotation, speed) {
     };
 }
 
-function step (car) {
+function step(car) {
+    if (!is_game_begin && lose) {
+	// lose, do nothing
+	return;
+    }
+
     if (car.code === 'player'){
 
         // constantly decrease speed
@@ -45,6 +59,16 @@ function step (car) {
         } else {
             car.speed *= car.speedDecay;
         }
+
+	// press any arrow key to start the level
+	if (!is_game_begin && !lose
+	    && (keys[key.UP] || keys[key.DOWN] || keys[key.LEFT]
+		|| keys[key.RIGHT])) {
+	    console.log("Game started");
+	    is_game_begin = true;
+	    startTimer();
+	}
+
         // keys movements
         if (keys[key.UP])  { car.accelerate(); }
         if (keys[key.DOWN]){ car.decelerate(); }
@@ -123,10 +147,45 @@ $(window).keyup(function(e){
     }
 });
 
-function frame () {
+function frame() {
     step(player);
     draw(player);
-    window.requestAnimationFrame(frame);
+    gameloopid = window.requestAnimationFrame(frame);
+}
+
+function startTimer() {
+    seconds = 59;
+    milliseconds = 99;
+    timer = setInterval(updateTimer, 1);
+}
+
+function cancelTimer() {
+    seconds = 59;
+    milliseconds = 99;
+    clearInterval(timer);
+    timer_sec.innerHTML = seconds;
+    timer_ms.innerHTML = milliseconds;
+}
+
+function updateTimer() {
+    timer_sec.innerHTML = seconds;
+    timer_ms.innerHTML = milliseconds;
+
+    milliseconds--;
+    if (milliseconds == 0) {
+	milliseconds = 59;
+	seconds--;
+    }
+
+    if (seconds == 50) {
+	cancelTimer();
+
+	// stop this level, stop keyboard control
+	console.log("You lose");
+	lose = true;
+	is_game_begin = false;
+	window.cancelAnimationFrame(gameloopid);
+    }
 }
 
 frame();
