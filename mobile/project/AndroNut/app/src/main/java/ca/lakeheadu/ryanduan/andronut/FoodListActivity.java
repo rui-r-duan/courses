@@ -10,18 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-
 
 public class FoodListActivity extends ActionBarActivity {
     private final static String TAG = ".FoodListActivity";
-    public final static String SELECTED_FOOD = "ca.lakeheadu.ryanduan.andronut.SELECTED_FOOD";
     private static final String DB_NAME = "foods.sqlite3";
     static final String TABLE_NAME = "foods";
     static final String FOOD_ID = "_id";
@@ -74,7 +67,6 @@ public class FoodListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(FoodListActivity.this, FoodDetailActivity.class);
-//                String msg = (String) ((TextView)view).getText();
                 boolean isMoveSuc = cursor.moveToPosition(i);
                 Log.d(TAG, "isMoveSuc = " + isMoveSuc);
                 if (isMoveSuc) {
