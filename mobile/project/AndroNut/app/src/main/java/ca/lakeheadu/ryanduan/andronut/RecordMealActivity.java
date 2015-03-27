@@ -35,8 +35,12 @@ public class RecordMealActivity extends ActionBarActivity {
         btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listItems.add(et.getText().toString());
-                adapter.notifyDataSetChanged();
+                String t = et.getText().toString();
+                if (t.length() > 0) {
+                    listItems.add(et.getText().toString());
+                    adapter.notifyDataSetChanged();
+                    et.setText("");
+                }
             }
         });
     }
