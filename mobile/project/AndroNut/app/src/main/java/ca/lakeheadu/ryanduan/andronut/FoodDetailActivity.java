@@ -15,10 +15,19 @@ public class FoodDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(FoodListActivity.SELECTED_FOOD);
-        TextView tv = (TextView)findViewById(R.id.food_name);
-        tv.setTextSize(40);
-        tv.setText(message);
+        Bundle bundle = intent.getExtras();
+        String foodName = bundle.getString(FoodListActivity.FOOD_NAME);
+        int foodCalories = bundle.getInt(FoodListActivity.FOOD_CALORIES);
+        double foodAmount = bundle.getDouble(FoodListActivity.FOOD_AMOUNT);
+        TextView tvName = (TextView)findViewById(R.id.food_name);
+//        tvName.setTextSize(40);
+        tvName.setText(foodName);
+        TextView tvCalories = (TextView)findViewById(R.id.food_calories);
+//        tvCalories.setTextSize(30);
+        tvCalories.setText(Integer.toString(foodCalories) + " kCal");
+        TextView tvAmount = (TextView)findViewById(R.id.food_amount);
+//        tvAmount.setTextSize(30);
+        tvAmount.setText(Double.toString(foodAmount) + " g");
     }
 
 

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,17 +20,18 @@ import java.util.ArrayList;
 
 
 public class FoodListActivity extends ActionBarActivity {
+    private final static String TAG = ".FoodListActivity";
     public final static String SELECTED_FOOD = "ca.lakeheadu.ryanduan.andronut.SELECTED_FOOD";
     private static final String DB_NAME = "foods.sqlite3";
-    private static final String TABLE_NAME = "foods";
-    private static final String FOOD_ID = "_id";
-    private static final String FOOD_NAME = "name";
-    private static final String FOOD_CALORIES = "calories";
-    private static final String FOOD_AMOUNT = "amount";
+    static final String TABLE_NAME = "foods";
+    static final String FOOD_ID = "_id";
+    static final String FOOD_NAME = "name";
+    static final String FOOD_CALORIES = "calories";
+    static final String FOOD_AMOUNT = "amount";
 
     private SQLiteDatabase database;
     private ListView lv;
-    private ArrayList<Food> foods;
+//    private ArrayList<Food> foods;
     private Cursor cursor;
 
     @Override
@@ -44,7 +46,7 @@ public class FoodListActivity extends ActionBarActivity {
     }
 
     private void fillFoods() {
-        foods = new ArrayList<Food>();
+//        foods = new ArrayList<Food>();
         cursor = database.query(TABLE_NAME,
                 new String[] {
                         FOOD_ID, FOOD_NAME, FOOD_CALORIES, FOOD_AMOUNT
@@ -54,16 +56,6 @@ public class FoodListActivity extends ActionBarActivity {
                 null, // groupBy
                 null, // having
                 FOOD_NAME); // orderBy
-//        cursor.moveToFirst();
-//        if (!cursor.isAfterLast()) {
-//            do {
-//                String name = cursor.getString(1);
-//                int calories = cursor.getInt(2);
-//                double amount = cursor.getDouble(3);
-//                foods.add(new Food(name, calories, amount));
-//            } while (cursor.moveToNext());
-//        }
-//        cursor.close();
     }
 
     private void setUpList() {
@@ -82,10 +74,17 @@ public class FoodListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(FoodListActivity.this, FoodDetailActivity.class);
-//                String msg = (String)adapterView.getItemAtPosition(i);
-                String msg = (String) ((TextView)view).getText();
-                intent.putExtra(SELECTED_FOOD, msg);
-                startActivity(intent);
+//                String msg = (String) ((TextView)view).getText();
+                boolean isMoveSuc = cursor.moveToPosition(i);
+                Log.d(TAG, "isMoveSuc = " + isMoveSuc);
+                if (isMoveSuc) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FOOD_NAME, cursor.getString(1));
+                    bundle.putInt(FOOD_CALORIES, cursor.getInt(2));
+                    bundle.putDouble(FOOD_AMOUNT, cursor.getDouble(3));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
     }
