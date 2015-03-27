@@ -1,48 +1,33 @@
 package ca.lakeheadu.ryanduan.andronut;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class FoodListActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ListView list = (ListView)findViewById(R.id.listView);
-        String[] menuItems = new String[] {
-                "View Food", "Record a Meal", "My Meals", "My Calories"
+        setContentView(R.layout.activity_food_list);
+        ListView list = (ListView)findViewById(R.id.foodListView);
+        String[] foods = new String[] {
+                "Bread", "Potato", "Rice", "Tomato"
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, menuItems);
+                android.R.layout.simple_list_item_1, foods);
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Class<?>[] classes = new Class<?>[] {
-                        FoodListActivity.class, RecordMealActivity.class,
-                        MyMealsActivity.class, MyCaloriesActivity.class
-                };
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, classes[i]);
-                startActivity(intent);
-            }
-        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_food_list, menu);
         return true;
     }
 

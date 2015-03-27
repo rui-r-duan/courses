@@ -16,6 +16,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FoodListActivity"
+            android:label="@string/title_activity_food_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.lakeheadu.ryanduan.andronut.MainActivity" />
+        </activity>
+        <activity
+            android:name=".RecordMealActivity"
+            android:label="@string/title_activity_record_meal"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.lakeheadu.ryanduan.andronut.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MyMealsActivity"
+            android:label="@string/title_activity_my_meals"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.lakeheadu.ryanduan.andronut.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MyCaloriesActivity"
+            android:label="@string/title_activity_my_calories"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.lakeheadu.ryanduan.andronut.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
