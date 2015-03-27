@@ -8,15 +8,15 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-public class FoodDetailActivity extends ActionBarActivity {
+public class MealDetailActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_detail);
+        setContentView(R.layout.activity_meal_detail);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(FoodListActivity.SELECTED_FOOD);
-        TextView tv = (TextView)findViewById(R.id.food_name);
+        String message = intent.getStringExtra(MyMealsActivity.SELECTED_MEAL);
+        TextView tv = (TextView)findViewById(R.id.meal_name);
         tv.setTextSize(40);
         tv.setText(message);
     }
@@ -25,7 +25,7 @@ public class FoodDetailActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_food_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_meal_details, menu);
         return true;
     }
 

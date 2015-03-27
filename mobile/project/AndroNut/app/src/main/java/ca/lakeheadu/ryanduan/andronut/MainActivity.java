@@ -17,7 +17,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView list = (ListView)findViewById(R.id.listView);
+        ListView list = (ListView)findViewById(R.id.mainmenu_listview);
         String[] menuItems = new String[] {
                 "View Food", "Record a Meal", "My Meals", "My Calories"
         };
@@ -31,8 +31,7 @@ public class MainActivity extends ActionBarActivity {
                         FoodListActivity.class, RecordMealActivity.class,
                         MyMealsActivity.class, MyCaloriesActivity.class
                 };
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, classes[i]);
+                Intent intent = new Intent(MainActivity.this, classes[i]);
                 startActivity(intent);
             }
         });
