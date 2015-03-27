@@ -65,33 +65,29 @@ public class MyMealsActivity extends ActionBarActivity {
         listDataHeader.add("Supper");
 
         // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
+        List<String> breakfastList = new ArrayList<String>();
+        breakfastList.add("Rice");
+        breakfastList.add("Potato");
+        breakfastList.add("Tomato");
+        breakfastList.add("Bread");
+        breakfastList.add("Salad");
 
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
+        List<String> lunchList = new ArrayList<String>();
+        lunchList.add("Rice");
+        lunchList.add("Noodles");
+        lunchList.add("Sandwich");
+        lunchList.add("Beef");
 
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
+        List<String> supperList = new ArrayList<String>();
+        supperList.add("Beef");
+        supperList.add("Chicken");
+        supperList.add("Lamb");
+        supperList.add("Salad");
+        supperList.add("Sandwich");
 
-        listDataChild.put(listDataHeader.get(0), top250);
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        listDataChild.put(listDataHeader.get(0), breakfastList);
+        listDataChild.put(listDataHeader.get(1), lunchList);
+        listDataChild.put(listDataHeader.get(2), supperList);
     }
 
     @Override
