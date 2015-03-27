@@ -1,17 +1,44 @@
 package ca.lakeheadu.ryanduan.andronut;
 
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class RecordMealActivity extends ActionBarActivity {
+
+    private ArrayList<String> listItems=new ArrayList<String>();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_meal);
+
+        ListView lv = (ListView)findViewById(R.id.meal_food_list);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        lv.setAdapter(adapter);
+
+        Button btnAddFood = (Button)findViewById(R.id.btnAddFood);
+        Button btnAddMeal = (Button)findViewById(R.id.btnAddMeal);
+        final EditText et = (EditText)findViewById(R.id.inputfood);
+
+        btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listItems.add(et.getText().toString());
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
 

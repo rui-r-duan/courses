@@ -4,10 +4,14 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_food_list">FoodListActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">To Be Done</string>
     <string name="title_activity_record_meal">RecordMealActivity</string>
     <string name="title_activity_my_meals">MyMealsActivity</string>
     <string name="title_activity_my_calories">MyCaloriesActivity</string>
     <string name="title_activity_food_detail">FoodDetailActivity</string>
     <string name="title_activity_meal_details">MealDetailsActivity</string>
+    <string name="title_activity_add_meal">AddMealActivity</string>
+    <string name="add_food_str">Add</string>
+    <string name="food_name_hint">Food Name</string>
+    <string name="add_meal_str">Add Meal</string>
 </resources>
