@@ -48,6 +48,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ca.lakeheadu.ryanduan.andronut.MainActivity" />
         </activity>
+        <activity
+            android:name=".FoodDetailActivity"
+            android:label="@string/title_activity_food_detail"
+            android:parentActivityName=".FoodListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.lakeheadu.ryanduan.andronut.FoodListActivity" />
+        </activity>
     </application>
 
 </manifest>

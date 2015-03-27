@@ -8,4 +8,5 @@
     <string name="title_activity_record_meal">RecordMealActivity</string>
     <string name="title_activity_my_meals">MyMealsActivity</string>
     <string name="title_activity_my_calories">MyCaloriesActivity</string>
+    <string name="title_activity_food_detail">FoodDetailActivity</string>
 </resources>
