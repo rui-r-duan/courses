@@ -1,6 +1,8 @@
 package ca.lakeheadu.ryanduan.andronut;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,25 +11,35 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
+    private static final String DB_NAME = "foods.sqlite3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView list = (ListView)findViewById(R.id.mainmenu_listview);
+        ListView lv = (ListView)findViewById(R.id.mainmenu_listview);
+
+        // copy and insure db in the file system
+        ExternalDbOpenHelper dbOpenHelper = new ExternalDbOpenHelper(this, DB_NAME);
+        dbOpenHelper.close();
+
         String[] menuItems = new String[] {
                 "View Food", "Record a Meal", "My Meals", "My Calories"
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, menuItems);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Class<?>[] classes = new Class<?>[] {
+                Class<?>[] classes = new Class<?>[]{
                         FoodListActivity.class, RecordMealActivity.class,
                         MyMealsActivity.class, MyCaloriesActivity.class
                 };
@@ -36,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
