@@ -10,9 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,8 @@ public class FoodListActivity extends ActionBarActivity {
 
     private SQLiteDatabase database;
     private ListView lv;
-    private ArrayList<String> foods;
+    private ArrayList<Food> foods;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,26 +44,38 @@ public class FoodListActivity extends ActionBarActivity {
     }
 
     private void fillFoods() {
-        foods = new ArrayList<String>();
-        Cursor foodCursor = database.query(TABLE_NAME,
+        foods = new ArrayList<Food>();
+        cursor = database.query(TABLE_NAME,
                 new String[] {
-                        FOOD_ID, FOOD_NAME
-                },
-                null, null, null, null,
-                FOOD_NAME);
-        foodCursor.moveToFirst();
-        if (!foodCursor.isAfterLast()) {
-            do {
-                String name = foodCursor.getString(1);
-                foods.add(name);
-            } while (foodCursor.moveToNext());
-        }
-        foodCursor.close();
+                        FOOD_ID, FOOD_NAME, FOOD_CALORIES, FOOD_AMOUNT
+                }, // columns
+                null, // selection
+                null, // selectionArgs
+                null, // groupBy
+                null, // having
+                FOOD_NAME); // orderBy
+//        cursor.moveToFirst();
+//        if (!cursor.isAfterLast()) {
+//            do {
+//                String name = cursor.getString(1);
+//                int calories = cursor.getInt(2);
+//                double amount = cursor.getDouble(3);
+//                foods.add(new Food(name, calories, amount));
+//            } while (cursor.moveToNext());
+//        }
+//        cursor.close();
     }
 
     private void setUpList() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, foods);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                android.R.layout.simple_list_item_2,
+                cursor,
+                new String[] {
+                        FOOD_NAME, FOOD_CALORIES
+                },
+                new int[]{
+                        android.R.id.text1, android.R.id.text2
+                });
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
