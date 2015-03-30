@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Animations in HTML5 using CSS3 animations</title>
+    <style>
+     body
+     {
+       padding: 0;
+       margin: 0;
+     }
+
+     @keyframes carAnimation
+     {
+       0% { left: -400px; }	/* Initial position */
+       100% { left: 1600px; }	/* Final position */
+     }
+
+     @-webkit-keyframes carAnimation
+     {
+       0% { left: -400px; }
+       100% { left: 1600px; }
+     }
+
+     @-moz-keyframes carAnimation
+     {
+       0% { left: -400px; }
+       100% { left: 1600px; }
+     }
+
+     @-ms-keyframes carAnimation
+     {
+       0% { left: -400px; }
+       100% { left: 1600px; }
+     }
+
+
+     @keyframes tyreAnimation
+     {
+       0% { transform: rotate(0); }	 		/* Initial angle */
+       100% { transform: rotate(1800deg); }	/* Final angle */
+     }
+
+     @-webkit-keyframes tyreAnimation
+     {
+       0% { -webkit-transform: rotate(0); }
+       100% { -webkit-transform: rotate(1800deg); }
+     }
+
+     @-moz-keyframes tyreAnimation
+     {
+       0% { -moz-transform: rotate(0); }
+       100% { -moz-transform: rotate(1800deg); }
+     }
+
+     @-ms-keyframes tyreAnimation
+     {
+       0% { -ms-transform: rotate(0); }
+       100% { -ms-transform: rotate(1800deg); }
+     }
+
+     #container
+     {
+       position: relative;	/* Relative pos. - just that we can place absolute divs in there */
+       width: 100%;		/* Yes this will get the whole page width */
+       height: 600px;		/* and 600px height */
+       overflow: hidden;	/* Really important */
+     }
+
+     #car
+     {
+       position: absolute;	/* We position the car absolute in the container */
+       width: 400px;		/* The total width */
+       height: 210px;		/* The total height incl. tires and chassis */
+       z-index: 1;			/* car is in front of the grass */
+       top: 300px;			/* distance from the top (y-coordinate) */
+       left: 50px;			/* distance to the left (x-coordinate) */
+       
+       -webkit-animation-name: carAnimation;
+       -webkit-animation-duration: 10s;
+       -webkit-animation-iteration-count: infinite;
+       -webkit-animation-timing-function: linear;
+       
+       -moz-animation-name: carAnimation;
+       -moz-animation-duration: 10s;
+       -moz-animation-iteration-count: infinite;
+       -moz-animation-timing-function: linear;
+       
+       -ms-animation-name: carAnimation;
+       -ms-animation-duration: 10s;
+       -ms-animation-iteration-count: infinite;
+       -ms-animation-timing-function: linear;
+       
+       animation-name: carAnimation;
+       animation-duration: 10s;
+       animation-iteration-count: infinite;
+       animation-timing-function: linear;
+     }
+
+     #chassis
+     {
+       position: absolute;			/* This defines the space of our car w/o tires */
+       width: 400px;				/* The total width */
+       height: 130px;				/* The height of the chassis */
+       background: #FF9900;		/* Some color */
+       border: 2px solid #FF6600;	/* Some thick border */
+     }
+
+     .tire
+     {
+       z-index: 1;					/* Always in front of the chassis */
+       position: absolute;			/* Absolute positioned */
+       bottom: 0;					/* Will be placed at the bottom of the car */
+       border-radius: 60px;		/* And there is our radius ! */
+       height: 120px;				/* 2 * radius = height */
+       width: 120px;				/* 2 * radius = width */
+       background: #0099FF;		/* The filling color */
+       border: 1px solid #3300FF;	/* And the border color and width */
+       
+       -webkit-animation-name: tyreAnimation;
+       -webkit-animation-duration: 10s;
+       -webkit-animation-iteration-count: infinite;
+       -webkit-animation-timing-function: linear;
+       
+       -moz-animation-name: tyreAnimation;
+       -moz-animation-duration: 10s;
+       -moz-animation-iteration-count: infinite;
+       -moz-animation-timing-function: linear;
+       
+       -ms-animation-name: tyreAnimation;
+       -ms-animation-duration: 10s;
+       -ms-animation-iteration-count: infinite;
+       -ms-animation-timing-function: linear;
+       
+       animation-name: tyreAnimation;
+       animation-duration: 10s;
+       animation-iteration-count: infinite;
+       animation-timing-function: linear;
+     }
+
+     #fronttire
+     {
+       right: 20px; /* Positions the right tire with some distance to the edge */
+     }
+
+     #backtire
+     {
+       left: 20px; /* Positions the left tire with some distance to the edge */
+     }
+
+     #grass
+     {
+       position: absolute;	/* Grass is absolut positioned in the container */
+       width: 100%;		/* Takes all the width */
+       height: 130px;		/* And some height */
+       bottom: 0;			/* 0 distance to the bottom */
+       background: -webkit-linear-gradient(bottom, #33CC00, #66FF22);
+       background: -moz-linear-gradient(bottom, #33CC00, #66FF22);
+       background: -ms-linear-gradient(bottom, #33CC00, #66FF22);
+       background: linear-gradient(bottom, #33CC00, #66FF22); /* Currently we need all of them */
+     }
+
+     .hr, .vr	/* Rules for both: hr and vr */
+     {
+       position: absolute;	 /* Want to position them absolutly */
+       background: #3300FF;	/* The border color */
+     }
+
+     .hr
+     {
+       height: 1px;	/* Linewidth of 1 Pixel */
+       width: 100%;	/* Just a straight line (horizontal) */
+       left: 0;
+       top: 60px;		/* Remember 60px was the radius ! */
+     }
+
+     .vr
+     {
+       width: 1px;		/* Linewidth of 1 Pixel */
+       height: 100%;	/* Just a straight line (vertical) */
+       left: 60px;		/* Remember 60px was the radius ! */
+       top: 0;
+     }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="car">
+	<div id="chassis"></div>
+	<div id="backtire" class="tire"><div class="hr"></div><div class="vr"></div></div>
+	<div id="fronttire" class="tire"><div class="hr"></div><div class="vr"></div></div>
+      </div>
+      <div id="grass"></div>
+    </div>
+    <footer>
+      Codeproject article published by Florian Rappl, 2011. This work is licensed under the CPL.
+    </footer>
+  </body>
+</html>

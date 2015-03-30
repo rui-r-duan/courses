@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Animations in HTML5 using CSS3 animations</title>
+    <style>
+     body
+     {
+       padding: 0;
+       margin: 0;
+     }
+
+     #container
+     {
+       position: relative;      /* Relative pos. - just that we can place absolute divs in there */
+       width: 100%;             /* Yes this will get the whole page width */
+       height: 600px;           /* and 600px height */
+       overflow: hidden;        /* Really important */
+     }
+
+     #car
+     {
+       position: absolute;      /* We position the car absolute in the container */
+       width: 400px;            /* The total width */
+       height: 210px;           /* The total height incl. tires and chassis */
+       z-index: 1;                      /* car is in front of the grass */
+       top: 300px;                      /* distance from the top (y-coordinate) */
+       left: 50px;                      /* distance to the left (x-coordinate) */
+     }
+
+     #chassis
+     {
+       position: absolute;                      /* This defines the space of our car w/o tires */
+       width: 400px;                            /* The total width */
+       height: 130px;                           /* The height of the chassis */
+       background: #FF9900;             /* Some color */
+       border: 2px solid #FF6600;       /* Some thick border */
+     }
+
+     .tire
+     {
+       z-index: 1;                                      /* Always in front of the chassis */
+       position: absolute;                      /* Absolute positioned */
+       bottom: 0;                                       /* Will be placed at the bottom of the car */
+       border-radius: 60px;             /* And there is our radius ! */
+       height: 120px;                           /* 2 * radius = height */
+       width: 120px;                            /* 2 * radius = width */
+       background: #0099FF;             /* The filling color */
+       border: 1px solid #3300FF;       /* And the border color and width */
+       -o-transform: rotate(0deg);
+       -ms-transform: rotate(0deg);
+       -webkit-transform: rotate(0deg);
+       -moz-transform: rotate(0deg);
+     }
+
+     #fronttire
+     {
+       right: 20px; /* Positions the right tire with some distance to the edge */
+     }
+
+     #backtire
+     {
+       left: 20px; /* Positions the left tire with some distance to the edge */
+     }
+
+     #grass
+     {
+       position: absolute;      /* Grass is absolut positioned in the container */
+       width: 100%;             /* Takes all the width */
+       height: 130px;           /* And some height */
+       bottom: 0;                       /* 0 distance to the bottom */
+       background: -o-linear-gradient(bottom, #33CC00, #66FF22);
+       background: -webkit-linear-gradient(bottom, #33CC00, #66FF22);
+       background: -moz-linear-gradient(bottom, #33CC00, #66FF22);
+       background: -ms-linear-gradient(bottom, #33CC00, #66FF22);
+       background: linear-gradient(bottom, #33CC00, #66FF22); /* Currently we need all of them */
+     }
+
+     .hr, .vr   /* Rules for both: hr and vr */
+     {
+       position: absolute;       /* Want to position them absolutly */
+       background: #3300FF;     /* The border color */
+     }
+
+     .hr
+     {
+       height: 1px;     /* Linewidth of 1 Pixel */
+       width: 100%;     /* Just a straight line (horizontal) */
+       left: 0;
+       top: 60px;               /* Remember 60px was the radius ! */
+     }
+
+     .vr
+     {
+       width: 1px;              /* Linewidth of 1 Pixel */
+       height: 100%;    /* Just a straight line (vertical) */
+       left: 60px;              /* Remember 60px was the radius ! */
+       top: 0;
+     }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>
+     $(document).ready(function() {
+       var rot = 0;
+       var prefix = $('.tire').css('-o-transform') ? '-o-transform' : ($('.tire').css('-ms-transform') ? '-ms-transform' : ($('.tire').css('-moz-transform') ? '-moz-transform' : ($('.tire').css('-webkit-transform') ? '-webkit-transform' : 'transform'))); // Find out prefix and set it --- could be done more generally but we just need it once!
+
+       var origin = {   /* The original point that we start from */
+         left : -400,           // from which point do we want to start? integer --> value is in pixels
+       };
+
+       var animation = {        /* The animation executed by jQuery */
+         left : 1600,           // to which point do we want to move? since it is an integer it is in pixels
+       };
+
+       var rotate = function() {        /* The function to be called for rotating the tires */
+         rot += 2;
+         $('.tire').css(prefix, 'rotate(' + rot + 'deg)');
+       };
+
+       var options = {  /* The options to be used by jQuery */
+         easing : 'linear',             // Only a linear easing makes sense here
+                        duration : 10000,              // 10 * 1000 ms = 10 sec.
+                        complete : function() {        // once the animation is done it should restart
+                          $('#car').css(origin).animate(animation, options);
+                        },
+                               step : rotate,         // call a function every step to rotate tire!
+       };
+
+       options.complete();
+     });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="car">
+        <div id="chassis"></div>
+        <div id="backtire" class="tire"><div class="hr"></div><div class="vr"></div></div>
+        <div id="fronttire" class="tire"><div class="hr"></div><div class="vr"></div></div>
+      </div>
+      <div id="grass"></div>
+    </div>
+    <footer>
+      Codeproject article published by Florian Rappl, 2011. This work is licensed under the CPL.
+    </footer>
+  </body>
+</html>
