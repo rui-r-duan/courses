@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Class<?>[] classes = new Class<?>[]{
+                Class<?>[] classes = new Class<?>[] {
                         FoodListActivity.class, RecordMealActivity.class,
                         MyMealsActivity.class, MyCaloriesActivity.class
                 };

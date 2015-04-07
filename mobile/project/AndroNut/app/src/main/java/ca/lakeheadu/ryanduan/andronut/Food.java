@@ -1,7 +1,7 @@
 package ca.lakeheadu.ryanduan.andronut;
 
 /**
- * Created by Ryan on 2015-03-27.
+ * Data structure for the food record.
  */
 public class Food {
     private String name;

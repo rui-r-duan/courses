@@ -1,6 +1,5 @@
 package ca.lakeheadu.ryanduan.andronut;
 
-import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,13 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
 public class RecordMealActivity extends ActionBarActivity {
 
-    private ArrayList<String> listItems=new ArrayList<String>();
+    private ArrayList<String> listItems=new ArrayList<>();
     ArrayAdapter<String> adapter;
 
     @Override
@@ -25,7 +24,7 @@ public class RecordMealActivity extends ActionBarActivity {
         setContentView(R.layout.activity_record_meal);
 
         ListView lv = (ListView)findViewById(R.id.meal_food_list);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
         lv.setAdapter(adapter);
 
         Button btnAddFood = (Button)findViewById(R.id.btnAddFood);
@@ -43,8 +42,15 @@ public class RecordMealActivity extends ActionBarActivity {
                 }
             }
         });
-    }
 
+        btnAddMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(RecordMealActivity.this, "Add Meal button clicked",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

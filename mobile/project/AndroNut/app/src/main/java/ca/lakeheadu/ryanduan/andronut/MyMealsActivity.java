@@ -1,16 +1,10 @@
 package ca.lakeheadu.ryanduan.andronut;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +22,6 @@ public class MyMealsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_meals);
-        ListView list = (ListView)findViewById(R.id.mymeals_listview);
 
         expListView = (ExpandableListView) findViewById(R.id.mymeals_listview);
 
@@ -37,27 +30,11 @@ public class MyMealsActivity extends ActionBarActivity {
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
-
-//        String[] menuItems = new String[] {
-//                "Breakfast", "Lunch", "Supper"
-//        };
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_list_item_1, menuItems);
-//        list.setAdapter(adapter);
-//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(MyMealsActivity.this, MealDetailActivity.class);
-//                String msg = (String) ((TextView)view).getText();
-//                intent.putExtra(SELECTED_MEAL, msg);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add("Breakfast");
@@ -65,20 +42,20 @@ public class MyMealsActivity extends ActionBarActivity {
         listDataHeader.add("Supper");
 
         // Adding child data
-        List<String> breakfastList = new ArrayList<String>();
+        List<String> breakfastList = new ArrayList<>();
         breakfastList.add("Rice");
         breakfastList.add("Potato");
         breakfastList.add("Tomato");
         breakfastList.add("Bread");
         breakfastList.add("Salad");
 
-        List<String> lunchList = new ArrayList<String>();
+        List<String> lunchList = new ArrayList<>();
         lunchList.add("Rice");
         lunchList.add("Noodles");
         lunchList.add("Sandwich");
         lunchList.add("Beef");
 
-        List<String> supperList = new ArrayList<String>();
+        List<String> supperList = new ArrayList<>();
         supperList.add("Beef");
         supperList.add("Chicken");
         supperList.add("Lamb");

@@ -35,7 +35,7 @@ public class FoodListActivity extends ActionBarActivity {
         database = dbOpenHelper.openDataBase();
         lv = (ListView)findViewById(R.id.foodListView);
         fillFoods();
-        setUpList();
+        setupList();
     }
 
     private void fillFoods() {
@@ -51,7 +51,7 @@ public class FoodListActivity extends ActionBarActivity {
                 FOOD_NAME); // orderBy
     }
 
-    private void setUpList() {
+    private void setupList() {
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_2,
                 cursor,
