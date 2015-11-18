@@ -1,0 +1,450 @@
+* String substitution
+gsub
+* find a substring
+index
+* append
+"hello" << ", world"
+=> "hello, world"
+
+* def creates a function, and a function is an object
+** How to inspect a function's type?
+like (type-of #'foo) in CL
+
+* Array
+not homogeneous but heterogeneous
+
+[]
+[1, 2, 3]
+animals = ['lions', 'tigers', 'bears']
+puts animals
+animals[0]
+animals[-1]
+animals[0..1]
+(0..1).class
+
+a[0] = 0
+NameError: undefined local variable or methods `a' for main:Object from (irb):23
+
+a = []
+[1].class
+[1].methods.include?(:[])
+[1].methods.include?('[]') does not work on Ruby 1.9+
+
+a.push(1)
+=> [1]
+a.pop => 1
+a => []
+
+** Range
+(0..1) includes 1
+(0...1) does not include 1
+
+* Hash
+numbers = {1 => 'one', 2 => 'two'}
+numbers[1]
+stuff = {:array => [1,2,3], :string => 'Hi, mom!'}
+stuff[:string]
+
+numbers.methods.include?(:[]) => true
+
+:string.object_id
+'string'.object_id
+
+** Hash and symbol as an argument
+def tell_the_truth(options={})
+  if options[:profession] == :lawyer
+    'it could be believed that this is almost certainly not false.'
+  else
+    true
+  end
+end
+=> :tell_the_truth
+tell_the_truth
+=> true
+
+tell_the_truth :profession => :lawyer
+=> "it could be believed that this is almost certainly not false."
+
+tell_the_truth {:profession => :lawyer}
+=> SyntaxError: (irb):10: syntax error, unexpected =>, expecting '}'
+tell_the_truth {:profession => :lawyer}
+                              ^
+       from /usr/bin/irb:11:in `<main>'
+
+tell_the_truth( { :profession => :lawyer } )
+=> "it could be believed that this is almost certainly not false."
+
+puts tell_the_truth :profession => :lawyer
+puts( tell_the_truth :profession => :lawyer )
+puts tell_the_truth ({:profession => :lawyer})
+
+* load file from irb
+load './filename.rb'
+
+The variables created in '*.rb' file do not affect (shadow) the ones in IRB.
+
+* Code blocks and Yield
+3.times {puts 'hiya there, kiddo'}
+animals = ['lions and ', 'tigers and', 'bears', 'oh my']
+animals.each {|a| puts a}
+
+class Fixnum
+  def my_times
+    i = self
+    while i > 0
+      i = i - 1
+      yield
+    end
+  end
+end
+
+3.my_times {puts 'mangy moose'}
+
+#+BEGIN_SRC ruby
+    def call_block(&block)
+      block.call
+    end
+
+    def pass_block(&block)
+      call_block(&block)
+    end
+
+    pass_block {puts 'Hello, block'}
+    pass_block do puts 'Hello, block' end
+#+END_SRC
+
+* Class
+Single inheritance.
+
+#+BEGIN_SRC ruby
+#+END_SRC
+
+4.class
+4.class.superclass
+
+Class precedence list:
+
+(Fixnum Integer Numeric Object BasicObject)
+
+4.class
+=> Fixnum
+
+4.class.class
+=> Class
+
+4.class.class.class
+=> Class
+
+4.class.class.superclass
+=> Module
+
+4.class.class.superclass.superclass
+=> Object
+
+4.class.class.superclass.superclass.superclass
+=> BasicObject
+
+Integer.class
+=> Class
+
+Integer.superclass
+=> Numeric
+
+Integer.class.superclass
+=> Module
+
+Integer.class.superclass.superclass
+=> Object
+
+4.class.class.superclass.superclass.superclass
+=> BasicObject
+
+4.class.class.superclass.superclass.superclass.class
+=> Class
+
+Class.class
+=> Class
+
+Class.superclass
+=> Module
+
+BasicObject.class
+=> Class
+
+* Module (similar to Java Interface)
+
+#+BEGIN_SRC ruby
+  module ToFile
+    def filename
+      "object_#{self.object_id}.txt"
+    end
+
+    def to_f
+      File.open(filename, 'w') {|f| f.write(to_s)}
+    end
+  end
+
+  class Person
+    include ToFile
+    attr_accessor :name
+
+    def initialize(name)
+      @name = name
+    end
+
+    def to_s
+      name
+    end
+  end
+#+END_SRC
+
+* Modules, Enumerable, and Sets
+** Enumerable
+each
+
+** Comparable and spaceship operator <=>
+a <=> b
+
+Returns -1 if b is greater, 1 if a is greater, and 0 otherwise.
+
+** Examples
+'begin' <=> 'end'
+'same' <=> 'same'
+a = [5,3,4,1]
+a.sort
+a.any? {|i| i > 6}
+a.any? {|i| i > 4}
+a.all? {|i| i > 4}
+a.all? {|i| i > 0}
+a.collect {|i| i * 2}
+a.select {|i| i % 2 == 0} # even
+a.select {|i| i % 2 == 1} # odd
+a.max
+a.member?(2)
+
+** Set-based operations
+collect, map
+find
+select, find_all
+inject
+
+a.inject(0) {|sum, i| sum + i}
+a.inject {|sum, i| sum + i}
+a.inject {|product, i| product * i}
+a.inject(0) do |sum, i|
+  puts "sum: #{sum} i: #{i}  sum + i: #{sum + i}"
+  sum + i # if omit this line, puts returns nil and assign nil to sum
+end
+
+** my experiments
+'same'.class
+"same".class
+a.find {|i| i % 2 == 1}
+a[1..-1]
+a[1...-1].find {|i| i % 2 == 1}
+a.inject(1) {|sum, i| sum + i}
+a.inject(2) {|product, i| product * i}
+
+* Hash to Array
+Hash.to_a
+
+h = { "c" => 300, "a" => 100, "d" => 400, "c" => 300 }
+h.to_a
+=> [["a", 100], ["c", 300], ["d", 400]]
+
+* Array to Hash
+** small amount of data
+a = [1, 2, 3, 4]
+h = Hash[*a]
+=> { 1 => 2, 3 => 4}
+
+'*' is called the splat operator.
+
+** large amount of data
+h = Hash[a.each_slice(2).to_a]
+
+a = [1,2,3,4]
+a.each_slice(2) => #<Enumerator: [1, 2, 3, 4]:each_slice(2)>
+a.each_slice(2).to_a => [[1, 2], [3, 4]]
+Hash[a.each_slice(2).to_a] => {1=>2, 3=>4}
+
+each_slice is an Enumerable method.
+
+** Ruby 2.1.0
+Array.to_h -> hash
+
+[[:foo, :bar], [1, 2]].to_h
+=> {:foo=>:bar, 1=>2}
+
+** my experiments
+(1..10).each_slice(3) { |a| p a }
+#outputs below
+[1, 2, 3]
+[4, 5, 6]
+[7, 8, 9]
+[10 ]
+=> nil
+
+i = 3
+j = 4
+p "i = #{i}, j = #{j}"
+#outputs below
+"i = 3, j = 4"
+=> "i = 3, j = 4"
+
+p 'i = #{i}, j = #{j}'
+#outputs below
+"i = \#{i}, j = \#{j}"
+=> "i = \#{i}, j = \#{j}"
+
+* Iterate through a hash
+#+BEGIN_SRC ruby
+  h = {:work => "ryan", :email => "duanpanda"}
+  h.each do |key, val|
+    puts "#{key} => #{val}"
+  end
+  #outputs below
+  work => ryan
+  email => duanpanda
+  #return below
+  => {:work=>"ryan", :email=>"duanpanda"}
+
+  h.keys.sort.each do |k|
+    puts "#{k} => #{h[k]}"
+  end
+  #outputs below
+  email => duanpanda
+  work => ryan
+  #return below
+  => [:email, :work]
+#+END_SRC
+
+* How to implement Queue interface by an Array?
+Enqueue: push(datum), append.
+Dequeue: shift(), retrieve and at the same time remove the first item.
+
+** other modification methods
+unshift(datum), add a new item to the beginnin of an array.
+
+** Array docs
+http://docs.ruby-lang.org/en/2.0.0/Array.html
+
+* Exercises
+** print array elements
+#+BEGIN_SRC ruby
+  a = []
+  i = 1
+  while i <= 16
+    a.push(i)
+  end
+
+  a.each do |d|
+    if d % 4 == 0
+      print "#{d}\n"
+    else
+      print "#{d} "
+    end
+  end
+
+  a.each_slice(4) do |ds|
+    ds.each { |d| print "#{d} "}
+    puts
+  end
+
+  a.each_slice(4) { |ds| puts(ds.join(", ")) }
+#+END_SRC
+
+* Open Classes
+** How to modify a class on the fly in Common Lisp?
+
+* Duck Typing
+
+* method_missing
+
+* Modules for metaprogramming (from book "Programming Ruby: The Pragmatic Programmer's Guide")
+** Namespace
+#+BEGIN_SRC ruby
+  #----------------------------------------------------------------
+  module Trig
+    PI = 3.141592654
+    def Trig.sin(x)
+     # ..
+    end
+    def Trig.cos(x)
+     # ..
+    end
+  end
+
+  #----------------------------------------------------------------
+  module Action
+    VERY_BAD = 0
+    BAD      = 1
+    def Action.sin(badness)
+      # ...
+    end
+  end
+
+  #----------------------------------------------------------------
+  require "trig"
+  require "action"
+
+  y = Trig.sin(Trig::PI/4)
+  wrongdoing = Action.sin(Action::VERY_BAD)
+#+END_SRC
+
+** Mixins
+#+BEGIN_SRC ruby
+  module Debug
+    def whoAmI?
+      "#{self.type.name} (\##{self.id}): #{self.to_s}"
+    end
+  end
+  class Phonograph
+    include Debug
+    # ...
+  end
+  class EightTrack
+    include Debug
+    # ...
+  end
+  ph = Phonograph.new("West End Blues")
+  et = EightTrack.new("Surrealistic Pillow")
+  ph.whoAmI? #=> "Phonograph (#537766170): West End Blues"
+  et.whoAmI? #=> "EightTrack (#537765860): Surrealistic Pillow"
+#+END_SRC
+
+*** Dynamic (incremental) loading
+In the above example, if you create ph and et objects, and modify the
+class/module and reload the class/module, then the ph and et's behavior will change.
+
+** Uses of self and Class/Module name
+
+*** In a class
+self.method defines a class method.
+*** In a class method
+*** In an instance method
+
+
+
+* self keyword
+http://www.jimmycuadra.com/posts/self-in-ruby/
+
+* "<<" operator
+[1, 2] << 3
+=> [1, 2, 3]
+
+* Ruby's Array as a linked list
+a = []
+a.unshift(3).unshift(2).unshift(1) # shift right, insert at the front of the array
+=> [1, 2, 3]
+
+a = []
+a.push(1).push(2).push(3) # append at the end of the array
+=> [1, 2, 3]
+
+a = []
+a << 1 << 2 << 3 # push
+=> [1, 2, 3]
+
+* Enumerable and Enumerator
+http://www.sitepoint.com/guide-ruby-collections-iii-enumerable-enumerator/
