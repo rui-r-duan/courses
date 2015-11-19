@@ -86,3 +86,6 @@ http://www.sitepoint.com/guide-ruby-collections-part-arrays/
 
 * Scope
 http://www.sitepoint.com/understanding-scope-in-ruby/
+
+* Closure
+http://www.sitepoint.com/closures-ruby/
