@@ -448,3 +448,9 @@ a << 1 << 2 << 3 # push
 
 * Enumerable and Enumerator
 http://www.sitepoint.com/guide-ruby-collections-iii-enumerable-enumerator/
+
+* Collections
+http://www.sitepoint.com/guide-ruby-collections-part-arrays/
+
+* Scope
+http://www.sitepoint.com/understanding-scope-in-ruby/
