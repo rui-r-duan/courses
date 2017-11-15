@@ -11,8 +11,6 @@ Current courses are:
     Mobile Programming
     Cryptography and Network Security
 
-plus SICP
-
 Ryan Duan
 
 Lakehead University
