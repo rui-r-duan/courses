@@ -1,0 +1,63 @@
+
+===============================================================================
+Instructions for Setting up the Compiling and Running Environment
+===============================================================================
+
+February 11th, 2015
+Rui Duan
+
+----------------------------------------------------------------
+Compilation needs: JDK.
+Running needs: JRE.
+Recommended Environment: JDK 1.8.0_31. (current newest)
+No need for Eclipse or other IDE.
+----------------------------------------------------------------
+
+
+INSTRUCTIONS
+----------------------------------------------------------------
+1. Download the newest JDK here:
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+2. Install JDK. Done.
+
+
+NOTES
+----------------------------------------------------------------
+1. If JRE is not installed in your computer, JDK installer will install it for
+you.
+
+2. If JRE has been installed before you install JDK, please make sure JDK and
+your current JRE are both 32-bit version or both 64-bit version.
+
+3. For JDK 1.8.x, you do not need to set the environment variables such as
+JAVA_HOME, CLASSPATH. JDK uses other advanced feature to handle the path
+problem in Windows 7 & 8.
+
+
+HOW TO RUN MY PROGRAM
+----------------------------------------------------------------
+* Recommended method: in cmd.exe command line environment
+  1. cd to [path\to\my\code\].
+  2. type in: "buildall". (compile all *.java to *.class)
+  3. type in: "autotest". (output to standard output)
+     or type in: "autotest > out.txt" (output to file out.txt)
+  4. [option] type in: "autoclean". (clean all the built *.class files)
+
+* GUI method
+  1. In any file system browser, browse to [path\to\my\code\].
+  2. double click "buildall.bat". (build)
+  3. double click "autotest.bat". (run test cases in it, but the command window
+  will disappear upon program ends.)
+  4. double click "autoclean.bat".
+
+* Note If you need to find out the details about the commands in autotest.bat,
+  please use a text editor (e.g. Notepad) to open autotest.bat.
+
+OUTPUT FORMAT
+----------------------------------------------------------------
+Please refer to file README.txt.
+
+SAMPLE OUTPUT
+----------------------------------------------------------------
+Please refer to file testresult_201502091103.txt.
