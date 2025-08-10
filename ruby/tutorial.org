@@ -1,0 +1,232 @@
+* Arithmetic expressions
+#+BEGIN_SRC ruby
+  40 / 0
+#+END_SRC
+=>  #<ZeroDivisionError: divided by 0>
+
+
+* String operations
+#+BEGIN_SRC ruby
+  "Jimmy".reverse
+  "Jimmy".length
+  "Jimmy" * 5
+#+END_SRC
+
+* No method error
+#+BEGIN_SRC ruby
+  40.reverse
+#+END_SRC
+=> #<NoMethodError: undefined method `reverse' for 40:Fixnum>
+
+* Number to string
+#+BEGIN_SRC ruby
+  40.to_s.reverse
+#+END_SRC
+=> "04"
+
+to_s
+
+to_i
+
+to_a (arrays)
+
+* Array
+#+BEGIN_SRC ruby
+  []
+  [12, 47, 35].max
+  ticket = [12, 47, 35] # tucking a list away (tuck sth away: [informal] to store something, esp. money, in a safe place)
+#+END_SRC
+
+* Sort
+ticket.sort! # sort in place
+
+* Print on stdout
+print poem
+
+* String substitution
+poem['toast'] = 'honeydew' # change the first 'toast'
+
+* More reversal
+#+BEGIN_SRC ruby
+poem.reverse # reverse it character-wise
+poem.lines.to_a.reverse
+poem.lines #<Enumerator: "My....":lines>
+#+END_SRC
+
+print poem.lines.to_a.reverse.join
+
+** Enumerator
+lines, chars, bytes
+
+String have neither 'chars' nor 'bytes' enumerator.
+
+* Review
+** Exclamation Points
+** Square Brackets
+** Chaining
+** Question marks
+poem.include? "my hand"
+
+* String methods
+http://ruby-doc.org/core-2.2.3/String.html
+
+* Hash (dictionary)
+{}
+books["Gravity's Rainbow"] = :splendid
+
+* Symbols
+:splendid, :quite_good, :mediocre, :quite_not_good, :abysmal
+
+* More Hash
+books.length
+=> 5
+
+books.keys
+=> ["Gravity's Rainbow", "one", "two", "three", "four"]
+
+books.values
+=> [:splendid, :quite_good, :mediocre, :quite_not_good, :abysmal]
+
+books["Gravity's Rainbow"]
+
+* Hash.new
+ratings = Hash.new(0)
+
+books.values.each { |rate| ratings[rate] += 1 }
+=> [:splendid, :quite_good, :mediocre, :quite_not_good, :abysmal]
+
+'|' is called the pipe character
+
+raings
+=> {:splendid=>1, :quite_good=>1, :mediocre=>1, :quite_not_good=>1, :abysmal=>1}
+
+ratings.keys
+=> [:splendid, :quite_good, :mediocre, :quite_not_good, :abysmal]
+
+ratings.values
+=> [1, 1, 1, 1, 1]
+
+* Block
+5.times { print "Odelay!" }
+"Odelay!Odelay!Odelay!Odelay!Odelay!"
+
+Blocks are always attached to methods.
+
+* Dir
+Dir.entries "/"
+=> [".", "..", "Home", "Libraries", "MouseHole", "Programs", "Tutorials", "comics.txt"]
+
+Dir["/*.txt"]
+=> ["/comics.txt"]
+
+Dir.class
+=> Class
+
+* File operations
+print File.read("/comics.txt")
+=> "line1
+line2
+line3
+"
+
+File.class
+=> Class
+
+FileUtils.class
+=> Module
+
+FileUtils.cp('/comics.txt', '/Home/comics.txt')
+
+Dir["/Home/*.txt"]
+
+File.open("/Home/comics.txt", "a") do |f|
+.. f << "Cat and Girl: http://catandgirl.com/"
+.. end
+=> #<File:/Home/comics.txt (closed)>
+
+File.mtime("/Home/comics.txt")
+=> 2015-11-09 21:14:04 UTC
+
+File.mtime("/Home/comics.txt").class
+=> Time
+
+File.mtime("/Home/comics.txt").hourl
+=> 21
+
+* Review
+** Files
+** Arguments
+** Block Changes
+
+* def
+#+BEGIN_SRC ruby
+def load_comics( path )
+  comics = {}
+  File.foreach(path) do |line|
+    name, url = line.split(': ')
+    comics[name] = url.strip
+  end
+  comics
+end
+#+END_SRC
+=> nil
+
+nil.class
+=> NilClass
+
+comics
+=> #<NameError: undefined local variable or method `comics' for main:Object>
+
+comics = load_comics('/comics.txt')
+=> {"Achewood"=>"http://achewood.com/", ...}
+
+File.foreach.class
+=> #<ArgumentError: wrong number of arguments calling `foreach` (0 for 1)>
+
+String.split
+=> #<NoMethodError: undefined method `split' for String:Class>
+
+"some.split.class
+=> Array
+It returns an array.
+
+foreach.class
+=> #<NameError: undefined local variable or method `foreach' for main:Object>
+
+* Load a library
+#+BEGIN_SRC ruby
+require 'popup'
+
+Popup.goto "http://bing.com"
+
+Popup.make {
+  h1 "My Links"
+  link "Go to Bing", "http://bing.com"
+}
+
+Popup.make do
+  h1 "Things To Do"
+  list do
+    p "Try out Ruby"
+    p "Ride a tiger"
+    p "(down River Euphrates)"
+  end
+end
+
+Time to make it all sing together like a very nice set of glistening chimes on the beach in the maginificent sunlight! Yeah, imagery!
+
+Popup.make do
+  h1 "Comics on the Web"
+  list do
+    comics.each do |name, url|
+      link name, url
+    end
+  end
+end
+#+END_SRC
+
+* Links
+** Ruby Bits
+https://www.codeschool.com/courses/ruby-bits
+** Rails for Zombies Redux
+https://www.codeschool.com/courses/rails-for-zombies-redux/

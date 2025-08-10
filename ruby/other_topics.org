@@ -1,0 +1,91 @@
+* Modules for metaprogramming (from book "Programming Ruby: The Pragmatic Programmer's Guide")
+** Namespace
+#+BEGIN_SRC ruby
+  #----------------------------------------------------------------
+  module Trig
+    PI = 3.141592654
+    def Trig.sin(x)
+     # ..
+    end
+    def Trig.cos(x)
+     # ..
+    end
+  end
+
+  #----------------------------------------------------------------
+  module Action
+    VERY_BAD = 0
+    BAD      = 1
+    def Action.sin(badness)
+      # ...
+    end
+  end
+
+  #----------------------------------------------------------------
+  require "trig"
+  require "action"
+
+  y = Trig.sin(Trig::PI/4)
+  wrongdoing = Action.sin(Action::VERY_BAD)
+#+END_SRC
+
+** Mixins
+#+BEGIN_SRC ruby
+  module Debug
+    def whoAmI?
+      "#{self.type.name} (\##{self.id}): #{self.to_s}"
+    end
+  end
+  class Phonograph
+    include Debug
+    # ...
+  end
+  class EightTrack
+    include Debug
+    # ...
+  end
+  ph = Phonograph.new("West End Blues")
+  et = EightTrack.new("Surrealistic Pillow")
+  ph.whoAmI? #=> "Phonograph (#537766170): West End Blues"
+  et.whoAmI? #=> "EightTrack (#537765860): Surrealistic Pillow"
+#+END_SRC
+
+*** Dynamic (incremental) loading
+In the above example, if you create ph and et objects, and modify the
+class/module and reload the class/module, then the ph and et's behavior will change.
+
+* self keyword
+http://www.jimmycuadra.com/posts/self-in-ruby/
+
+self.method in a Class
+
+self.class.instance_method_b in an instance method to invoke the class method
+
+* "<<" operator
+[1, 2] << 3
+=> [1, 2, 3]
+
+* Ruby's Array as a linked list
+a = []
+a.unshift(3).unshift(2).unshift(1) # shift right, insert at the front of the array
+=> [1, 2, 3]
+
+a = []
+a.push(1).push(2).push(3) # append at the end of the array
+=> [1, 2, 3]
+
+a = []
+a << 1 << 2 << 3 # push
+=> [1, 2, 3]
+
+* Enumerable and Enumerator
+http://www.sitepoint.com/guide-ruby-collections-iii-enumerable-enumerator/
+
+* Collections
+http://www.sitepoint.com/guide-ruby-collections-part-arrays/
+
+* Scope
+http://www.sitepoint.com/understanding-scope-in-ruby/
+
+* Closure
+http://www.sitepoint.com/closures-ruby/

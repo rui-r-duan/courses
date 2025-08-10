@@ -1,0 +1,9 @@
+def ryangrep(regexp, filename)
+  File.open(filename, "r") do |f|
+    while (line = f.gets) != nil # line may contain "\n" at the end
+      if regexp =~ line
+        print "#{f.lineno}: #{line}"
+      end
+    end
+  end
+end
